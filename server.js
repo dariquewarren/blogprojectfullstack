@@ -40,7 +40,9 @@ const firebaseConfig = {
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
-// create a GET route
+// CREATE aka create PUT routes 
+
+// READ aka create GET routes  
 app.get('/express_backend', (req, res) => { //Line 9
   res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
 });
@@ -66,3 +68,9 @@ res.status(200).send({ express: 'drafts/all connected', realData })
   app.get('/drafts/single/:id', (req, res) => { //Line 9
     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
   });
+
+  
+// UPDATE aka create patch routes
+
+// DELETE/DESTROY aka create DELETE routes 
+
