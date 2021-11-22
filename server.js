@@ -15,8 +15,11 @@ admin.initializeApp({
 });
 // put config vaues and credentials inside environment variables. look into project that used mongodb. turbo ticket
 var FirebaseDB = admin.database();
-var DraftsRef = FirebaseDB.ref('Darique Tester' +"/drafts")
 
+// data locations for different article types
+
+var DraftsRef = FirebaseDB.ref('Darique Tester' +"/drafts")
+var PublishedRef = FirebaseDB.ref('Darique Tester' +"/published")
 
 
 const firebaseConfig = {
@@ -46,6 +49,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 app.get('/express_backend', (req, res) => { //Line 9
   res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
 });
+
+// get all drafts
 app.get('/drafts/all', async (req, res) => { //Line 9
     const author = 'Darique Tester'
     // grabbed firebase crud function
@@ -65,11 +70,16 @@ res.status(200).send({ express: 'drafts/all connected', realData })
   }
 
   });
+
+  // get single draft
   app.get('/drafts/single/:id', (req, res) => { //Line 9
     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
   });
 
-  
+       // get all published articles
+
+      // get single published article
+
 // UPDATE aka create patch routes
 
 // DELETE/DESTROY aka create DELETE routes 
