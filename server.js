@@ -17,9 +17,10 @@ admin.initializeApp({
 var FirebaseDB = admin.database();
 
 // data locations for different article types
+const author = 'Darique Tester'
 
-var DraftsRef = FirebaseDB.ref('Darique Tester' +"/drafts")
-var PublishedRef = FirebaseDB.ref('Darique Tester' +"/published")
+var DraftsRef = FirebaseDB.ref(author +"/drafts")
+var PublishedRef = FirebaseDB.ref(author +"/published")
 
 
 const firebaseConfig = {
@@ -46,19 +47,30 @@ app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 // CREATE aka create PUT routes 
 
 // READ aka create GET routes  
-app.get('/express_backend', (req, res) => { //Line 9
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-});
 
-// get all drafts
+  // get all drafts
 app.get('/drafts/all', async (req, res) => { //Line 9
-    const author = 'Darique Tester'
     // grabbed firebase crud function
   try{
     let realData 
    await DraftsRef.once("value", function(snapshot) {
-      console.log(snapshot.val());
-      realData = snapshot.val()
+     const data = snapshot.val()
+      const newDataArray= []
+for (const info in data){
+    newDataArray.push({
+        id:info,
+        author: data[info].articleAuthor,
+        title: data[info].title,
+        subtitle: data[info].subtitle,
+        image: data[info].image,
+        article: data[info].article,
+        datePublished: data[info].datePublished,
+        timePublished: data[info].timePublished,
+        type: data[info].articleType
+
+    })
+}
+      realData = newDataArray
     });
 if(!realData){
   res.status(404).send()
