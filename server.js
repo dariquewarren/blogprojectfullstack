@@ -4,9 +4,15 @@ var Firebase = require('firebase/app')
 const { getDatabase } = require('firebase/database')
 const express = require('express'); //Line 1
 const app = express(); //Line 2
+const bodyParser = require('body-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
-
+// create application/json parser
+var jsonParser = bodyParser.json()
+ 
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+ 
 var serviceAccount = require("./blog-project-3d102-firebase-adminsdk-9bipa-e758be6a06.json");
 
 admin.initializeApp({
@@ -18,6 +24,7 @@ var FirebaseDB = admin.database();
 
 // data locations for different article types
 const author = 'Darique Tester'
+const AuthorRef = FirebaseDB.ref(author +"/")
 
 var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
@@ -45,7 +52,34 @@ const firebaseConfig = {
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
 // CREATE aka create PUT routes 
+app.post('/save/drafts',jsonParser, async  (req, res) => { //Line 9
+ let message
+ try{
+   let article = await req.body
+   // adds data with id
+   await DraftsRef.push({message: 'frustration'}, (error)=>{
+  if(error){
+    message = `Error ${error}`
+    res.status(404).send({message, error})
 
+  }else{
+    message='success'
+    console.log('request body', req.body)
+    res.status(200).send({message, article})
+
+  }
+})
+ 
+
+ }catch(e){
+   res.status(404).send({error:e, message})
+ }
+
+   //Line 10
+});
+app.post('/save/published', (req, res) => { //Line 9
+  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
+});
 // READ aka create GET routes  
 
   // get all drafts
@@ -88,10 +122,43 @@ res.status(200).send({ express: 'drafts/all connected', realData })
     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
   });
 
+  
        // get all published articles
-
+app.get('/published/all', async (req, res)=>{
+    try{
+      let realData 
+     await PublishedRef.once("value", function(snapshot) {
+       const data = snapshot.val()
+        const newDataArray= []
+  for (const info in data){
+      newDataArray.push({
+          id:info,
+          author: data[info].articleAuthor,
+          title: data[info].title,
+          subtitle: data[info].subtitle,
+          image: data[info].image,
+          article: data[info].article,
+          datePublished: data[info].datePublished,
+          timePublished: data[info].timePublished,
+          type: data[info].articleType
+  
+      })
+  }
+        realData = newDataArray
+      });
+  if(!realData){
+    res.status(404).send()
+  }
+  res.status(200).send({ express: 'drafts/all connected', realData })
+     
+    }catch(e){
+      console.log('error', e)
+    }
+  })
       // get single published article
-
+      app.get('/drafts/single/:id', (req, res) => { //Line 9
+        res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
+      });
 // UPDATE aka create patch routes
 
 // DELETE/DESTROY aka create DELETE routes 
