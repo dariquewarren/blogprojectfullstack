@@ -52,12 +52,12 @@ const firebaseConfig = {
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
 // CREATE aka create PUT routes 
-app.post('/save/drafts',jsonParser, async  (req, res) => { //Line 9
+app.post('/save/drafts',jsonParser, async (req, res) => { //Line 9
  let message
  try{
    let article = await req.body
    // adds data with id
-   await DraftsRef.push({message: 'frustration'}, (error)=>{
+   await DraftsRef.push(article, (error)=>{
   if(error){
     message = `Error ${error}`
     res.status(404).send({message, error})
@@ -77,8 +77,28 @@ app.post('/save/drafts',jsonParser, async  (req, res) => { //Line 9
 
    //Line 10
 });
-app.post('/save/published', (req, res) => { //Line 9
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
+app.post('/save/published',jsonParser, async (req, res) => { //Line 9
+  let message
+  try{
+    let article = await req.body
+    // adds data with id
+    await PublishedRef.push(article, (error)=>{
+   if(error){
+     message = `Error ${error}`
+     res.status(404).send({message, error})
+ 
+   }else{
+     message='success'
+     console.log('request body', req.body)
+     res.status(200).send({message, article})
+ 
+   }
+ })
+  
+ 
+  }catch(e){
+    res.status(404).send({error:e, message})
+  }
 });
 // READ aka create GET routes  
 
