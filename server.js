@@ -120,7 +120,7 @@ for (const info in data){
         article: data[info].article,
         datePublished: data[info].datePublished,
         timePublished: data[info].timePublished,
-        type: data[info].articleType
+        type: data[info].type
 
     })
 }
@@ -160,7 +160,7 @@ app.get('/published/all', async (req, res)=>{
           article: data[info].article,
           datePublished: data[info].datePublished,
           timePublished: data[info].timePublished,
-          type: data[info].articleType
+          type: data[info].type
   
       })
   }
