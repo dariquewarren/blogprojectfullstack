@@ -220,6 +220,19 @@ app.get('/published/all', async (req, res)=>{
                   console.log('error', e)
                 }
               })
+              app.delete('/delete/published/single/:id', jsonParser, async (req, res)=>{
+                try{
+                  await PublishedRef.child(req.params.id).set({})
+                
+              
+              res.status(200).send({ express: ' all published deleted' })
+                 
+                }catch(e){
+                  res.status(200).send({ express: 'all published not deleted' })
+
+                  console.log('error', e)
+                }
+              })
               // delete all DRAFTS
               app.delete('/delete/drafts/all', async (req, res)=>{
                 try{
@@ -235,4 +248,17 @@ app.get('/published/all', async (req, res)=>{
                   console.log('error', e)
                 }
               })
-              // delete single
+              // delete single DRAFTS
+              app.delete('/delete/drafts/single/:id', jsonParser, async (req, res)=>{
+                try{
+                  await DraftsRef.child(req.params.id).set({})
+                
+              
+              res.status(200).send({ express: ' all published deleted' })
+                 
+                }catch(e){
+                  res.status(200).send({ express: 'all published not deleted' })
+
+                  console.log('error', e)
+                }
+              })
