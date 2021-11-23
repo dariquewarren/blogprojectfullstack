@@ -138,9 +138,21 @@ res.status(200).send({ express: 'drafts/all connected', realData })
   });
 
   // get single draft
-  app.get('/drafts/single/:id', (req, res) => { //Line 9
-    res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-  });
+  app.get('/drafts/single/:id',jsonParser, async (req, res) => { //Line 9
+    try{
+     DraftsRef.child(req.params.id).on("value", function(snapshot) {
+       const data = snapshot.val()
+       res.status(200).send({ express: 'drafts single connected', data})
+console.log('snapshot.val()', data)
+      }, (errorObject)=>{
+        console.log('The read failed: ' + errorObject.name)
+      });
+ 
+     
+    }catch(e){
+      console.log('error', e)
+    }
+    });
 
   
        // get all published articles
@@ -176,9 +188,21 @@ app.get('/published/all', async (req, res)=>{
     }
   })
       // get single published article
-      app.get('/drafts/single/:id', (req, res) => { //Line 9
-        res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-      });
+      app.get('/published/single/:id', jsonParser, async (req, res) => { //Line 9
+        try{
+          PublishedRef.child(req.params.id).on("value", function(snapshot) {
+            const data = snapshot.val()
+            res.status(200).send({ express: 'drafts single connected', data})
+     console.log('snapshot.val()', data)
+           }, (errorObject)=>{
+             console.log('The read failed: ' + errorObject.name)
+           });
+      
+          
+         }catch(e){
+           console.log('error', e)
+         }
+              });
 // UPDATE aka create patch routes
 
 // DELETE/DESTROY aka create DELETE routes 
