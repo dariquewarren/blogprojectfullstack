@@ -204,7 +204,34 @@ app.get('/published/all', async (req, res)=>{
          }
               });
 // UPDATE aka create patch routes
+app.patch('/update/published/:id', jsonParser, async (req, res)=>{
+  try{
+    // grab ref, locate child by id child(req.params.id), update child with body
+//    await PublishedRef.set({})
+  await PublishedRef.child(req.params.id).update(req.body)
 
+res.status(200).send({ express: 'published updated', body: req.body })
+   
+  }catch(e){
+    res.status(200).send({ express: 'published not updated', error: e })
+
+    console.log('error', e)
+  }
+})
+app.patch('/update/drafts/:id', jsonParser, async (req, res)=>{
+  try{
+    // grab ref, locate child by id child(req.params.id), update child with body
+//    await PublishedRef.set({})
+  await DraftsRef.child(req.params.id).update(req.body)
+
+res.status(200).send({ express: 'Draft updated', body: req.body })
+   
+  }catch(e){
+    res.status(200).send({ express: 'Draft not updated', error: e })
+
+    console.log('error', e)
+  }
+})
 // DELETE/DESTROY aka create DELETE routes 
               // deleta all PUBLISHED
               app.delete('/delete/published/all', async (req, res)=>{
