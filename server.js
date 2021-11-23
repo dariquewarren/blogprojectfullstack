@@ -220,6 +220,7 @@ app.get('/published/all', async (req, res)=>{
                   console.log('error', e)
                 }
               })
+              //  delete single published
               app.delete('/delete/published/single/:id', jsonParser, async (req, res)=>{
                 try{
                   await PublishedRef.child(req.params.id).set({})
