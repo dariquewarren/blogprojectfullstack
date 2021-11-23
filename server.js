@@ -206,4 +206,33 @@ app.get('/published/all', async (req, res)=>{
 // UPDATE aka create patch routes
 
 // DELETE/DESTROY aka create DELETE routes 
+              // deleta all PUBLISHED
+              app.delete('/delete/published/all', async (req, res)=>{
+                try{
+                  await PublishedRef.set({})
+                
+              
+              res.status(200).send({ express: ' all published deleted' })
+                 
+                }catch(e){
+                  res.status(200).send({ express: 'all published not deleted' })
 
+                  console.log('error', e)
+                }
+              })
+              // delete all DRAFTS
+              app.delete('/delete/drafts/all', async (req, res)=>{
+                try{
+                  
+                  await DraftsRef.set({})
+                
+              
+              res.status(200).send({ express: 'all drafts deleted' })
+                 
+                }catch(e){
+                  res.status(200).send({ express: 'all drafts not deleted' })
+
+                  console.log('error', e)
+                }
+              })
+              // delete single
