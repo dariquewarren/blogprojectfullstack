@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 function ArticleCard(props) {
     console.log(props)
     return (
-        <Container style={{width:'100%'}}>
+        <Container style={{width:'100%', marginBottom: '1rem'}}>
         <Card 
         
         style={{border: '1px solid black', width: '60%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
@@ -15,25 +15,28 @@ function ArticleCard(props) {
         }}
         >
         
-    <img 
+    
+        <h1> {props.title}</h1>
+        <img 
     alt={props.image}
     src={props.image}
     style={{height:'6rem', width: '6rem', marginLeft:'auto',marginRight:'auto'}}
     /> 
-        <Card.Title> {props.title}</Card.Title>
     <Card.Body>
 
     
+    <h4>
     {props.subtitle}
-    <Card.Footer style={{display:'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-    <p 
-    style={{width: '40%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'left', paddingLeft:'2px'}}
+    </h4>
+    <h6 style={{borderTop: '2px solid black', display:'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+  </h6>  <p 
+    style={{width: 'auto', marginLeft: '1rem', marginRight: 'auto', textAlign: 'left', paddingLeft:'2px'}}
     >
-    {props.author}</p> 
+    By {props.author}  {props.datePublished}</p> 
     <p
     style={{width: '40%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'right', paddingRight:'2px'}}
     >
-    {props.datePublished}</p> </Card.Footer>
+    </p> 
     </Card.Body>
         </Card>
         </Container>

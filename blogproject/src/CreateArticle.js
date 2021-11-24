@@ -233,6 +233,8 @@ return(
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={async ()=>{
         try{
+    
+           setArticleType('drafts')
          await saveDraft(props.newArticle)
           alert('draft saved')
         }catch(e){
@@ -248,8 +250,9 @@ Save Draft
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={async ()=>{
       try{
+        setArticleType('published')
        await publishArticle(props.newArticle)
-        alert('draft saved')
+        alert('article published')
       }catch(e){
           console.log('error', e)
       }
