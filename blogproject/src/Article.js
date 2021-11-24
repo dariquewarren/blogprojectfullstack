@@ -1,9 +1,9 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/esm/Row';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 function Article(props) {
-    var articleText= DOMParser.parseFromString(props.article)
     return (
         <Container>
         <h1 style={{textAlign:'center'}}>{props.title}</h1>
@@ -16,7 +16,7 @@ function Article(props) {
                 <img src={props.image} style={{height: '20rem', width:'100%', display:'block', marginBottom:'2rem', marginLeft:'auto',marginRight:'0rem'}}/>
                 </Container>
 
-<h5>{articleText }</h5>
+<h5>{ReactHtmlParser(props.article) }</h5>
         </Container>
     )
 }
