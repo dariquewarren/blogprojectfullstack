@@ -19,28 +19,37 @@ function ArticleForm(props){
      
         return (
             <div>
-            <Form.Label className='w-100 text-center' >Create Article</Form.Label>
+            <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
             <Button
             onClick={()=>{
             //    console.log('article created', newArticle)
                 console.log('imageRef', ImageRef.current.files)
             }}
             >test button</Button>
-          <Container>
-       
-          <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+            <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
 
-          <Form.Group className= 'mb-3'>
+          <Container           style={{border: '20px groove grey'}}
+          >
+       
+
+          <Form.Group className= 'mb-3' style={{fontWeight:'bold'}}>
     <br/>
-    <Form.Label className='bg-primary w-100 text-center'>{(props.imageURLInput)?'Set Image URL':'Upload Image'} </Form.Label>
+    <Form.Label className='w-100 text-center' >{(props.imageURLInput)?'Set Image URL':'Upload Image'} </Form.Label>
     {
       (props.imageURLInput)
           ?
-         <Row>
-         <Form.Control className='w-50 m-1' type='text' placeholder="Image URL"  onChange={(e)=>{
+         <Row  
+         style={{borderBottom: '2px solid red'}}
+         >
+         <Form.Control
+         style={{marginLeft: '2rem', marginBottom: '.5rem'}}
+         className='w-50 ' 
+          type='text' placeholder="Image URL"  onChange={(e)=>{
           props.setImage(e.target.value)
       }}/> <Button
-      className='w-25 m-1'
+      style={{marginLeft: '2rem', marginBottom: '.5rem'}}
+
+      className='w-25'
       onClick={(e)=>{
       e.preventDefault()
       props.setImageURLInput(!props.imageURLInput)
@@ -48,9 +57,15 @@ function ArticleForm(props){
       >{(props.imageURLInput)? 'Switch to Upload' : 'Switch to URL' }</Button>
          </Row>
           :
-    <Row>
+    <Row
+    style={{borderBottom: '2px solid red'}}
+
+    >
     
-    <Form.Control type='file' className='w-50 m-2' ref={ImageRef} onChange={(e)=>{
+    <Form.Control 
+    style={{marginLeft: '2rem', marginBottom: '.5rem'}}
+    type='file' 
+    className='w-50' ref={ImageRef} onChange={(e)=>{
       e.preventDefault()
     
       if(ImageRef.current){
@@ -73,7 +88,8 @@ function ArticleForm(props){
       }
     }} />
     <Button
-    className='w-25 m-2'
+    style={{marginLeft: '2rem', marginBottom: '.5rem'}}
+    className='w-25 '
     onClick={(e)=>{
     e.preventDefault()
     props.setImageURLInput(!props.imageURLInput)
@@ -86,23 +102,32 @@ function ArticleForm(props){
          
          
          
-         <Form 
+         <Form style={{fontWeight:'bold'}}
           onClick={(e)=>{
               e.preventDefault()
               console.log('article Submitted', props.newArticle)
           }}
           >
-    <Row>
-          <Form.Group className= 'mb-3' as={Col}>
-          <Form.Label className='bg-primary w-100 text-center'>Title</Form.Label>
-          <Form.Control type='text' placeholder="Title" value={props.title}  onChange={(e)=>{
+    <Row          
+     style={{borderBottom: '2px solid red'}}
+    >
+
+          <Form.Group
+          className= 'mb-3' 
+          as={Col}>
+          <Form.Label className='w-100 text-center'>Title</Form.Label>
+          <Form.Control
+
+          type='text' placeholder="Title" value={props.title}  onChange={(e)=>{
               props.setTitle(e.target.value)
           }}/>
           </Form.Group>
     
-          <Form.Group as={Col}>
-          <Form.Label className='bg-primary w-100 text-center'>Sub-Title</Form.Label>
-          <Form.Control type='text' placeholder="Sub Title" onChange={(e)=>{
+          <Form.Group 
+          as={Col}>
+          <Form.Label className='w-100 text-center'>Sub-Title</Form.Label>
+          <Form.Control
+          type='text' placeholder="Sub Title" onChange={(e)=>{
               props.setSubtitle(e.target.value)
           }}/>
           </Form.Group>
@@ -114,14 +139,16 @@ function ArticleForm(props){
     
     
     
-    <br/><Form.Label className='bg-primary w-100 text-center'> Quill Editor</Form.Label>
+    <br/><Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
     <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
                     onChange={(e)=>{
                         props.setArticle(e)
                     }} />
                     
           </Form>
-          <Container>
+          <div
+          style={{marginBottom:'1rem'}}
+          >
           <Button 
           className='bg-primary' 
           style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
@@ -129,6 +156,7 @@ function ArticleForm(props){
             e.preventDefault() 
             props.toggleArticlePreview(!props.articlePreview)
         }} >Preview</Button>
+
           <Button 
           className='bg-success w-33'
           style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
@@ -158,7 +186,7 @@ function ArticleForm(props){
            >
           Publish
           </Button>
-          </Container>
+          </div>
 
 
           </Container>
