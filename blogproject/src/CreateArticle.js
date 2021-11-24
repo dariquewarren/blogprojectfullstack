@@ -19,7 +19,7 @@ function ArticleForm(props){
      
         return (
             <div>
-            Create Article
+            <Form.Label className='w-100 text-center' >Create Article</Form.Label>
             <Button
             onClick={()=>{
             //    console.log('article created', newArticle)
@@ -27,10 +27,12 @@ function ArticleForm(props){
             }}
             >test button</Button>
           <Container>
+       
+          <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+
           <Form.Group className= 'mb-3'>
-          <img src={props.image} style={{height: '15rem', width: '15rem'}}/>
     <br/>
-    <Form.Label>{(props.imageURLInput)?'Set Image URL':'Upload Image'} </Form.Label>
+    <Form.Label className='bg-primary w-100 text-center'>{(props.imageURLInput)?'Set Image URL':'Upload Image'} </Form.Label>
     {
       (props.imageURLInput)
           ?
@@ -92,14 +94,14 @@ function ArticleForm(props){
           >
     <Row>
           <Form.Group className= 'mb-3' as={Col}>
-          <Form.Label>Title</Form.Label>
+          <Form.Label className='bg-primary w-100 text-center'>Title</Form.Label>
           <Form.Control type='text' placeholder="Title" value={props.title}  onChange={(e)=>{
               props.setTitle(e.target.value)
           }}/>
           </Form.Group>
     
           <Form.Group as={Col}>
-          <Form.Label>Sub-Title</Form.Label>
+          <Form.Label className='bg-primary w-100 text-center'>Sub-Title</Form.Label>
           <Form.Control type='text' placeholder="Sub Title" onChange={(e)=>{
               props.setSubtitle(e.target.value)
           }}/>
@@ -112,17 +114,24 @@ function ArticleForm(props){
     
     
     
-    <br/>Quill Editor
-    <ReactQuill theme="snow" value={props.article}
+    <br/><Form.Label className='bg-primary w-100 text-center'> Quill Editor</Form.Label>
+    <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
                     onChange={(e)=>{
                         props.setArticle(e)
                     }} />
-                    <Button className='bg-primary' onClick={(e)=>{
-                        e.preventDefault() 
-                        props.toggleArticlePreview(!props.articlePreview)
-                    }} >Preview</Button>
+                    
           </Form>
+          <Container>
           <Button 
+          className='bg-primary' 
+          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+          onClick={(e)=>{
+            e.preventDefault() 
+            props.toggleArticlePreview(!props.articlePreview)
+        }} >Preview</Button>
+          <Button 
+          className='bg-success w-33'
+          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
           onClick={async ()=>{
               try{
                await saveDraft(props.newArticle)
@@ -131,13 +140,13 @@ function ArticleForm(props){
                   console.log('error', e)
               }
         }}
-          className='bg-success w-50' >
+ >
           Drafts
           </Button>
 
-
-
           <Button 
+          className='bg-warning'
+          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
           onClick={async ()=>{
             try{
              await publishArticle(props.newArticle)
@@ -146,10 +155,12 @@ function ArticleForm(props){
                 console.log('error', e)
             }
       }}
-          className='bg-warning w-50' >
+           >
           Publish
           </Button>
-    
+          </Container>
+
+
           </Container>
             </div>
         )
