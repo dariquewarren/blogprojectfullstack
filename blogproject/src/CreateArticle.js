@@ -10,7 +10,7 @@ import Article from './Article';
 
 import Dayjs from 'dayjs'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
-import { apiObject } from './APICalls';
+import { saveDraft, publishArticle } from './APICalls';
 function ArticleForm(props){
     
     const ImageRef = useRef()
@@ -126,7 +126,7 @@ function ArticleForm(props){
           <Button 
           onClick={async ()=>{
               try{
-               await apiObject.saveDraft(props.newArticle)
+               await saveDraft(props.newArticle)
                 alert('draft saved')
               }catch(e){
                   console.log('error', e)
@@ -141,7 +141,7 @@ function ArticleForm(props){
           <Button 
           onClick={async ()=>{
             try{
-             await apiObject.publishArticle(props.newArticle)
+             await publishArticle(props.newArticle)
               alert('draft saved')
             }catch(e){
                 console.log('error', e)
