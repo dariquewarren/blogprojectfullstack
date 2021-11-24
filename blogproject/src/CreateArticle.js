@@ -116,7 +116,6 @@ function ArticleForm(props){
     <ReactQuill theme="snow" value={props.article}
                     onChange={(e)=>{
                         props.setArticle(e)
-                     console.log(props.article)
                     }} />
                     <Button className='bg-primary' onClick={(e)=>{
                         e.preventDefault() 
