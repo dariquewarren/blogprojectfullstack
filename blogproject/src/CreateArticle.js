@@ -222,6 +222,7 @@ return(
     <>
     
     <Button
+    style={{position: 'sticky', top: '10px'}}
     onClick={()=>{
         toggleArticlePreview(false)
     }}
