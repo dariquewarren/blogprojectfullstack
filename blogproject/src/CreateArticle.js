@@ -228,6 +228,36 @@ return(
     }}
     > Close Preview</Button>
 
+    <Button 
+    className='bg-success w-33'
+    style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+    onClick={async ()=>{
+        try{
+         await saveDraft(props.newArticle)
+          alert('draft saved')
+        }catch(e){
+            console.log('error', e)
+        }
+  }}
+>
+Save Draft
+    </Button>
+
+    <Button 
+    className='bg-warning'
+    style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+    onClick={async ()=>{
+      try{
+       await publishArticle(props.newArticle)
+        alert('draft saved')
+      }catch(e){
+          console.log('error', e)
+      }
+}}
+     >
+    Publish
+    </Button>
+ 
     <Article {...newArticle} />
     </>
 )
