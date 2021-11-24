@@ -52,10 +52,10 @@ const ImageRef = useRef()
   (imageURLInput)
       ?
      <Row>
-     <Form.Control className='w-50' type='text' placeholder="Image URL"  onChange={(e)=>{
+     <Form.Control className='w-50 m-1' type='text' placeholder="Image URL"  onChange={(e)=>{
       setImage(e.target.value)
   }}/> <Button
-  className='w-50'
+  className='w-25 m-1'
   onClick={(e)=>{
   e.preventDefault()
   setImageURLInput(!imageURLInput)
@@ -65,7 +65,7 @@ const ImageRef = useRef()
       :
 <Row>
 
-<Form.Control type='file' className='w-50' ref={ImageRef} onChange={(e)=>{
+<Form.Control type='file' className='w-50 m-2' ref={ImageRef} onChange={(e)=>{
   e.preventDefault()
 
   if(ImageRef.current){
@@ -88,7 +88,7 @@ console.log('fileReader error',fileReader.error);
   }
 }} />
 <Button
-className='w-50'
+className='w-25 m-2'
 onClick={(e)=>{
 e.preventDefault()
 setImageURLInput(!imageURLInput)
@@ -135,9 +135,11 @@ setImageURLInput(!imageURLInput)
                     setArticle(e)
                  console.log(article)
                 }} />
-                <Button type='submit'>Submit</Button>
+                <Button className='bg-primary' type='submit'>Preview</Button>
       </Form>
-      
+      <Button className='bg-success w-50' >Drafts</Button>
+      <Button className='bg-warning w-50' >Publish</Button>
+
       </Container>
         </div>
     )
