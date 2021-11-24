@@ -7,12 +7,10 @@ import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 
 
 function CreateArticle(props) {
-const [userId, setUserId] = useState(1)
 const [title, setTitle] = useState('test title')
 const [subtitle, setSubtitle] = useState('this is a test title')
 const [article, setArticle] = useState('this is an article that im writing, i hope its not frghtening. this is maybe lightning alright and yes okay.')
 const [image, setImage] = useState('blahal')
-const [datePublished, setDatePublished] = useState('11/17/2021')
 const [articleType, setArticleType] = useState('published')
 
     const newArticle = {
@@ -23,7 +21,8 @@ const [articleType, setArticleType] = useState('published')
         image,
         author: props.articleAuthor,
         datePublished,
-        articleType
+        timePublished,
+        articleType: 'published'
     }
 
  
