@@ -71,15 +71,7 @@ const testArticle = {
 
   }
 
-  const handleExpressApi = async ()=>{
-    
-    await apiObject.saveDraft(dummyArticleArray[0]).then((response)=>{
-      return response.json()
-    }). then((data)=>{
-      alert('express api is connected')
-      console.log('all drafts', data)
-    })
-  }
+  
   return (
     <Router>
 

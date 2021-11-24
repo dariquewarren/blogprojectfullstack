@@ -10,6 +10,7 @@ import Article from './Article';
 
 import Dayjs from 'dayjs'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
+import { apiObject } from './APICalls';
 function ArticleForm(props){
     
     const ImageRef = useRef()
@@ -122,8 +123,33 @@ function ArticleForm(props){
                         props.toggleArticlePreview(!props.articlePreview)
                     }} >Preview</Button>
           </Form>
-          <Button className='bg-success w-50' >Drafts</Button>
-          <Button className='bg-warning w-50' >Publish</Button>
+          <Button 
+          onClick={async ()=>{
+              try{
+               await apiObject.saveDraft(props.newArticle)
+                alert('draft saved')
+              }catch(e){
+                  console.log('error', e)
+              }
+        }}
+          className='bg-success w-50' >
+          Drafts
+          </Button>
+
+
+
+          <Button 
+          onClick={async ()=>{
+            try{
+             await apiObject.publishArticle(props.newArticle)
+              alert('draft saved')
+            }catch(e){
+                console.log('error', e)
+            }
+      }}
+          className='bg-warning w-50' >
+          Publish
+          </Button>
     
           </Container>
             </div>
