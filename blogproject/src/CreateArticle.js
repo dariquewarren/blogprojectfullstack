@@ -209,7 +209,7 @@ function CreateArticle(props) {
         subtitle,
         article,
         image,
-        author: props.articleAuthor,
+        author: "Darique Tester",
         datePublished: Dayjs().format('M/DD/YYYY'),
         timePublished: Dayjs().format('hh:mm A'),
         articleType: 'published'

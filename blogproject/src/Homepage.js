@@ -13,23 +13,27 @@ const [mappedArray, setMappedArray] = useState([])
     
 
 useEffect(()=>{
-if(mappedArray.length < 1){
+if(mappedArray.length < 1 || !mappedArray){
     fetch('/published/all').then((response)=>{
         return response.json()
        }).then((data)=>{
-       return setMappedArray(data.realData)
+           if(!data.realData || data.realData[0] === undefined ){
+           return  alert(data.message)  
+           }else{
+            return setMappedArray(data.realData)
+
+           }
+   
     })
-}else {
+}else if(mapped){
     return
 }
 }, [mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red'}}>
-        
-        <Col style={{border: '2px solid black', height: 'auto', width: '60%', marginLeft:'auto', marginRight:'auto'}}>
-        this is column TWO: article card list
-        <br/>
+        <h1> read the latest</h1>
+ 
         {(mappedArray.length > 0)
                 ?
             mappedArray.map((m)=>{
@@ -41,7 +45,6 @@ if(mappedArray.length < 1){
             <p></p>
         }
         
-        </Col>
 
         </Container>
     )

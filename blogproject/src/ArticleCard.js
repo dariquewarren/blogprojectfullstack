@@ -1,11 +1,12 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
 function ArticleCard(props) {
+    console.log(props)
     return (
-        <div>
+        <div style={{width:'100%'}}>
         <Card 
         
-        style={{border: '1px solid black', width: '50%', textAlign: 'center'}}
+        style={{border: '1px solid black', width: '60%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
         onClick={()=>{
             alert('go to view page w/id')
             console.log('go to view page')

@@ -100,7 +100,7 @@ app.get('/drafts/all', async (req, res) => { //Line 9
 for (const info in data){
     newDataArray.push({
         id:info,
-        author: data[info].articleAuthor,
+        author: data[info].author,
         title: data[info].title,
         subtitle: data[info].subtitle,
         image: data[info].image,
@@ -152,7 +152,7 @@ app.get('/published/all', async (req, res)=>{
   for (const info in data){
       newDataArray.push({
           id:info,
-          author: data[info].articleAuthor,
+          author: data[info].author,
           title: data[info].title,
           subtitle: data[info].subtitle,
           image: data[info].image,
