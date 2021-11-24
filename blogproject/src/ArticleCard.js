@@ -20,7 +20,7 @@ function ArticleCard(props) {
         <img 
     alt={props.image}
     src={props.image}
-    style={{height:'6rem', width: '6rem', marginLeft:'auto',marginRight:'auto'}}
+    style={{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto'}}
     /> 
     <Card.Body>
 
