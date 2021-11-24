@@ -71,24 +71,16 @@ const testArticle = {
 
   }
 
-  const handleExpressApi = async ()=>{
-    
-    await apiObject.saveDraft(dummyArticleArray[0]).then((response)=>{
-      return response.json()
-    }). then((data)=>{
-      alert('express api is connected')
-      console.log('all drafts', data)
-    })
-  }
+  
   return (
     <Router>
 
     <Header/>
-    <button
-    onClick={()=>handleExpressApi()}
-    >EXPRESS API</button>
+   
     <Switch>
-    <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route exact path='/' element={<CreateArticle articleAuthor={articleAuthor} />}/>
+
+    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
     <Route exact path='/create' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     <Route exact path='/view/:id' element={<ViewArticle articleArray={dummyArticleArray} />} />
 

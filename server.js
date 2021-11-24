@@ -24,25 +24,12 @@ var FirebaseDB = admin.database();
 
 // data locations for different article types
 const author = 'Darique Tester'
-const AuthorRef = FirebaseDB.ref(author +"/")
+
 
 var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
 
 
-const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: "blog-project-3d102.firebaseapp.com",
-    // For databases not in the us-central1 location, databaseURL will be of the
-  // form https://[databaseName].[region].firebasedatabase.app.
-  // For example, https://your-database-123.europe-west1.firebasedatabase.app
-  databaseURL: "https://blog-project-3d102-default-rtdb.firebaseio.com/",
-  storageBucket: "blog-project-3d102.appspot.com",
-  messagingSenderId: "772840395218",
-  appId: process.env.FIREBASE_APP_ID,
-  projectId: process.env.FIREBASE_PROJECT_ID
-
-};
 
 
 // Get a reference to the database service
@@ -234,19 +221,7 @@ res.status(200).send({ express: 'Draft updated', body: req.body })
 })
 // DELETE/DESTROY aka create DELETE routes 
               // deleta all PUBLISHED
-              app.delete('/delete/published/all', async (req, res)=>{
-                try{
-                  await PublishedRef.set({})
-                
-              
-              res.status(200).send({ express: ' all published deleted' })
-                 
-                }catch(e){
-                  res.status(200).send({ express: 'all published not deleted' })
-
-                  console.log('error', e)
-                }
-              })
+       
               //  delete single published
               app.delete('/delete/published/single/:id', jsonParser, async (req, res)=>{
                 try{
@@ -262,20 +237,7 @@ res.status(200).send({ express: 'Draft updated', body: req.body })
                 }
               })
               // delete all DRAFTS
-              app.delete('/delete/drafts/all', async (req, res)=>{
-                try{
-                  
-                  await DraftsRef.set({})
-                
-              
-              res.status(200).send({ express: 'all drafts deleted' })
-                 
-                }catch(e){
-                  res.status(200).send({ express: 'all drafts not deleted' })
-
-                  console.log('error', e)
-                }
-              })
+            
               // delete single DRAFTS
               app.delete('/delete/drafts/single/:id', jsonParser, async (req, res)=>{
                 try{
