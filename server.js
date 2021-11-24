@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
 // create application/json parser
-var jsonParser = bodyParser.json({limit: '100kb'})
+var jsonParser = bodyParser.json({limit: '5mb'})
  
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -39,11 +39,10 @@ var PublishedRef = FirebaseDB.ref(author +"/published")
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
 // CREATE aka create PUT routes 
-app.post('/save/drafts',jsonParser, async (req, res) => { //Line 9
+app.post('/save/drafts/:type',jsonParser, async (req, res) => { //Line 9
  let message
  try{
-   let article = await req.body
-   // adds data with id
+   let article = await {...req.body, type: req.params.type}
    await DraftsRef.push(article, (error)=>{
   if(error){
     message = `Error ${error}`
@@ -51,8 +50,7 @@ app.post('/save/drafts',jsonParser, async (req, res) => { //Line 9
 
   }else{
     message='success'
-    console.log('request body', req.body)
-    res.status(200).send({message, article})
+    res.status(200).send({message})
 
   }
 })
@@ -64,10 +62,10 @@ app.post('/save/drafts',jsonParser, async (req, res) => { //Line 9
 
    //Line 10
 });
-app.post('/save/published',jsonParser, async (req, res) => { //Line 9
+app.post('/save/published/:type',jsonParser, async (req, res) => { //Line 9
   let message
   try{
-    let article = await req.body
+    let article = await {...req.body, type: req.params.type}
     // adds data with id
     await PublishedRef.push(article, (error)=>{
    if(error){
@@ -76,8 +74,7 @@ app.post('/save/published',jsonParser, async (req, res) => { //Line 9
  
    }else{
      message='success'
-     console.log('request body', req.body)
-     res.status(200).send({message, article})
+     res.status(200).send({message})
  
    }
  })
@@ -116,7 +113,7 @@ for (const info in data){
 if(!realData){
   res.status(404).send()
 }
-res.status(200).send({ express: 'drafts/all connected', realData })
+res.status(200).send({ message: 'drafts/all connected', realData })
    
   }catch(e){
     console.log('error', e)
@@ -129,8 +126,7 @@ res.status(200).send({ express: 'drafts/all connected', realData })
     try{
      DraftsRef.child(req.params.id).on("value", function(snapshot) {
        const data = snapshot.val()
-       res.status(200).send({ express: 'drafts single connected', data})
-console.log('snapshot.val()', data)
+       res.status(200).send({ message: 'drafts single connected', data})
       }, (errorObject)=>{
         console.log('The read failed: ' + errorObject.name)
       });
@@ -168,7 +164,7 @@ app.get('/published/all', async (req, res)=>{
   if(!realData){
     res.status(404).send()
   }
-  res.status(200).send({ express: 'drafts/all connected', realData })
+  res.status(200).send({ message: 'drafts/all connected', realData })
      
     }catch(e){
       console.log('error', e)
@@ -179,8 +175,7 @@ app.get('/published/all', async (req, res)=>{
         try{
           PublishedRef.child(req.params.id).on("value", function(snapshot) {
             const data = snapshot.val()
-            res.status(200).send({ express: 'drafts single connected', data})
-     console.log('snapshot.val()', data)
+            res.status(200).send({ message: 'drafts single connected', data})
            }, (errorObject)=>{
              console.log('The read failed: ' + errorObject.name)
            });
@@ -197,10 +192,10 @@ app.patch('/update/published/:id', jsonParser, async (req, res)=>{
 //    await PublishedRef.set({})
   await PublishedRef.child(req.params.id).update(req.body)
 
-res.status(200).send({ express: 'published updated', body: req.body })
+res.status(200).send({ message: 'published updated', body: req.body })
    
   }catch(e){
-    res.status(200).send({ express: 'published not updated', error: e })
+    res.status(200).send({ message: 'published not updated', error: e })
 
     console.log('error', e)
   }
@@ -211,10 +206,10 @@ app.patch('/update/drafts/:id', jsonParser, async (req, res)=>{
 //    await PublishedRef.set({})
   await DraftsRef.child(req.params.id).update(req.body)
 
-res.status(200).send({ express: 'Draft updated', body: req.body })
+res.status(200).send({ message: 'Draft updated'})
    
   }catch(e){
-    res.status(200).send({ express: 'Draft not updated', error: e })
+    res.status(200).send({ message: 'Draft not updated', error: e })
 
     console.log('error', e)
   }
@@ -228,10 +223,10 @@ res.status(200).send({ express: 'Draft updated', body: req.body })
                   await PublishedRef.child(req.params.id).set({})
                 
               
-              res.status(200).send({ express: ' all published deleted' })
+              res.status(200).send({ message: ' all published deleted' })
                  
                 }catch(e){
-                  res.status(200).send({ express: 'all published not deleted' })
+                  res.status(200).send({ message: 'all published not deleted' })
 
                   console.log('error', e)
                 }
@@ -244,10 +239,10 @@ res.status(200).send({ express: 'Draft updated', body: req.body })
                   await DraftsRef.child(req.params.id).set({})
                 
               
-              res.status(200).send({ express: ' all published deleted' })
+              res.status(200).send({ message: ' all published deleted' })
                  
                 }catch(e){
-                  res.status(200).send({ express: 'all published not deleted' })
+                  res.status(200).send({ message: 'all published not deleted' })
 
                   console.log('error', e)
                 }

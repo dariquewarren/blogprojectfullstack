@@ -6,7 +6,7 @@
   export const getSinglePublished=fetch('/published/single/:id')
 
   export const saveDraft = (theArticle)=>{
-    return fetch('/save/drafts',{
+    return fetch('/save/drafts/drafts',{
       method: 'POST',
       headers: {
        'Content-Type': 'application/json'
@@ -17,7 +17,7 @@
    }
 
    export const publishArticle= (theArticle)=>{
-    return fetch('/save/published',{
+    return fetch(`/save/published/published`,{
      method: 'POST',
      headers: {
       'Content-Type': 'application/json'
