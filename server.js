@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
 // create application/json parser
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json({limit: '100kb'})
  
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
