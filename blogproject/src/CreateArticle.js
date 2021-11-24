@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';// css
 import Form from 'react-bootstrap/Form';
-
+import Dayjs from 'dayjs'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 
 
@@ -20,8 +20,8 @@ const [articleType, setArticleType] = useState('published')
         article,
         image,
         author: props.articleAuthor,
-        datePublished,
-        timePublished,
+        datePublished: Dayjs().format('M/DD/YYYY'),
+        timePublished: Dayjs().format('hh:mm A'),
         articleType: 'published'
     }
 
@@ -31,9 +31,10 @@ const [articleType, setArticleType] = useState('published')
         Create Article
         <button
         onClick={()=>{
-            console.log('article created')
+            console.log('article created', newArticle)
+            console.log('Dayjs format', Dayjs().format('M/DD/YYYY'))
         }}
-        >test create button</button>
+        >test button</button>
     
         <Form>
         <Form.Group>
