@@ -9,7 +9,7 @@ import Header from './Header';
 import Homepage from './Homepage'
 import ViewArticle from './ViewArticle';
 import ViewDrafts from './ViewDrafts';
-
+import ReadDraft from './ReadDraft'
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
