@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';// css
 import Form from 'react-bootstrap/Form';
-import { getDatabase, ref, set } from "firebase/database";
 
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 
@@ -33,18 +32,34 @@ const [articleType, setArticleType] = useState('published')
         Create Article
         <button
         onClick={()=>{
-            addNewArticle(articleType, props.articleAuthor, newArticle)
+            console.log('article created')
         }}
         >test create button</button>
-        <button
-        onClick={()=>{
-            getArticlesByType(articleType, props.articleAuthor)
-        }}
-        >test retrieve button</button>
+    
         <Form>
-        <input label='date' type='date' defaultValue='11/27/2021'/>
+        <Form.Group>
+        <Form.Label>Title</Form.Label>
+        <Form.Control type='text' placeholder="Title" />
+        </Form.Group>
+
+        <Form.Group>
+        <Form.Label>Sub-Title</Form.Label>
+        <Form.Control type='text' placeholder="Sub Title" />
+        </Form.Group>
+
+        <Form.Group>
+        <Form.Label>Image</Form.Label>
+        <Form.Control type='text' placeholder="Image URL" />
+        <Form.Control type='file' />
+
+        </Form.Group>
+
+       
+
+
+
+
 <br/>Quill Editor
-<label></label>
 <ReactQuill theme="snow" value={article}
                   onChange={(e)=>{
                       setArticle(e)
