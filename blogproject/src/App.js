@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
-
+import { apiObject } from './APICalls';
 import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
@@ -12,6 +12,10 @@ import ViewArticle from './ViewArticle';
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
+const testArticle = {
+  author: 'this is just a test. delete me before release'
+}
+
 
   const dummyArticleArray =[ {
     id: 123956792,
@@ -67,12 +71,13 @@ function App() {
 
   }
 
-  const handleExpressApi = ()=>{
-    fetch('/drafts/all').then((response)=>{
+  const handleExpressApi = async ()=>{
+    
+    await apiObject.saveDraft(dummyArticleArray[0]).then((response)=>{
       return response.json()
     }). then((data)=>{
       alert('express api is connected')
-      console.log('express api data', data)
+      console.log('all drafts', data)
     })
   }
   return (
