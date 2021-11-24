@@ -211,8 +211,7 @@ function CreateArticle(props) {
         image,
         author: "Darique Tester",
         datePublished: Dayjs().format('M/DD/YYYY'),
-        timePublished: Dayjs().format('hh:mm A'),
-        articleType: 'published'
+        timePublished: Dayjs().format('hh:mm A')
     }
 
     const [articlePreview, toggleArticlePreview] = useState(false)
@@ -233,11 +232,13 @@ return(
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={async ()=>{
         try{
+    
          await saveDraft(props.newArticle)
-          alert('draft saved')
         }catch(e){
             console.log('error', e)
         }
+        console.log('published')
+
   }}
 >
 Save Draft
@@ -249,10 +250,11 @@ Save Draft
     onClick={async ()=>{
       try{
        await publishArticle(props.newArticle)
-        alert('draft saved')
+        
       }catch(e){
           console.log('error', e)
       }
+      console.log('published')
 }}
      >
     Publish

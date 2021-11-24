@@ -8,6 +8,7 @@ import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
 import ViewArticle from './ViewArticle';
+import ViewDrafts from './ViewDrafts';
 
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
@@ -79,9 +80,11 @@ const testArticle = {
    
     <Switch>
 
-    <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
-    <Route exact path='/create' element={<CreateArticle articleAuthor={articleAuthor} />}/>
+    <Route exact path='/' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     <Route exact path='/view/:id' element={<ViewArticle articleArray={dummyArticleArray} />} />
+    <Route exact path='/allDrafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
 
     
    
