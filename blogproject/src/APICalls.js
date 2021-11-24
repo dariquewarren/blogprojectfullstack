@@ -2,7 +2,11 @@
 
  export const getAllDrafts= fetch('/drafts/all')
   export const getAllPublished= fetch('/published/all')
-  export const getSingleDraft=fetch('/drafts/single/:id')
+
+  export const getSingleDraft = async (id)=>{
+    const theData = await fetch(`/drafts/single/${id}`)
+    return theData
+  }
   export const getSinglePublished=fetch('/published/single/:id')
 
   export const saveDraft = (theArticle)=>{
