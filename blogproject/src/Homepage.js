@@ -25,7 +25,7 @@ if(mappedArray.length < 1 || !mappedArray){
            }
    
     })
-}else if(mapped){
+}else {
     return
 }
 }, [mappedArray])
