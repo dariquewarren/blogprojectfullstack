@@ -84,9 +84,7 @@ const testArticle = {
     <Router>
 
     <Header/>
-    <button
-    onClick={()=>handleExpressApi()}
-    >EXPRESS API</button>
+   
     <Switch>
     <Route exact path='/' element={<CreateArticle articleAuthor={articleAuthor} />}/>
 
