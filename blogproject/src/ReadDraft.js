@@ -8,10 +8,6 @@ function ReadDraft(props) {
     const objectArray = [{author: 'MR. Mister'}]
  const {id} = useParams()
 
- const handleGrabDraft = async (articleID)=>{
-   
- }
-
  const [draft, setDraft] = useState()
     
 
