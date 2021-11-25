@@ -10,8 +10,14 @@ function ArticleCard(props) {
         
         style={{border: '1px solid black', width: '60%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
         onClick={()=>{
-            alert('go to view page w/id')
-            console.log('go to view page')
+            alert('go to view page w/id', props.id)
+            if(props.type === 'drafts'){
+                window.open(`read/draft/${props.id}`)
+            }else{
+               // window.open(`read/published/${props.id}`)
+                alert('tried to load a published article')
+            }
+           
         }}
         >
         
