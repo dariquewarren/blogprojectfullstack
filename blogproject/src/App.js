@@ -10,6 +10,7 @@ import Homepage from './Homepage'
 import ViewArticle from './ViewArticle';
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
+import ReadArticle from './ReadArticle';
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
@@ -86,6 +87,7 @@ const testArticle = {
     <Route exact path='/allDrafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
     <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
     <Route path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
+    <Route path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
 
     
    
