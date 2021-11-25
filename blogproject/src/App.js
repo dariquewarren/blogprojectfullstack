@@ -3,15 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
-
+import { apiObject } from './APICalls';
 import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
 import ViewArticle from './ViewArticle';
-
+import ViewDrafts from './ViewDrafts';
+import ReadDraft from './ReadDraft'
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
+const testArticle = {
+  author: 'this is just a test. delete me before release'
+}
+
 
   const dummyArticleArray =[ {
     id: 123956792,
@@ -67,25 +72,20 @@ function App() {
 
   }
 
-  const handleExpressApi = ()=>{
-    fetch('/drafts/all').then((response)=>{
-      return response.json()
-    }). then((data)=>{
-      alert('express api is connected')
-      console.log('express api data', data)
-    })
-  }
+  
   return (
     <Router>
 
     <Header/>
-    <button
-    onClick={()=>handleExpressApi()}
-    >EXPRESS API</button>
+   
     <Switch>
+
     <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
-    <Route exact path='/create' element={<CreateArticle articleAuthor={articleAuthor} />}/>
+    <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     <Route exact path='/view/:id' element={<ViewArticle articleArray={dummyArticleArray} />} />
+    <Route exact path='/allDrafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
 
     
    

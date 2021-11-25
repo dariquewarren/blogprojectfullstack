@@ -8,13 +8,13 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
 
-const Homepage =  (props)=> {
+const ViewDrafts =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
     
 
 useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
-    fetch('/published/all').then((response)=>{
+    fetch('/drafts/all').then((response)=>{
         return response.json()
        }).then((data)=>{
            if(!data.realData || data.realData[0] === undefined ){
@@ -32,7 +32,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <Container fluid style={{border: '2px dashed red'}}>
-        <h1> read the latest</h1>
+        <h1> your drafts</h1>
  
         {(mappedArray.length > 0)
                 ?
@@ -50,4 +50,4 @@ if(mappedArray.length < 1 || !mappedArray){
     )
 }
 
-export default Homepage
+export default ViewDrafts
