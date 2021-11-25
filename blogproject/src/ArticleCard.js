@@ -13,9 +13,8 @@ function ArticleCard(props) {
             alert('go to view page w/id', props.id)
             if(props.type === 'drafts'){
                 window.open(`read/draft/${props.id}`)
-            }else{
-               // window.open(`read/published/${props.id}`)
-                alert('tried to load a published article')
+            }else if(props.type === 'published'){
+                window.open(`read/published/${props.id}`)
             }
            
         }}
