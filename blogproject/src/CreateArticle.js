@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Article from './Article';
-
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Dayjs from 'dayjs'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 import { saveDraft, publishArticle } from './APICalls';
@@ -21,9 +21,32 @@ function ArticleForm(props){
 
 
     }
+    const handleCategory = async (newCategory)=>{
+        console.log('category', newCategory)
+    
+    
+        }
      
         return (
             <div>
+            <Form.Group>
+            <Form.Label>Category</Form.Label>
+            <FloatingLabel controlId="floatingSelect" label="Works with selects">
+              <Form.Select aria-label="Floating label select example" 
+              onChange={(e)=>{
+                e.preventDefault(
+                    handleCategory(e.target.value)
+                )
+            }}
+              >
+                <option value="General" >General</option>
+                <option value="Art">Art</option>
+                <option value="Science">Science</option>
+              </Form.Select>
+            </FloatingLabel>
+            <Form.Control type='text'/>
+                      </Form.Group>
+        
             <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
             <Button
             onClick={()=>{
@@ -138,18 +161,7 @@ function ArticleForm(props){
           </Form.Group>
     
           </Row>
-          <Form.Group>
-<Form.Label>Category</Form.Label>
-<FloatingLabel controlId="floatingSelect" label="Works with selects">
-  <Form.Select aria-label="Floating label select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </Form.Select>
-</FloatingLabel>
-<Form.Control type='text'/>
-          </Form.Group>
+        
           
           <Form.Group>
 <Form.Label>Tags</Form.Label>
