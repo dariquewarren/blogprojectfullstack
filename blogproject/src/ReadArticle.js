@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Container from 'react-bootstrap/esm/Container'
 import Article from './Article'
 import { getSinglePublished } from './APICalls';
+import Loading from './Loading';
 
 function ReadArticle(props) {
 
@@ -33,8 +34,8 @@ function ReadArticle(props) {
 
     return (
         <Container style={{marginBottom: '3rem'}}>
-       
-            <Article {...article} />
+       {(article)?<Article {...article} /> :<Loading/> }
+            
         </Container>
     )
 }

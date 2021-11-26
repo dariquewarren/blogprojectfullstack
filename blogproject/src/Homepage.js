@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
+import Loading from './Loading'
 
 const Homepage =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
@@ -42,7 +43,7 @@ if(mappedArray.length < 1 || !mappedArray){
                 )
             })
             :
-            <p></p>
+            <Loading/>
         }
         
 

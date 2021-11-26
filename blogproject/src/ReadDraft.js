@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Container from 'react-bootstrap/esm/Container'
 import Article from './Article'
 import { getSingleDraft } from './APICalls';
+import Loading from './Loading';
 function ReadDraft(props) {
 
     const objectArray = [{author: 'MR. Mister'}]
@@ -32,14 +33,11 @@ function ReadDraft(props) {
 
     return (
         <Container>
-        <button
-        onClick={()=>{
-            console.log('draft', draft)     
-           }}
-        >
-        test button
-        </button>
-            <Article {...draft} />
+        {(draft)?
+    <Article {...draft} />
+        :
+    <Loading/>
+        }
         </Container>
     )
 }
