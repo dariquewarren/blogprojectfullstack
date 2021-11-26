@@ -15,7 +15,12 @@ function ArticleForm(props){
     
     const ImageRef = useRef()
         
-    
+    const handleTags = (nextTag)=>{
+        
+console.log('tags', props.tags)
+console.log('nextTag', nextTag)
+
+    }
      
         return (
             <div>
@@ -133,13 +138,22 @@ function ArticleForm(props){
           </Form.Group>
     
           </Row>
-    
-         
-    
-    
-    
-    
-    <br/><Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
+          <Form.Group>
+<Form.Label>Category</Form.Label>
+<Form.Control type='text'/>
+          </Form.Group>
+          
+          <Form.Group>
+<Form.Label>Tags</Form.Label>
+<Form.Control type='text' 
+onChange={(e)=>{
+    e.preventDefault()
+    handleTags(e.target.value)
+}}
+/>
+          </Form.Group>
+            <br/>
+            <Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
     <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
                     onChange={(e)=>{
                         props.setArticle(e)
@@ -201,10 +215,13 @@ function CreateArticle(props) {
     const [article, setArticle] = useState('this is an article that im writing, i hope its not frghtening. this is maybe lightning alright and yes okay.')
     const [image, setImage] = useState(undefined)
     const [imageURLInput, setImageURLInput] = useState(false)
-    
+        const [category, setCategory] = useState(undefined)
+        const [tags, setTags] = useState([])
+
     const [articleType, setArticleType] = useState('published')
     const newArticle = {
-           
+        category,
+         tags,  
         title,
         subtitle,
         article,
