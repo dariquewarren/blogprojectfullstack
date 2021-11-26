@@ -8,7 +8,6 @@ import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
 import Footer from './Footer'
-import ViewArticle from './ViewArticle';
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
 import ReadArticle from './ReadArticle';
