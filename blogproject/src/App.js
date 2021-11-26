@@ -7,6 +7,7 @@ import { apiObject } from './APICalls';
 import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
+import Footer from './Footer'
 import ViewArticle from './ViewArticle';
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
@@ -75,7 +76,7 @@ const testArticle = {
 
   
   return (
-    <Router>
+    <Router style={{backgroundColor: 'grey'}}>
 
     <Header/>
    
@@ -93,6 +94,7 @@ const testArticle = {
        
    
     </Switch>
+    <Footer/>
     </Router>
   );
 }
