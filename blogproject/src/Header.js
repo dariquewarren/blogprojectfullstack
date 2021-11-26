@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
@@ -13,9 +15,9 @@ function Header() {
            The Blog 
            </h2>
            <Row style={{border: '2px solid red', width:'100%'}}>
-           <Col style={{border: '2px solid blue', width:'33%'}}>1</Col>
-           <Col style={{border: '2px solid green', width:'33%'}}>2</Col>
-           <Col style={{border: '2px solid yellow', width:'33%'}}>3</Col>
+           <Col style={{border: '2px solid blue', width:'33%'}}> <Link to='/'>Home</Link></Col>
+           <Col style={{border: '2px solid green', width:'33%'}}><Link to='/all/drafts'>View Drafts</Link></Col>
+           <Col style={{border: '2px solid yellow', width:'33%'}}><Link to='/write'>Write an Article</Link></Col>
            </Row>
         </div>
     )
