@@ -82,14 +82,15 @@ const testArticle = {
     <Switch>
 
     <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+   
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
-    <Route exact path='/view/:id' element={<ViewArticle articleArray={dummyArticleArray} />} />
-    <Route exact path='/allDrafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
-    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
-    <Route path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
-    <Route path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
-
     
+    <Route exact path='/all/drafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
+    <Route path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
+    
+    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
+       
    
     </Switch>
     </Router>
