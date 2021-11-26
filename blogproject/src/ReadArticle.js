@@ -32,14 +32,8 @@ function ReadArticle(props) {
 
 
     return (
-        <Container>
-        <button
-        onClick={()=>{
-            console.log('article', article)     
-           }}
-        >
-        test button
-        </button>
+        <Container style={{marginBottom: '3rem'}}>
+       
             <Article {...article} />
         </Container>
     )

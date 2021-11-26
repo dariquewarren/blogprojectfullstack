@@ -31,7 +31,7 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-        <Container fluid style={{border: '2px dashed red'}}>
+        <Container fluid style={{border: '2px dashed red', backgroundColor:'grey'}}>
         <h1> read the latest</h1>
  
         {(mappedArray.length > 0)

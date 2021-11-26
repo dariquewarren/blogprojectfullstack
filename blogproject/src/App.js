@@ -75,7 +75,7 @@ const testArticle = {
 
   
   return (
-    <Router style={{backgroundColor: 'grey'}}>
+    <Router >
 
     <Header/>
    
