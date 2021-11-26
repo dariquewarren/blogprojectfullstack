@@ -15,10 +15,10 @@ function ArticleForm(props){
     
     const ImageRef = useRef()
         
-    const handleTags = (nextTag)=>{
-        
-console.log('tags', props.tags)
-console.log('nextTag', nextTag)
+    const handleTags = async (nextTag)=>{
+    const newTags = await nextTag.split(',')
+    props.setTags(newTags)
+
 
     }
      
@@ -140,17 +140,29 @@ console.log('nextTag', nextTag)
           </Row>
           <Form.Group>
 <Form.Label>Category</Form.Label>
+<FloatingLabel controlId="floatingSelect" label="Works with selects">
+  <Form.Select aria-label="Floating label select example">
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </Form.Select>
+</FloatingLabel>
 <Form.Control type='text'/>
           </Form.Group>
           
           <Form.Group>
 <Form.Label>Tags</Form.Label>
+
 <Form.Control type='text' 
 onChange={(e)=>{
     e.preventDefault()
     handleTags(e.target.value)
 }}
 />
+<Form.Text className="text-muted">
+Separate By Comma (,)
+</Form.Text>
           </Form.Group>
             <br/>
             <Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
@@ -168,6 +180,8 @@ onChange={(e)=>{
           style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
           onClick={(e)=>{
             e.preventDefault() 
+            console.log('new article', props.newArticle)
+
             props.toggleArticlePreview(!props.articlePreview)
         }} >Preview</Button>
 
@@ -290,6 +304,9 @@ return(
     image={image} setImage={setImage}
     imageURLInput={imageURLInput} setImageURLInput={setImageURLInput}
     articlePreview={articlePreview} toggleArticlePreview={toggleArticlePreview}
+    tags={tags} setTags={setTags}
+    category={category} setCategory={setCategory}
+    newArticle={newArticle}
     />
 )
 
