@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom'
+import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 import CreateArticle from './CreateArticle'
 import Header from './Header';
@@ -76,10 +76,10 @@ const testArticle = {
 
   
   return (
-    <Router >
+    <BrowserRouter >
 
     <Header/>
-   {(userInfo)? 'undefined' : userInfo.email }
+   {(userInfo)?userInfo.email : 'undefined'   }
     <Switch>
 
     <Route exact path='/' element={<AuthPage userInfo={userInfo} setUserInfo={setUserInfo} />}/>
@@ -95,7 +95,7 @@ const testArticle = {
    
     </Switch>
     <Footer/>
-    </Router>
+    </BrowserRouter>
   );
 }
 

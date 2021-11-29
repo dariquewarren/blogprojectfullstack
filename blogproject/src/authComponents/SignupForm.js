@@ -28,6 +28,7 @@ await createUserWithEmailAndPassword(auth, email, password)
 
     return (
         <div>
+        <h1>Sign Up</h1>
     <Form
     onSubmit={(e)=>{
         e.preventDefault()
