@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
-function SignupForm() {
+function SignupForm(props) {
 const [userEmail, setUserEmail] = useState(undefined)
 const [userPassword, setUserPassword] = useState(undefined)
 
@@ -15,6 +15,7 @@ await createUserWithEmailAndPassword(auth, email, password)
     // Signed in 
     const user = userCredential.user;
     // ...
+    props.setUserInfo(user)
     console.log('user created', user)
   })
   .catch((error) => {
@@ -30,7 +31,7 @@ await createUserWithEmailAndPassword(auth, email, password)
     <Form
     onSubmit={(e)=>{
         e.preventDefault()
-       // handleSignup(userEmail, userPassword)
+        handleSignup(userEmail, userPassword)
        console.log(userEmail, userPassword)
     }}
     >
