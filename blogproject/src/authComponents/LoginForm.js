@@ -2,6 +2,9 @@ import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 function LoginForm() {
+    const [userEmail, setUserEmail] = useState(undefined)
+    const [userPassword, setUserPassword] = useState(undefined)
+
     return (
         <div>
         <h1>Sign Up</h1>
