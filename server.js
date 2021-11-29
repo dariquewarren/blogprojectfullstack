@@ -30,7 +30,8 @@ var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
 
 
-
+// logged in user
+const User = []
 
 // Get a reference to the database service
 // const FirebaseDB = getDatabase(FirebaseApp);
