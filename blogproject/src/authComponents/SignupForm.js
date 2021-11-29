@@ -30,13 +30,14 @@ await createUserWithEmailAndPassword(auth, email, password)
     <Form
     onSubmit={(e)=>{
         e.preventDefault()
-        handleSignup(userEmail, userPassword)
+       // handleSignup(userEmail, userPassword)
+       console.log(userEmail, userPassword)
     }}
     >
 
     <Form.Group>
     <Form.Label>email</Form.Label>
-    <Form.Control type='email' 
+    <Form.Control required type='email' 
     onChange={(e)=>{
         e.preventDefault()
         setUserEmail(e.target.value)
@@ -45,7 +46,7 @@ await createUserWithEmailAndPassword(auth, email, password)
 
     <Form.Group>
     <Form.Label>password</Form.Label>
-    <Form.Control type='password' 
+    <Form.Control required type='password' minLength={6}
     onChange={(e)=>{
         e.preventDefault()
         setUserPassword(e.target.value)
