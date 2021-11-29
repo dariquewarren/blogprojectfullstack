@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import Form from 'react-bootstrap/Form'
-import Button from '@restart/ui/esm/Button';
+import Button from 'react-bootstrap/Button';
 function SignupForm() {
 const [userEmail, setUserEmail] = useState(undefined)
 const [userPassword, setUserPassword] = useState(undefined)
