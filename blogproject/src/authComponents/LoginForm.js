@@ -1,17 +1,21 @@
 import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-function LoginForm() {
+import Button from 'react-bootstrap/Button';
+
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+function LoginForm(props) {
+    const auth = getAuth();
+
     const [userEmail, setUserEmail] = useState(undefined)
     const [userPassword, setUserPassword] = useState(undefined)
 
     const handleLogin =async (email, password)=>{
-        const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
             // ...
+            props.setUserInfo(user)
             console.log('user', user)
           })
           .catch((error) => {
@@ -22,8 +26,11 @@ function LoginForm() {
     }
     return (
         <div>
-        <h1>Sign Up</h1>
-        <Form>
+        <h1>Login</h1>
+        <Form onSubmit={(e)=>{
+            e.preventDefault()
+            handleLogin(userEmail, userPassword)
+        }} >
         <Form.Group>
         <Form.Label>email</Form.Label>
         <Form.Control required type='email' 
@@ -42,7 +49,20 @@ function LoginForm() {
         }}
         />
         </Form.Group>
+
+        <Button
+        type='submit'
+        >Login</Button>
+        <Button onClick={(e)=>{
+            e.preventDefault()
+            signOut(auth).then(()=>{
+                alert('signed out')
+            }).catch((e)=>{
+                console.log('error', e)
+            })
+        }} >Logout</Button>
         </Form> 
+
         </div>
     )
 }
