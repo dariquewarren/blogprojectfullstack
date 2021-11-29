@@ -11,6 +11,7 @@ import Footer from './Footer'
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
 import ReadArticle from './ReadArticle';
+import AuthPage from './AuthPage';
 function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
@@ -81,7 +82,7 @@ const testArticle = {
    
     <Switch>
 
-    <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route exact path='/' element={<AuthPage/>}/>
    
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
