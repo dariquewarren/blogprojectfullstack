@@ -3,28 +3,18 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
-
+import {userSignUp} from '../APICalls'
 function SignupForm(props) {
 const [userEmail, setUserEmail] = useState(undefined)
 const [userPassword, setUserPassword] = useState(undefined)
+const UserData = {
+    email: userEmail,
+    password: userPassword
+}
 
+const handleSignup = async ()=>{
+   await userSignUp(UserData)
 
-const handleSignup = async (email, password)=>{
-    const auth = getAuth();
-await createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-    props.setUserInfo(user)
-    console.log('user created', user)
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-    console.log('errorMessage:',errorMessage, 'errorCode:', errorCode )
-  });
 }
 
     return (
@@ -33,8 +23,8 @@ await createUserWithEmailAndPassword(auth, email, password)
     <Form
     onSubmit={(e)=>{
         e.preventDefault()
-        handleSignup(userEmail, userPassword)
-       console.log(userEmail, userPassword)
+        handleSignup()
+       console.log(UserData)
     }}
     >
 

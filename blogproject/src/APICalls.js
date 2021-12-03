@@ -1,5 +1,34 @@
+export const userSignIn = async (userdata)=>{
+ await fetch('/signin', {
+   method: 'POST',
+   body: {
+     idToken: userdata
+   }
+ }).then((data)=>{
+   
+  return data.json()
+ }).then((data)=>{
 
+  console.log('success', data)
 
+ })
+ 
+ .catch((e)=>{
+console.log('failure', e)
+ })
+}
+export const userSignUp = async (userData)=>{
+  fetch('/signup',{
+    method: 'POST',
+    body: {userData}
+  }).then((response)=>{
+
+    return response.json()
+  }).then((data)=>{
+    console.log('data', data)
+
+  }).catch((e)=>console.log('error', e))
+}
  export const getAllDrafts= fetch('/drafts/all')
   export const getAllPublished= fetch('/published/all')
 

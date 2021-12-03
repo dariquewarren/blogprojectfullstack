@@ -5,6 +5,7 @@ const { getDatabase } = require('firebase/database')
 const express = require('express'); //Line 1
 const app = express(); //Line 2
 const bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
 // create application/json parser
@@ -28,10 +29,9 @@ const author = 'Darique Tester'
 
 var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
-
+app.use(cookieParser('identificationhoe'))
 
 // logged in user
-const User = []
 
 // Get a reference to the database service
 // const FirebaseDB = getDatabase(FirebaseApp);
@@ -246,5 +246,48 @@ res.status(200).send({ message: 'Draft updated'})
                   res.status(200).send({ message: 'all published not deleted' })
 
                   console.log('error', e)
+                }
+              })
+
+
+
+              // AUTH ROUTES
+              app.post('/signin', jsonParser, async (req, res)=>{
+              
+try{
+  const UserToken = await req.body.idToken.toString()
+               // Set session expiration to 5 days.
+  const expiresIn = 60 * 60 * 24 * 5 * 1000;
+  if(!UserToken){
+    res.status(400).send({message: 'no body'})
+console.log('no body/ no user data sent')
+  }else{
+    //    const SignIn= await admin.auth().generateSignInWithEmailLink(User.email)
+    console.log(UserToken)
+    res.cookie('name', {maxAge:360000000000}).send('cookie set'); //Sets name = express
+
+
+   // console.log('user:', User)
+  //  res.status(200).send({SignIn})
+
+  }
+}catch(e){
+  res.status(400).send({error: e})
+}
+              })
+
+
+              app.post('/signup', jsonParser, async (req, res)=>{
+             
+
+                try{
+                  const User = await req.body
+                const newUser =  await admin.auth().createUser(User)
+                  if(!User){
+                    res.status(404).send({message: 'no new user/ issue with request body'})
+                  }
+                  res.status(200).send({newUser})
+                }catch(e){
+                  res.status(400).send({error:e})
                 }
               })
