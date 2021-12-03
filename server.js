@@ -254,12 +254,13 @@ res.status(200).send({ message: 'Draft updated'})
               // AUTH ROUTES
               app.post('/signin', jsonParser, async (req, res)=>{
               try{
-                const userToken = await req.body
+                const userToken = await req.body.email.toString()
                 if (!userToken){
                   res.status(404).send({message: 'no user token in reqbodyidToken'})
                 }
+                res.cookie('firebase', userToken)
+res.status(200).send({userToken})
 console.log(userToken)            
-res.cookie('firebase', userToken.toString())
 
 }catch(e){
                 res.status(400).send({message: 'error', error: e})

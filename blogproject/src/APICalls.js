@@ -1,7 +1,7 @@
-export const userSignIn = async (idToken)=>{
+export const userSignIn = async (information)=>{
  await fetch('/signin', {
    method: 'POST',
-   body: idToken,
+   body: {information},
  }).then((data)=>{
   console.log('success', data)
   return data
