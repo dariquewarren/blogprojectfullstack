@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom'
+import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
-import { apiObject } from './APICalls';
 import CreateArticle from './CreateArticle'
 import Header from './Header';
 import Homepage from './Homepage'
@@ -11,7 +10,9 @@ import Footer from './Footer'
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
 import ReadArticle from './ReadArticle';
+import AuthPage from './AuthPage';
 function App() {
+  const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, settrueArray] = useState([])
 const testArticle = {
@@ -75,13 +76,13 @@ const testArticle = {
 
   
   return (
-    <Router >
+    <BrowserRouter >
 
     <Header/>
-   
+   {(userInfo)?userInfo.email : 'undefined'   }
     <Switch>
 
-    <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route exact path='/' element={<AuthPage userInfo={userInfo} setUserInfo={setUserInfo} />}/>
    
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
@@ -94,7 +95,7 @@ const testArticle = {
    
     </Switch>
     <Footer/>
-    </Router>
+    </BrowserRouter>
   );
 }
 

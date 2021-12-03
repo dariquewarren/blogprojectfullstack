@@ -5,6 +5,7 @@ const { getDatabase } = require('firebase/database')
 const express = require('express'); //Line 1
 const app = express(); //Line 2
 const bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
 // create application/json parser
@@ -28,9 +29,9 @@ const author = 'Darique Tester'
 
 var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
+app.use(cookieParser('identificationhoe'))
 
-
-
+// logged in user
 
 // Get a reference to the database service
 // const FirebaseDB = getDatabase(FirebaseApp);
@@ -245,5 +246,40 @@ res.status(200).send({ message: 'Draft updated'})
                   res.status(200).send({ message: 'all published not deleted' })
 
                   console.log('error', e)
+                }
+              })
+
+
+
+              // AUTH ROUTES
+              app.post('/signin', jsonParser, async (req, res)=>{
+              try{
+                const userToken = await req.body.email.toString()
+                if (!userToken){
+                  res.status(404).send({message: 'no user token in reqbodyidToken'})
+                }
+                res.cookie('firebase', userToken)
+res.status(200).send({userToken})
+console.log(userToken)            
+
+}catch(e){
+                res.status(400).send({message: 'error', error: e})
+              }
+
+              })
+
+
+              app.post('/signup', jsonParser, async (req, res)=>{
+             
+
+                try{
+                  const User = await req.body
+                const newUser =  await admin.auth().createUser(User)
+                  if(!User){
+                    res.status(404).send({message: 'no new user/ issue with request body'})
+                  }
+                  res.status(200).send({newUser})
+                }catch(e){
+                  res.status(400).send({error:e})
                 }
               })
