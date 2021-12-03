@@ -10,19 +10,19 @@ function LoginForm(props) {
     const [userPassword, setUserPassword] = useState(undefined)
    
 
-const alternateLogin = async (email, password)=>{
+const alternateLogin = async ()=>{
 
-    setPersistence(auth, browserLocalPersistence)
-    .then(async () => {
+ await setPersistence(auth, browserLocalPersistence)
+    .then(() => {
       // Existing and future Auth states are now persisted in the current
       // session only. Closing the window would clear any existing state even
       // if a user forgets to sign out.
       // ...
       // New sign-in will be persisted with session persistence.
 
-return await signInWithEmailAndPassword(auth,email, password).then(userCredential => {
+return signInWithEmailAndPassword(auth, userEmail, userPassword).then(userCredential => {
         const loggedInUser = userCredential.user
-
+        userSignIn(loggedInUser.uid)
         props.setUserInfo(loggedInUser)
  return loggedInUser
        
@@ -65,7 +65,7 @@ return await signInWithEmailAndPassword(auth,email, password).then(userCredentia
         <h1>Login</h1>
         <Form onSubmit={(e)=>{
             e.preventDefault()
-            handleLogin(userEmail, userPassword)
+            alternateLogin(userEmail, userPassword)
         }} >
         <Form.Group>
         <Form.Label>email</Form.Label>
