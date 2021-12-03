@@ -7,19 +7,22 @@ import {userSignUp} from '../APICalls'
 function SignupForm(props) {
 const [userEmail, setUserEmail] = useState(undefined)
 const [userPassword, setUserPassword] = useState(undefined)
+const [signupSuccess, setSignupSuccess] = useState(false)
 const UserData = {
     email: userEmail,
     password: userPassword
 }
 
 const handleSignup = async ()=>{
-   await userSignUp(UserData)
-
+  await userSignUp(UserData).then(async (data)=>{
+    setSignupSuccess(!signupSuccess)
+   })
+   
 }
 
     return (
         <div>
-        <h1>Sign Up</h1>
+        <h1>{(signupSuccess)?'Sign Up Succesful!':'Sign Up'}</h1>
     <Form
     onSubmit={(e)=>{
         e.preventDefault()

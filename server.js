@@ -253,27 +253,18 @@ res.status(200).send({ message: 'Draft updated'})
 
               // AUTH ROUTES
               app.post('/signin', jsonParser, async (req, res)=>{
-              
-try{
-  const UserToken = await req.body.idToken.toString()
-               // Set session expiration to 5 days.
-  const expiresIn = 60 * 60 * 24 * 5 * 1000;
-  if(!UserToken){
-    res.status(400).send({message: 'no body'})
-console.log('no body/ no user data sent')
-  }else{
-    //    const SignIn= await admin.auth().generateSignInWithEmailLink(User.email)
-    console.log(UserToken)
-    res.cookie('name', {maxAge:360000000000}).send('cookie set'); //Sets name = express
+              try{
+                const userToken = await req.body
+                if (!userToken){
+                  res.status(404).send({message: 'no user token in reqbodyidToken'})
+                }
+console.log(userToken)            
+res.cookie('firebase', userToken.toString())
 
-
-   // console.log('user:', User)
-  //  res.status(200).send({SignIn})
-
-  }
 }catch(e){
-  res.status(400).send({error: e})
-}
+                res.status(400).send({message: 'error', error: e})
+              }
+
               })
 
 

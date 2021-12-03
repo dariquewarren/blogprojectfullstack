@@ -44,7 +44,15 @@ return await signInWithEmailAndPassword(auth,email, password).then(userCredentia
             const user = userCredential.user;
             // ...
             props.setUserInfo(user)
-            userSignIn(user)
+             
+             return user.getIdToken().then(idToken => {
+                // Session login endpoint is queried and the session cookie is set.
+                // CSRF protection should be taken into account.
+                // ...
+                console.log('idToken', idToken)
+
+                return userSignIn(idToken)
+              });
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -57,7 +65,7 @@ return await signInWithEmailAndPassword(auth,email, password).then(userCredentia
         <h1>Login</h1>
         <Form onSubmit={(e)=>{
             e.preventDefault()
-            alternateLogin(userEmail, userPassword)
+            handleLogin(userEmail, userPassword)
         }} >
         <Form.Group>
         <Form.Label>email</Form.Label>
