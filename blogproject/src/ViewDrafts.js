@@ -12,7 +12,8 @@ import Loading from './Loading'
 
 const ViewDrafts =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
-    
+const [displayId, setDisplayId] = useState(null)
+
 
 useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
@@ -34,42 +35,65 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <Container fluid style={{border: '2px dashed red'}}>
-        <Table bordered striped style={{width: '25%'}}>
-        <thead>
-        <tr>
-        
-        <th style={{width: '25%'}}>#</th>
-        <th style={{width: '25%'}}>Title</th>
-        <th style={{width: '25%'}}>Date added</th>
-        <th style={{width: '25%'}}>Time Added</th>
-        </tr>
-       
-        </thead>
-        <tbody>
-        {
-            mappedArray.map((m)=>{
-                return(
-                    <tr key={m.id}>
-                    <th >{m.id}</th>
-                    <th >{m.title}</th>
-                    <th >{m.datePublished}</th>
-                    <th >{m.timePublished}</th>
-                    </tr>
-                   
-                )
-            })
-        }
-        </tbody>
-        </Table>
-        <h1> your drafts</h1>
+
+      
  
         {(mappedArray.length > 0)
                 ?
-            mappedArray.map((m)=>{
-                return (
-                    <ArticleCard key={m.id} {...m}/>
-                )
-            })
+                <>
+                <Container  style={{width:'100%'}}>
+
+                {
+                    mappedArray.map((m)=>{
+                        if(m.id === displayId){
+                        return(
+        
+                            <ArticleCard as= 'button' key={m.id} {...m}/>      
+                          
+                                   )}else{
+        return(
+            <p></p>
+        )
+                        }
+                    })
+                }
+            
+                </Container> 
+                <h1> your drafts</h1>
+                <Table bordered striped className='mb-2' >
+                <thead>
+                <tr >
+                
+                <th style={{width: '25%'}}>#</th>
+                <th style={{width: '25%'}}>Title</th>
+                <th style={{width: '25%'}}>Date added</th>
+                <th style={{width: '25%'}}>Time Added</th>
+                </tr>
+               
+                </thead>
+                <tbody>
+            
+        
+                {
+                    mappedArray.map((m)=>{
+                        return(
+                            <tr as='button'
+                            onClick={()=>{
+                                setDisplayId(m.id)
+                            }}
+                            key={m.id}>
+                            <th >{m.id}</th>
+                            <th >{m.title}</th>
+                            <th >{m.datePublished}</th>
+                            <th >{m.timePublished}</th>
+                            </tr>
+                           
+                        )
+                    })
+                }
+                </tbody>
+                </Table>
+                </>
             :
             <Loading/>
         }
