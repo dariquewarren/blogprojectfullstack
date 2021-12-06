@@ -82,7 +82,7 @@ const testArticle = {
    {(userInfo)?userInfo.email : 'undefined'   }
     <Switch>
 
-    <Route exact path='/' element={<AuthPage userInfo={userInfo} setUserInfo={setUserInfo} />}/>
+    <Route exact path='/' element={<CreateArticle articleAuthor={articleAuthor} />}/>
    
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     

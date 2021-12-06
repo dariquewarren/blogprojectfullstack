@@ -22,39 +22,27 @@ function ArticleForm(props){
 
     }
     const handleCategory = async (newCategory)=>{
-        console.log('category', newCategory)
+        const newCategories = await newCategory.toUpperCase().split(',')
+    props.setCategory(newCategories)
+        console.log('category', newCategories)
     
     
         }
      
         return (
             <div>
-            <Form.Group>
-            <Form.Label>Category</Form.Label>
-            <FloatingLabel controlId="floatingSelect" label="Works with selects">
-              <Form.Select aria-label="Floating label select example" 
-              onChange={(e)=>{
-                e.preventDefault(
-                    handleCategory(e.target.value)
-                )
-            }}
-              >
-                <option value="General" >General</option>
-                <option value="Art">Art</option>
-                <option value="Science">Science</option>
-              </Form.Select>
-            </FloatingLabel>
-            <Form.Control type='text'/>
-                      </Form.Group>
-        
-            <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
             <Button
             onClick={()=>{
             //    console.log('article created', newArticle)
                 console.log('imageRef', ImageRef.current.files)
             }}
             >test button</Button>
+          
+            <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
+           
             <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+
+         
 
           <Container           style={{border: '20px groove grey'}}
           >
@@ -128,7 +116,7 @@ function ArticleForm(props){
           } 
          </Form.Group>
          
-         
+      
          
          <Form style={{fontWeight:'bold'}}
           onClick={(e)=>{
@@ -136,9 +124,13 @@ function ArticleForm(props){
               console.log('article Submitted', props.newArticle)
           }}
           >
+
+
     <Row          
      style={{borderBottom: '2px solid red'}}
     >
+
+    
 
           <Form.Group
           className= 'mb-3' 
@@ -163,19 +155,7 @@ function ArticleForm(props){
           </Row>
         
           
-          <Form.Group>
-<Form.Label>Tags</Form.Label>
-
-<Form.Control type='text' 
-onChange={(e)=>{
-    e.preventDefault()
-    handleTags(e.target.value)
-}}
-/>
-<Form.Text className="text-muted">
-Separate By Comma (,)
-</Form.Text>
-          </Form.Group>
+   
             <br/>
             <Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
     <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
@@ -183,6 +163,37 @@ Separate By Comma (,)
                         props.setArticle(e)
                     }} />
                     
+
+
+                    <Form.Group
+                    className='mb-2'
+    ><Form.Label> Category </Form.Label>
+            
+     <Form.Control type='text' placeholder="Separate by comma" 
+      onChange={(e)=>{
+        e.preventDefault()
+        handleCategory(e.target.value)
+
+     }}/>
+            
+             
+                       </Form.Group>
+      
+                       
+          <Form.Group
+          className='mb-2'
+          >
+          <Form.Label>Tags</Form.Label>
+          
+          <Form.Control type='text' placeholder="Separate by comma"
+          onChange={(e)=>{
+              e.preventDefault()
+              handleTags(e.target.value)
+          }}
+          /> 
+          
+                    </Form.Group>
+ 
           </Form>
           <div
           style={{marginBottom:'1rem'}}
