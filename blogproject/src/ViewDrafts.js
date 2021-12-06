@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 
 import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
+import Table from 'react-bootstrap/Table'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
@@ -33,6 +34,33 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <Container fluid style={{border: '2px dashed red'}}>
+        <Table bordered striped style={{width: '25%'}}>
+        <thead>
+        <tr>
+        
+        <th style={{width: '25%'}}>#</th>
+        <th style={{width: '25%'}}>Title</th>
+        <th style={{width: '25%'}}>Date added</th>
+        <th style={{width: '25%'}}>Time Added</th>
+        </tr>
+       
+        </thead>
+        <tbody>
+        {
+            mappedArray.map((m)=>{
+                return(
+                    <tr key={m.id}>
+                    <th >{m.id}</th>
+                    <th >{m.title}</th>
+                    <th >{m.datePublished}</th>
+                    <th >{m.timePublished}</th>
+                    </tr>
+                   
+                )
+            })
+        }
+        </tbody>
+        </Table>
         <h1> your drafts</h1>
  
         {(mappedArray.length > 0)
