@@ -29,7 +29,7 @@ var originalArray = undefined
 const handleDateFilter=()=>{
     if(!beginningDate || !endingDate){
         alert(' both dates required')
-console.log('beginDate',beginDate , 'endDate', endDate)
+console.log('beginDate',beginningDate , 'endDate', endingDate)
 return
     }else if(!mappedArray){
         alert('no mapped array')
@@ -38,8 +38,8 @@ return
 
    
     const filteredDateArray = mappedArray.filter((f)=>{
-        let beginningDateRef = dayjs(beginDate).valueOf()
-        let endingDateRef = dayjs(endDate).valueOf()
+        let beginningDateRef = dayjs(beginningDate).valueOf()
+        let endingDateRef = dayjs(endingDate).valueOf()
         let comparisonDateRef = dayjs(f.datePublished).valueOf() 
           return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
       })
@@ -123,7 +123,7 @@ if(mappedArray.length < 1 || !mappedArray){
                   </Form.Group>
                   <Button
                   onClick={()=>{
-                   handleDateFilter(mappedArray, beginningDate, endingDate)
+                   handleDateFilter()
                   }}
                   >Filter By Date</Button>
                   </Row>
