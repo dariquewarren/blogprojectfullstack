@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
+import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
@@ -17,38 +18,37 @@ const [displayId, setDisplayId] = useState(null)
 const [showFilter, toggleFilter] = useState(null)
 const [beginningDate, setBeginningDate] = useState(null)
 const [endingDate, setEndingDate] = useState(null)
+const [beginningTime, setBeginningTime] = useState(null)
+const [endingTime, setEndingTime] = useState(null)
 
 
 
 const [showSort, toggleSort] = useState(null)
 
+var originalArray = undefined
+const handleDateFilter=()=>{
+    if(!beginningDate || !endingDate){
+        alert(' both dates required')
+console.log('beginDate',beginDate , 'endDate', endDate)
+return
+    }else if(!mappedArray){
+        alert('no mapped array')
+        return
+    }else{
 
-const handleDateFilter=(array, beginDate, endDate)=>{
-    const newArray = array
-  const beginningDateArray = newArray.filter((f)=>{
-      let beginDate = dayjs(f.datePublished).valueOf()
-      let comparisonDate = dayjs(beginDate).valueOf() 
-        return   beginDate >= comparisonDate
-    })
-    
-    const endingDateArray  = newArray.filter((f)=>{
-        return  dayjs(f.datePublished).valueOf() <= dayjs(endDate).valueOf() 
-    })
-
-    const filteredDateArray = newArray.filter((f)=>{
+   
+    const filteredDateArray = mappedArray.filter((f)=>{
         let beginningDateRef = dayjs(beginDate).valueOf()
         let endingDateRef = dayjs(endDate).valueOf()
         let comparisonDateRef = dayjs(f.datePublished).valueOf() 
           return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
       })
-    const mergedArray =  beginningDateArray.concat(endingDateArray)
- const nonDuplicateArray = [... new Set(mergedArray)]
-// setMappedArray(dateArray)
-//console.log('handleFilter', mergedArray)
-// console.log('beginningDateArray', beginningDateArray)
-// console.log('endingDateArray', endingDateArray)
-// console.log('mergedArray', nonDuplicateArray)
-console.log('filteredDateArray', filteredDateArray)
+      console.log('filteredDateArray', filteredDateArray)
+      console.log('original array', originalArray)
+
+    }
+
+
 
 }
 
@@ -66,6 +66,7 @@ if(mappedArray.length < 1 || !mappedArray){
            if(!data.realData || data.realData[0] === undefined ){
            return  alert(data.message)  
            }else{
+            originalArray = data.realData
             return setMappedArray(data.realData)
 
            }
@@ -104,27 +105,44 @@ if(mappedArray.length < 1 || !mappedArray){
                 </Container> 
                 {(showFilter)
                     ?
-                   <Row>
-                   <Form.Group style={{width:'50%'}} >
-                   <Form.Label style={{width:'100%'}}>Beginning</Form.Label>
-                   <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
-                       setBeginningDate(e.target.value)
-                       console.log(e.target.value)
-                   }}/>
-                   </Form.Group>
-                   <Form.Group style={{width:'50%'}} >
-                   <Form.Label style={{width:'100%'}}>Ending</Form.Label>
-                   <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
-                       setEndingDate(e.target.value)
-                    console.log(e.target.value)
+                  <Container>
+                  <Row>
+                  <Form.Group style={{width:'50%'}} >
+                  <Form.Label style={{width:'100%'}}>Beginning</Form.Label>
+                  <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
+                      setBeginningDate(e.target.value)
+                      console.log(e.target.value)
+                  }}/>
+                  </Form.Group>
+                  <Form.Group style={{width:'50%'}} >
+                  <Form.Label style={{width:'100%'}}>Ending</Form.Label>
+                  <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
+                      setEndingDate(e.target.value)
+                   console.log(e.target.value)
+               }}/>
+                  </Form.Group>
+                  <Button
+                  onClick={()=>{
+                   handleDateFilter(mappedArray, beginningDate, endingDate)
+                  }}
+                  >Filter By Date</Button>
+                  </Row>
+                  <Row>
+                  <Form.Group>
+                  <Form.Label>start date {beginningTime}</Form.Label>
+                  <TimePicker onChange={(e)=>{
+                      setBeginningTime(e.target.value)
+                  }}/>
+                  </Form.Group>
+                  <Form.Group>
+                  <Form.Label>end date {endingTime}</Form.Label>
+                  <TimePicker onChange={(e)=>{
+                    setEndingTime(e.target.value)
                 }}/>
-                   </Form.Group>
-                   <Button
-                   onClick={()=>{
-                    handleDateFilter(mappedArray, beginningDate, endingDate)
-                   }}
-                   >Filter By Date</Button>
-                   </Row>
+                  </Form.Group>
+                  <Button>Filter by time</Button>
+                  </Row>
+                  </Container>
                     :
                 <p></p>
                 }
