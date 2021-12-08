@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
+import AdvancedFormat from 'dayjs/plugin/advancedFormat'
+// import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
+
 import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
@@ -21,11 +24,12 @@ const [endingDate, setEndingDate] = useState(null)
 const [beginningTime, setBeginningTime] = useState(null)
 const [endingTime, setEndingTime] = useState(null)
 
+dayjs.extend(AdvancedFormat) // use plugin
 
 
 const [showSort, toggleSort] = useState(null)
 
-var originalArray = undefined
+let originalArray
 const handleDateFilter=()=>{
     if(!beginningDate || !endingDate){
         alert(' both dates required')
@@ -36,7 +40,8 @@ return
         return
     }else{
 
-   
+        originalArray = mappedArray
+
     const filteredDateArray = mappedArray.filter((f)=>{
         let beginningDateRef = dayjs(beginningDate).valueOf()
         let endingDateRef = dayjs(endingDate).valueOf()
@@ -52,8 +57,14 @@ return
 
 }
 
-const handleTimeFilter= (array, beginTime, endTime)=>{
+const handleTimeFilter= ()=>{
+   const beginningTimeNumber = Number(beginningTime.replace(':', ''))* 100
+   const endingTimeNumber = Number(endingTime.replace(':', '')) 
 
+   const testFilter = mappedArray.filter((f)=>{
+        return Number(f.sortableTime) < beginningTimeNumber 
+    })
+   console.log('testFilter', testFilter, 'beginningTime',beginningTimeNumber , 'endingTime', endingTime)
 }
 const handleSort=()=>{
     
@@ -64,6 +75,7 @@ if(mappedArray.length < 1 || !mappedArray){
         return response.json()
        }).then((data)=>{
            if(!data.realData || data.realData[0] === undefined ){
+            setMappedArray([{title:'NoData'}])
            return  alert(data.message)  
            }else{
             originalArray = data.realData
@@ -129,18 +141,29 @@ if(mappedArray.length < 1 || !mappedArray){
                   </Row>
                   <Row>
                   <Form.Group>
-                  <Form.Label>start date {beginningTime}</Form.Label>
-                  <TimePicker onChange={(e)=>{
-                      setBeginningTime(e.target.value)
+                  <Form.Label>start Time {beginningTime}</Form.Label>
+                  <Form.Control 
+                  type='time'                  
+                  onChange={(e)=>{
+                    setBeginningTime(e.target.value)
+
                   }}/>
+                  
+                  
                   </Form.Group>
                   <Form.Group>
-                  <Form.Label>end date {endingTime}</Form.Label>
-                  <TimePicker onChange={(e)=>{
+                  <Form.Label>end Time {endingTime}</Form.Label>
+                  <Form.Control type='time' 
+                  onChange={(e)=>{
                     setEndingTime(e.target.value)
-                }}/>
+
+                  }}/>
                   </Form.Group>
-                  <Button>Filter by time</Button>
+                  <Button 
+                  onClick={()=>{
+                    handleTimeFilter()
+                  }}
+                  >Filter by time</Button>
                   </Row>
                   </Container>
                     :
