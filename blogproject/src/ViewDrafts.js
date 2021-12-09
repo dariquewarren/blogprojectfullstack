@@ -32,12 +32,9 @@ const [showSort, toggleSort] = useState(null)
 let originalArray
 const handleDateFilter=()=>{
     if(!beginningDate || !endingDate){
-        alert(' both dates required')
+        alert(' both dates required to form a range')
 console.log('beginDate',beginningDate , 'endDate', endingDate)
 return
-    }else if(!mappedArray){
-        alert('no mapped array')
-        return
     }else{
 
         originalArray = mappedArray
@@ -58,13 +55,27 @@ return
 }
 
 const handleTimeFilter= ()=>{
-   const beginningTimeNumber = Number(beginningTime.replace(':', ''))* 100
-   const endingTimeNumber = Number(endingTime.replace(':', '')) 
+ 
+ if(!beginningTime || !beginningTime){
+    alert(' both dates required to form a range')
 
-   const testFilter = mappedArray.filter((f)=>{
-        return Number(f.sortableTime) < beginningTimeNumber 
+ }else{
+    originalArray = mappedArray
+
+    const beginningTimeNumber = (Number(beginningTime.replace(':', ''))* 100) 
+        const endingTimeNumber = (Number(endingTime.replace(':', '')) * 100) + 99
+    const filteredTimeArray = mappedArray.filter((f)=>{
+        
+        return f.sortableTime >= beginningTimeNumber && f.sortableTime <= endingTimeNumber 
     })
-   console.log('testFilter', testFilter, 'beginningTime',beginningTimeNumber , 'endingTime', endingTime)
+   console.log('filteredTimeArray', filteredTimeArray)
+   console.log('beginningTimeNumber', beginningTimeNumber)
+   console.log('endingTimeNumber', endingTimeNumber)
+
+   console.log('originalArray', originalArray)
+
+ }
+   
 }
 const handleSort=()=>{
     
