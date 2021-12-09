@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
 import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 // import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
-
+import {getAllDrafts} from './APICalls'
 import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
@@ -15,7 +15,7 @@ import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 
 const ViewDrafts =  (props)=> {
-const [mappedArray, setMappedArray] = useState([])
+const [mappedArray, setMappedArray] = useState([{title: 'no data'}])
 const [displayId, setDisplayId] = useState(null)
 
 const [showFilter, toggleFilter] = useState(null)
@@ -28,6 +28,7 @@ dayjs.extend(AdvancedFormat) // use plugin
 
 
 const [showSort, toggleSort] = useState(null)
+const drafts = getAllDrafts()
 
 let originalArray
 const handleDateFilter=()=>{
@@ -45,6 +46,7 @@ return
         let comparisonDateRef = dayjs(f.datePublished).valueOf() 
           return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
       })
+      setMappedArray(filteredDateArray)
       console.log('filteredDateArray', filteredDateArray)
       console.log('original array', originalArray)
 
@@ -81,28 +83,19 @@ const handleSort=()=>{
     
 }
 useEffect(()=>{
-if(mappedArray.length < 1 || !mappedArray){
-    fetch('/drafts/all').then((response)=>{
-        return response.json()
-       }).then((data)=>{
-           if(!data.realData || data.realData[0] === undefined ){
-            setMappedArray([{title:'NoData'}])
-           return  alert(data.message)  
-           }else{
-            originalArray = data.realData
-            return setMappedArray(data.realData)
 
-           }
-   
-    })
-}else {
-    return
-}
-}, [mappedArray])
+}, [])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
-
+<button
+onClick={ ()=>{
+   
+    console.log(drafts)
+}}
+>
+test set drafts button
+</button>
       
  
         {(mappedArray.length > 0)
@@ -151,9 +144,10 @@ if(mappedArray.length < 1 || !mappedArray){
                   >Filter By Date</Button>
                   </Row>
                   <Row>
-                  <Form.Group>
-                  <Form.Label>start Time {beginningTime}</Form.Label>
+                  <Form.Group style={{width:'50%'}}>
+                  <Form.Label style={{width:'100%'}}>start Time {beginningTime}</Form.Label>
                   <Form.Control 
+                  style={{width:'100%'}}
                   type='time'                  
                   onChange={(e)=>{
                     setBeginningTime(e.target.value)
@@ -162,9 +156,11 @@ if(mappedArray.length < 1 || !mappedArray){
                   
                   
                   </Form.Group>
-                  <Form.Group>
-                  <Form.Label>end Time {endingTime}</Form.Label>
-                  <Form.Control type='time' 
+                  <Form.Group style={{width:'50%'}}>
+                  <Form.Label style={{width:'100%'}}>end Time {endingTime}</Form.Label>
+                  <Form.Control 
+                  style={{width:'100%'}}
+                  type='time' 
                   onChange={(e)=>{
                     setEndingTime(e.target.value)
 
