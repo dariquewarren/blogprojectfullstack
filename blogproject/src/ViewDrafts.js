@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
 import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 // import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
-import {getAllDrafts} from './APICalls'
+
 import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
@@ -15,7 +15,8 @@ import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 
 const ViewDrafts =  (props)=> {
-const [mappedArray, setMappedArray] = useState([{title: 'no data'}])
+const [mappedArray, setMappedArray] = useState([])
+const[originalArray,setOriginalArray] = useState([])
 const [displayId, setDisplayId] = useState(null)
 
 const [showFilter, toggleFilter] = useState(null)
@@ -28,9 +29,7 @@ dayjs.extend(AdvancedFormat) // use plugin
 
 
 const [showSort, toggleSort] = useState(null)
-const drafts = getAllDrafts()
 
-let originalArray
 const handleDateFilter=()=>{
     if(!beginningDate || !endingDate){
         alert(' both dates required to form a range')
@@ -38,17 +37,22 @@ console.log('beginDate',beginningDate , 'endDate', endingDate)
 return
     }else{
 
-        originalArray = mappedArray
-
     const filteredDateArray = mappedArray.filter((f)=>{
         let beginningDateRef = dayjs(beginningDate).valueOf()
         let endingDateRef = dayjs(endingDate).valueOf()
         let comparisonDateRef = dayjs(f.datePublished).valueOf() 
           return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
       })
-      setMappedArray(filteredDateArray)
       console.log('filteredDateArray', filteredDateArray)
       console.log('original array', originalArray)
+      if(filteredDateArray.length < 1){
+      return  alert('no data in range')
+
+      }else{
+       return setMappedArray(filteredDateArray)
+
+      }
+      
 
     }
 
@@ -58,24 +62,31 @@ return
 
 const handleTimeFilter= ()=>{
  
- if(!beginningTime || !beginningTime){
+ if(!beginningTime || !endingTime){
     alert(' both dates required to form a range')
 
  }else{
-    originalArray = mappedArray
 
     const beginningTimeNumber = (Number(beginningTime.replace(':', ''))* 100) 
-        const endingTimeNumber = (Number(endingTime.replace(':', '')) * 100) + 99
+        const endingTimeNumber = (Number(endingTime.replace(':', '')) * 100)
+        
     const filteredTimeArray = mappedArray.filter((f)=>{
         
         return f.sortableTime >= beginningTimeNumber && f.sortableTime <= endingTimeNumber 
     })
    console.log('filteredTimeArray', filteredTimeArray)
+   console.log('beginningTime', beginningTime)
    console.log('beginningTimeNumber', beginningTimeNumber)
+   console.log('endingTime', endingTime)
    console.log('endingTimeNumber', endingTimeNumber)
-
    console.log('originalArray', originalArray)
+   if(filteredTimeArray.length < 1){
+    return  alert('no data in range')
 
+    }else{
+     return setMappedArray(filteredTimeArray)
+
+    }
  }
    
 }
@@ -83,19 +94,26 @@ const handleSort=()=>{
     
 }
 useEffect(()=>{
+if(mappedArray.length < 1 ){
+    fetch('/drafts/all').then((response)=>{
+        return response.json()
+       }).then((data)=>{
+           if(!data.realData || data.realData[0] === undefined ){
+            setMappedArray([{title:'NoData'}])
+           return  alert(data.message)  
+           }else{
+               setOriginalArray(data.realData)
+            return setMappedArray(data.realData)
 
-}, [])
+           }
+   
+    })
+}
+}, [mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
-<button
-onClick={ ()=>{
-   
-    console.log(drafts)
-}}
->
-test set drafts button
-</button>
+
       
  
         {(mappedArray.length > 0)
@@ -183,6 +201,11 @@ test set drafts button
                     toggleFilter(!showFilter)
                 }}
                 >Filter</Button>
+                <Button
+                onClick={()=>{
+                    setMappedArray(originalArray)
+                }}
+                >reset list</Button>
                 <div style={{border: '2px dashed red', width:'100%'}}>
                 <Table bordered striped responsive >
                 <thead>

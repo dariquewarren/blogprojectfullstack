@@ -257,22 +257,23 @@ function CreateArticle(props) {
 
     const [articleType, setArticleType] = useState('published')
    
-    
+    const publishedTime = Dayjs().format('hh:mm:ss A')
+
+    const referencePublishedTime = Dayjs().format('hhmmss')
 
 
     const transformTime = ()=>{
-        const publishedTime = Dayjs().format('hh:mm:ss A')
-    
-        const referencePublishedTime = Dayjs().format('hhmmss')
+       
+
         if(publishedTime.includes('A') && publishedTime[0] ==='1' && publishedTime[1] === '2'){
           const militaryMidnight = referencePublishedTime.replace('12', '00')
-return Number(militaryMidnight)
-        }else if(publishedTime.includes('P')){
+return Number(militaryMidnight) 
+        }else if(publishedTime.includes('P') && publishedTime[0] !=='1'  ){
           const militaryAfternoon = Number(referencePublishedTime) + 120000
           return militaryAfternoon
            
         }else if(publishedTime.includes('A') && publishedTime[0] ==='0'){
-            const militaryMorning = Number(referencePublishedTime) * 10
+            const militaryMorning = Number(referencePublishedTime) 
 return militaryMorning
         }else{
             return Number(referencePublishedTime)

@@ -23,11 +23,12 @@ return data
     return data
       }).catch((e)=>console.log('error', e))
 }
- export const getAllDrafts = ()=>{
-  fetch('/drafts/all').then((response)=>{
+ export const getAllDrafts = async ()=>{
+ await fetch('/drafts/all').then((response)=>{
      return response.json()
    }).then((data)=>{
-     return data
+     console.log('data', data)
+     return data.realData
    }).catch((e)=>{
      alert(`${e}`)
    })
@@ -36,7 +37,8 @@ return data
     fetch('/published/all').then((response)=>{
       return response.json()
     }).then((data)=>{
-      return data
+      console.log('data', data)
+      return data.realData
     }).catch((e)=>{
       alert(`${e}`)
     })
