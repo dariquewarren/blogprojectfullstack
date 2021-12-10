@@ -12,9 +12,9 @@ function ArticleCard(props) {
         onClick={()=>{
             alert('go to view page w/id', props.id)
             if(props.type === 'drafts'){
-                window.open(`read/draft/${props.id}`)
+                window.open(`/read/draft/${props.id}`)
             }else if(props.type === 'published'){
-                window.open(`read/published/${props.id}`)
+                window.open(`/read/published/${props.id}`)
             }
            
         }}
