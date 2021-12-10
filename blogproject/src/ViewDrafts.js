@@ -91,7 +91,7 @@ const handleTimeFilter= ()=>{
    
 }
 const handleSort=()=>{
-    
+    console.log('sort clicked')
 }
 useEffect(()=>{
 if(mappedArray.length < 1 ){
@@ -195,7 +195,11 @@ if(mappedArray.length < 1 ){
                 <p></p>
                 }
                 <h1> your drafts</h1>
-                <Button>Sort By</Button>
+                <Button
+                onClick={()=>{
+                    handleSort()
+                }}
+                >Sort By</Button>
                 <Button
                 onClick={()=>{
                     toggleFilter(!showFilter)
