@@ -207,14 +207,14 @@ if(mappedArray.length < 1 ){
                 }}
                 >reset list</Button>
                 <div style={{border: '2px dashed red', width:'100%'}}>
-                <Table bordered striped responsive >
+                <Table bordered striped responsive ='sm' >
                 <thead>
                 <tr >
                 
                 <th >#</th>
-                <th >Title</th>
                 <th >Date added</th>
                 <th >Time Added</th>
+                <th >Title</th>
                 </tr>
                
                 </thead>
@@ -230,9 +230,13 @@ if(mappedArray.length < 1 ){
                             }}
                             key={m.id}>
                             <th >{(mappedArray.indexOf(m) + 1)}</th>
-                            <th >{m.title}</th>
+                            
                             <th >{m.datePublished}</th>
                             <th >{m.timePublished}</th>
+                            <th > 
+                            { m.title}    
+                               
+                            </th>
                             </tr>
                            
                         )
