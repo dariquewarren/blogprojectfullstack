@@ -20,6 +20,8 @@ const[originalArray,setOriginalArray] = useState([])
 const [displayId, setDisplayId] = useState(null)
 
 const [showFilter, toggleFilter] = useState(null)
+const [showSort, toggleSort] = useState(null)
+
 const [beginningDate, setBeginningDate] = useState(null)
 const [endingDate, setEndingDate] = useState(null)
 const [beginningTime, setBeginningTime] = useState(null)
@@ -28,7 +30,6 @@ const [endingTime, setEndingTime] = useState(null)
 dayjs.extend(AdvancedFormat) // use plugin
 
 
-const [showSort, toggleSort] = useState(null)
 
 const handleDateFilter=()=>{
     if(!beginningDate || !endingDate){
@@ -90,11 +91,10 @@ const handleTimeFilter= ()=>{
  }
    
 }
-const handleSort=()=>{
-    console.log('sort clicked')
-}
+
+
+ 
 useEffect(()=>{
-if(mappedArray.length < 1 ){
     fetch('/drafts/all').then((response)=>{
         return response.json()
        }).then((data)=>{
@@ -108,17 +108,17 @@ if(mappedArray.length < 1 ){
            }
    
     })
-}
-}, [mappedArray])
+    console.log('changed')
+}, [])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
 
       
  
-        {(mappedArray.length > 0)
+        {(mappedArray.length )
                 ?
-                <>
+                <Container>
                 <Container  style={{width:'100%'}}>
 
                 {
@@ -194,10 +194,21 @@ if(mappedArray.length < 1 ){
                     :
                 <p></p>
                 }
+                {
+                    (showSort) ? 
+                   <Container>
+                   <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
+                   <DateSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
+                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
+                   </Container>
+                    :
+                     <p></p>
+                }
                 <h1> your drafts</h1>
                 <Button
                 onClick={()=>{
-                    handleSort()
+                    toggleSort(!showSort)
+                    console.log(showSort)
                 }}
                 >Sort By</Button>
                 <Button
@@ -249,7 +260,7 @@ if(mappedArray.length < 1 ){
                 </tbody>
                 </Table>
                 </div>
-                </>
+                </Container>
             :
             <Loading/>
         }
@@ -259,4 +270,150 @@ if(mappedArray.length < 1 ){
     )
 }
 
+const TimeSortOptions = (props)=>{
+
+    const handleTimeSort = (array, sortDirection)=>{
+        let newArray
+        switch(sortDirection){
+            case 'ascending':
+                newArray = array.sort((a,b)=>{
+                    return a.sortableTime - b.sortableTime
+                })    
+                
+            console.log('time ascent case', sortDirection, newArray);
+            break;
+            case 'descending':
+                newArray = array.sort((a,b)=>{
+                    return b.sortableTime - a.sortableTime
+                })      
+               
+            console.log('time descent case',  sortDirection, newArray);
+            break;
+        default:
+        console.log('sortclicked type has no value', sortDirection)
+          
+        }
+        props.setNewArray(newArray)
+        props.toggleSort(false)
+        }
+    return(
+        <Container style={{border: '2px solid red', width: '50%'}}>
+       <h3>By Time</h3>
+
+        <Form.Group>
+                    <Button
+                    onClick={()=>{
+                        handleTimeSort(props.array,'descending')
+                    }}
+                    >Oldest first</Button>
+                    <Button
+                    onClick={()=>{
+                        handleTimeSort(props.array,'ascending')
+                    }}
+                    >Newest first</Button>
+                    </Form.Group>
+        </Container>
+    )
+}
+
+const DateSortOptions = (props)=>{
+    
+    const handleDateSort=(array, sortDirection)=>{
+        let newArray
+    switch( sortDirection){
+        case 'ascending' :
+            newArray = array.sort((a,b)=>{
+                return a.sortableDate - b.sortableDate
+            })
+            console.log('date clicked', sortDirection, newArray);
+            break;
+        case 'descending' :
+            newArray = array.sort((a,b)=>{
+                return b.sortableDate - a.sortableDate
+            })
+                console.log('date clicked', sortDirection, newArray);
+                break;
+        default:
+    console.log('sortclicked type has no value',  sortDirection)
+    
+        }
+    // take in sortby value, sort direction and array to sort
+        // create sorted array depending on sortby type
+            // setmapped array value to the sorted array
+            props.setNewArray(newArray)
+            props.toggleSort(false)
+}
+    return(
+        <Container style={{border: '2px solid red', width: '50%'}}>
+        <p>By Date</p>
+        <Form.Group>
+        <Button
+        onClick={()=>{
+            handleDateSort(props.array, 'ascending')
+        }}
+        >Newest</Button>
+        <Button
+        onClick={()=>{
+            handleDateSort(props.array, 'descending')
+        }}
+        >Oldest</Button>
+        </Form.Group>
+        </Container>
+    )
+}
+
+const TitleSortOptions = (props)=>{
+
+    const handleTitleSort = (array, direction)=>{
+        let newArray
+        switch (direction){
+            case 'AZ' :
+            newArray = array.sort((a,b)=>{
+                if (a.title < b.title) {
+                    return -1;
+                  }
+                  if (a.title > b.title) {
+                    return 1;
+                  }
+                  return 0;
+            }) ;   
+            console.log(direction, newArray);
+            break;
+            case 'ZA' :
+                newArray = array.sort((a,b)=>{
+                    if (a.title > b.title) {
+                        return -1;
+                      }
+                      if (a.title < b.title) {
+                        return 1;
+                      }
+                      return 0;
+                }) ;   
+                console.log(direction, newArray);
+            break;
+            default:
+            console.log('no direction')
+        }
+        props.setNewArray(newArray)
+        props.toggleSort(false)
+    }
+
+    return(
+        <Container style={{border: '2px solid red', width: '50%'}}>
+        <p>By Title</p>
+        <Form.Group>
+        <Button
+        onClick={()=>{
+            handleTitleSort(props.array, 'AZ')
+        }}
+        >Title(AZ)</Button>
+        <Button
+        onClick={()=>{
+            handleTitleSort(props.array, 'ZA')
+        }}
+        >Title(ZA)</Button>
+        </Form.Group>
+        </Container>
+    )
+}
 export default ViewDrafts
