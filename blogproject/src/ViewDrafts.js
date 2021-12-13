@@ -8,6 +8,8 @@ import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
+import SplitButton from 'react-bootstrap/SplitButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -114,7 +116,7 @@ useEffect(()=>{
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
 
-      
+      <SearchOptions array={mappedArray} setNewArray={setMappedArray} />
  
         {(mappedArray.length )
                 ?
@@ -412,6 +414,78 @@ const TitleSortOptions = (props)=>{
             handleTitleSort(props.array, 'ZA')
         }}
         >Title(ZA)</Button>
+        </Form.Group>
+        </Container>
+    )
+}
+
+const SearchOptions = (props)=>{
+const [searchTerm, changeSearchTerm] = useState(undefined)
+const [searchParam, changeSearchParam] = useState('choose search location')
+
+const handleSearch =()=>{
+
+const titleSearch = props.array.filter((f)=>{
+    if(f.title.includes(searchTerm)){
+        
+        return f
+    }else{
+        return
+    }
+    
+})
+const articleSearch = props.array.filter((f)=>{
+    if(f.article.includes(searchTerm)){
+        
+        return f
+    }else{
+        return
+    }
+    
+})
+if(titleSearch.length < 1 || articleSearch.length < 1  ){
+    console.log('search clicked', searchTerm, titleSearch, articleSearch)
+
+return alert('no results')
+}else{
+    console.log('search clicked', searchTerm, titleSearch, articleSearch)
+
+   return props.setNewArray(titleSearch)
+
+}
+// takein array and filter by searchTerm
+}
+    return(
+        <Container>
+        <Form.Group>
+        <Form.Control type='text' placeholder={`${searchParam}`} onChange={(e)=>{
+            changeSearchTerm(e.target.value)
+        }} />
+        <Button
+        onClick={()=>{
+            handleSearch()
+        }}
+        >
+        Search
+        </Button>
+        <SplitButton 
+        key='primary'
+        title={'Select Search Location'}
+        variant='primary'
+        id={searchParam}
+        onChange={(e)=>{
+            changeSearchParam(e.target.value)
+        }}
+        >
+        <Dropdown.Item value='title' onClick={(e)=>{
+            changeSearchParam(e.target.value)
+        }}> Title</Dropdown.Item>
+
+        <Dropdown.Item value='article' onClick={(e)=>{
+            changeSearchParam(e.target.value)
+        }}> article</Dropdown.Item>
+
+        </SplitButton>
         </Form.Group>
         </Container>
     )
