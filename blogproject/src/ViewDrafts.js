@@ -8,7 +8,7 @@ import TimePicker from 'react-time-picker'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
-import SplitButton from 'react-bootstrap/SplitButton'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 import Form from 'react-bootstrap/Form'
@@ -421,7 +421,7 @@ const TitleSortOptions = (props)=>{
 
 const SearchOptions = (props)=>{
 const [searchTerm, changeSearchTerm] = useState(undefined)
-const [searchParam, changeSearchParam] = useState('choose search location')
+const [searchParam, changeSearchParam] = useState(undefined)
 
 const handleSearch =()=>{
 
@@ -443,9 +443,11 @@ const articleSearch = props.array.filter((f)=>{
     }
     
 })
-if(titleSearch.length < 1 || articleSearch.length < 1  ){
+if( !searchTerm ){
     console.log('search clicked', searchTerm, titleSearch, articleSearch)
+    return alert('please type keyword')
 
+}else if(titleSearch.length < 1 || articleSearch.length < 1){
 return alert('no results')
 }else{
     console.log('search clicked', searchTerm, titleSearch, articleSearch)
@@ -457,36 +459,34 @@ return alert('no results')
 }
     return(
         <Container>
-        <Form.Group>
-        <Form.Control type='text' placeholder={`${searchParam}`} onChange={(e)=>{
+        <Form.Control type='text' placeholder={`Type keyword(s) here to search VIA ${searchParam}`} onChange={(e)=>{
             changeSearchTerm(e.target.value)
         }} />
-        <Button
+        <Button disabled={(searchParam) ? false: true}
         onClick={()=>{
             handleSearch()
         }}
         >
         Search
-        </Button>
-        <SplitButton 
-        key='primary'
-        title={'Select Search Location'}
-        variant='primary'
-        id={searchParam}
-        onChange={(e)=>{
-            changeSearchParam(e.target.value)
-        }}
-        >
-        <Dropdown.Item value='title' onClick={(e)=>{
-            changeSearchParam(e.target.value)
-        }}> Title</Dropdown.Item>
+        </Button>   
+        <Dropdown as={ButtonGroup}>
+  <Button variant="success">{(searchParam )? `Currently Searching via ${searchParam.toUpperCase()} `: `Select search location from dropdown`}</Button>
 
-        <Dropdown.Item value='article' onClick={(e)=>{
-            changeSearchParam(e.target.value)
-        }}> article</Dropdown.Item>
+  <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
 
-        </SplitButton>
-        </Form.Group>
+  <Dropdown.Menu>
+    <Dropdown.Item value={'title'} as={Button} onClick={(e)=>{
+        changeSearchParam(e.target.value)
+        console.log('in title button clicked', e.target.value)
+    }}>in title</Dropdown.Item>
+    <Dropdown.Item value={'article'} as={Button} onClick={(e)=>{
+        changeSearchParam(e.target.value)
+        console.log('in article button clicked',e.target.value)
+    }}>in article </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+
+
         </Container>
     )
 }
