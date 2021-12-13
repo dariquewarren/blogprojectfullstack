@@ -8,8 +8,10 @@ import SearchOptions from './SearchOptions'
 import DateSortOptions from './DateSortOptions'
 import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
-
-
+import DateFilterOptions from './DateFilterOptions'
+import TimeFilterOptions from './TimeFilterOptions'
+// DateFilterOptions
+// TimeFilterOptions
 
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
@@ -32,75 +34,15 @@ const [showSort, toggleSort] = useState(null)
 const [showAlert, setShowAlert] = useState(false);
 const [AlertMessage, setAlertMessage] = useState(true);
 
-const [beginningDate, setBeginningDate] = useState(null)
-const [endingDate, setEndingDate] = useState(null)
-const [beginningTime, setBeginningTime] = useState(null)
-const [endingTime, setEndingTime] = useState(null)
+
+
 
 dayjs.extend(AdvancedFormat) // use plugin
 
 
 
-const handleDateFilter=()=>{
-    if(!beginningDate || !endingDate){
-        alert(' both dates required to form a range')
-console.log('beginDate',beginningDate , 'endDate', endingDate)
-return
-    }else{
-
-    const filteredDateArray = mappedArray.filter((f)=>{
-        let beginningDateRef = dayjs(beginningDate).valueOf()
-        let endingDateRef = dayjs(endingDate).valueOf()
-        let comparisonDateRef = dayjs(f.datePublished).valueOf() 
-          return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
-      })
-      console.log('filteredDateArray', filteredDateArray)
-      console.log('original array', originalArray)
-      if(filteredDateArray.length < 1){
-      return  alert('no data in range')
-
-      }else{
-       return setMappedArray(filteredDateArray)
-
-      }
-      
-
-    }
 
 
-
-}
-
-const handleTimeFilter= ()=>{
- 
- if(!beginningTime || !endingTime){
-    alert(' both dates required to form a range')
-
- }else{
-
-    const beginningTimeNumber = (Number(beginningTime.replace(':', ''))* 100) 
-        const endingTimeNumber = (Number(endingTime.replace(':', '')) * 100)
-        
-    const filteredTimeArray = mappedArray.filter((f)=>{
-        
-        return f.sortableTime >= beginningTimeNumber && f.sortableTime <= endingTimeNumber 
-    })
-   console.log('filteredTimeArray', filteredTimeArray)
-   console.log('beginningTime', beginningTime)
-   console.log('beginningTimeNumber', beginningTimeNumber)
-   console.log('endingTime', endingTime)
-   console.log('endingTimeNumber', endingTimeNumber)
-   console.log('originalArray', originalArray)
-   if(filteredTimeArray.length < 1){
-    return  alert('no data in range')
-
-    }else{
-     return setMappedArray(filteredTimeArray)
-
-    }
- }
-   
-}
 
 
  
@@ -152,56 +94,9 @@ useEffect(()=>{
                 {(showFilter)
                     ?
                   <Container>
-                  <Row>
-                  <Form.Group style={{width:'50%'}} >
-                  <Form.Label style={{width:'100%'}}>Beginning</Form.Label>
-                  <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
-                      setBeginningDate(e.target.value)
-                      console.log(e.target.value)
-                  }}/>
-                  </Form.Group>
-                  <Form.Group style={{width:'50%'}} >
-                  <Form.Label style={{width:'100%'}}>Ending</Form.Label>
-                  <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
-                      setEndingDate(e.target.value)
-                   console.log(e.target.value)
-               }}/>
-                  </Form.Group>
-                  <Button
-                  onClick={()=>{
-                   handleDateFilter()
-                  }}
-                  >Filter By Date</Button>
-                  </Row>
-                  <Row>
-                  <Form.Group style={{width:'50%'}}>
-                  <Form.Label style={{width:'100%'}}>start Time {beginningTime}</Form.Label>
-                  <Form.Control 
-                  style={{width:'100%'}}
-                  type='time'                  
-                  onChange={(e)=>{
-                    setBeginningTime(e.target.value)
-
-                  }}/>
-                  
-                  
-                  </Form.Group>
-                  <Form.Group style={{width:'50%'}}>
-                  <Form.Label style={{width:'100%'}}>end Time {endingTime}</Form.Label>
-                  <Form.Control 
-                  style={{width:'100%'}}
-                  type='time' 
-                  onChange={(e)=>{
-                    setEndingTime(e.target.value)
-
-                  }}/>
-                  </Form.Group>
-                  <Button 
-                  onClick={()=>{
-                    handleTimeFilter()
-                  }}
-                  >Filter by time</Button>
-                  </Row>
+              <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} />
+              <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} />
+                 
                   </Container>
                     :
                 <p></p>
@@ -282,5 +177,5 @@ useEffect(()=>{
     )
 }
 
-  
+
 export default ViewDrafts
