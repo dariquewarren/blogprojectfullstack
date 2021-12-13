@@ -70,7 +70,7 @@ useEffect(()=>{
 
         <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
  
-        {(mappedArray.length )
+        {(mappedArray)
                 ?
                 <Container>
                 <Container  style={{width:'100%'}}>
@@ -139,7 +139,11 @@ useEffect(()=>{
                 <tr >
                 
                 <th >#</th>
-                <th >Date added</th>
+                <th >Date added 
+                <DateSortOptions array={mappedArray} setNewArray={setMappedArray} 
+                toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+                 /> 
+                </th>
                 <th >Time Added</th>
                 <th >Title</th>
                 </tr>

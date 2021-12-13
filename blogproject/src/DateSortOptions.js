@@ -2,6 +2,10 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import {BsFillCaretUpFill} from 'react-icons/bs'
+import {BsFillCaretDownFill} from 'react-icons/bs'
+
+
 
 const DateSortOptions = (props)=>{
     
@@ -31,20 +35,17 @@ const DateSortOptions = (props)=>{
             props.toggleSort(false)
 }
     return(
-        <Container style={{border: '2px solid red', width: '50%'}}>
-        <p>By Date</p>
-        <Form.Group>
-        <Button
-        onClick={()=>{
+        <Container style={{border: '2px solid red', width: 'auto'}}>
+        
+      
+        <BsFillCaretUpFill style={{border: '2px solid black'}} onClick={()=>{
             handleDateSort(props.array, 'ascending')
-        }}
-        >Newest</Button>
-        <Button
-        onClick={()=>{
+        }}  />
+        <BsFillCaretDownFill style={{border: '2px solid black'}} onClick={()=>{
             handleDateSort(props.array, 'descending')
-        }}
-        >Oldest</Button>
-        </Form.Group>
+        }}  /> 
+        
+    
         </Container>
     )
 }
