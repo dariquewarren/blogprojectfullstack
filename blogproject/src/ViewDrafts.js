@@ -94,8 +94,13 @@ useEffect(()=>{
                 {(showFilter)
                     ?
                   <Container>
-              <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} />
-              <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} />
+              <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+              setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+               />
+
+              <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+              setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
+              />
                  
                   </Container>
                     :
@@ -104,9 +109,9 @@ useEffect(()=>{
                 {
                     (showSort) ? 
                    <Container>
-                   <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
-                   <DateSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
-                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} /> 
+                   <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
+                   <DateSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
+                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
                    </Container>
                     :
                      <p></p>
