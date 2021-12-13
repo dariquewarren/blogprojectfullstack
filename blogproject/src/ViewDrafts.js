@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
+import Alert from 'react-bootstrap/Alert'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -23,6 +24,8 @@ const [displayId, setDisplayId] = useState(null)
 
 const [showFilter, toggleFilter] = useState(null)
 const [showSort, toggleSort] = useState(null)
+const [showAlert, setShowAlert] = useState(true);
+const [AlerMessage, setAlertMessage] = useState(true);
 
 const [beginningDate, setBeginningDate] = useState(null)
 const [endingDate, setEndingDate] = useState(null)
@@ -115,8 +118,10 @@ useEffect(()=>{
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
+        <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} AlerMessage={AlerMessage}/>
 
-      <SearchOptions array={mappedArray} setNewArray={setMappedArray} />
+
+        <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
  
         {(mappedArray.length )
                 ?
@@ -445,12 +450,17 @@ const articleSearch = props.array.filter((f)=>{
 })
 if( !searchTerm ){
     console.log('search clicked', searchTerm, titleSearch, articleSearch)
-    return alert('please type keyword')
+    props.setAlertMessage('No keyword selected')
+    props.setShowAlert(true)
+    return 
 
 }else if(titleSearch.length < 1 || articleSearch.length < 1){
-return alert('no results')
+    props.setAlertMessage('Nothing Found. Try changing the keyword or choosing a different search location from the dropdown')
+    props.setShowAlert(true)
+    return
 }else{
     console.log('search clicked', searchTerm, titleSearch, articleSearch)
+    props.setShowAlert(false)
 
    return props.setNewArray(titleSearch)
 
@@ -490,4 +500,20 @@ return alert('no results')
         </Container>
     )
 }
+
+const AlertText =(props) => {
+  
+    if (props.showAlert) {
+      return (
+        <Alert variant="danger" onClose={() => props.setShowAlert(false)} dismissible>
+          <Alert.Heading>Oh snap!</Alert.Heading>
+          <p>
+            {props.AlerMessage}
+          </p>
+        </Alert>
+      );
+    }
+    return <Button onClick={() => props.setShowAlert(true)}>Show Alert</Button>;
+  }
+  
 export default ViewDrafts
