@@ -125,8 +125,7 @@ useEffect(()=>{
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
                 />
                 
-                <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
-                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
+               <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
                   
                 
                 

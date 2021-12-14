@@ -2,50 +2,61 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import {BsFillCaretUpFill} from 'react-icons/bs'
+import {BsFillCaretDownFill} from 'react-icons/bs'
 
 const TimeSortOptions = (props)=>{
+   
+    let newArray
 
-    const handleTimeSort = (array, sortDirection)=>{
-        let newArray
-        switch(sortDirection){
+    const sortTimeAscending =(array,sortDirection)=>{
+
+        array.sort((a,b)=>{
+           return a.sortableTime - b.sortableTime
+       })
+       props.setSortMessage('Sorted by ASCENDING TIME')
+       props.setNewArray(array)
+       console.log('ascending clicked', sortDirection, array);
+   }
+   
+   const sortTimeDescending =(array, sortDirection)=>{
+       newArray = array.sort((a,b)=>{
+           return b.sortableTime - a.sortableTime
+       })
+       props.setSortMessage('Sorted by DESCENDING TIME')
+       props.setNewArray(newArray)
+           console.log('descending clicked', sortDirection, newArray);
+   }
+
+
+    const handleTimeSort = (currentArray, currentSortDirection)=>{
+        switch(currentSortDirection){
             case 'ascending':
-                newArray = array.sort((a,b)=>{
-                    return a.sortableTime - b.sortableTime
-                })    
-                
-            console.log('time ascent case', sortDirection, newArray);
-            break;
+                sortTimeAscending(currentArray, currentSortDirection)
+                    break;
             case 'descending':
-                newArray = array.sort((a,b)=>{
-                    return b.sortableTime - a.sortableTime
-                })      
-               
-            console.log('time descent case',  sortDirection, newArray);
-            break;
+                sortTimeDescending(currentArray, currentSortDirection)
+                    break;
         default:
-        console.log('sortclicked type has no value', sortDirection)
+        console.log('sortclicked type has no value', currentSortDirection)
           
         }
-        props.setNewArray(newArray)
-        props.toggleSort(false)
         }
     return(
-        <Container style={{border: '2px solid red', width: '50%'}}>
-       <h3>By Time</h3>
-
-        <Form.Group>
-                    <Button
-                    onClick={()=>{
-                        handleTimeSort(props.array,'descending')
-                    }}
-                    >Latest first</Button>
-                    <Button
-                    onClick={()=>{
-                        handleTimeSort(props.array,'ascending')
-                    }}
-                    >Earliest first</Button>
-                    </Form.Group>
+        <Container style={{border: '2px solid red', width: 'auto'}}>
+        
+      
+        <BsFillCaretUpFill style={{border: '2px solid black'}} onClick={()=>{
+            handleTimeSort(props.array,'ascending')
+            
+        }}  />
+        <BsFillCaretDownFill style={{border: '2px solid black'}} onClick={()=>{
+            handleTimeSort(props.array,'descending')
+        }}  /> 
+        
+    
         </Container>
+    
     )
 }
 

@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react'
 import Table from 'react-bootstrap/Table'
 import DateSortOptions from './DateSortOptions'
+import TimeSortOptions from './TimeSortOptions'
+
 function ArticleTable(props) {
 useEffect(()=>{
 
@@ -18,7 +20,12 @@ useEffect(()=>{
         toggleSort={props.toggleSort} setAlertMessage={props.setAlertMessage} setShowAlert={props.setShowAlert}
          /> 
         </th>
-        <th >Time Added</th>
+        <th >Time Added
+        <TimeSortOptions array={props.mappedArray} setNewArray={props.setMappedArray} 
+        setSortMessage={props.setSortMessage}
+        toggleSort={props.toggleSort} setAlertMessage={props.setAlertMessage} setShowAlert={props.setShowAlert} /> 
+                 
+        </th>
         <th >Title</th>
         </tr>
        
