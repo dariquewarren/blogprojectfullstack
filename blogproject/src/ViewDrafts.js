@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
 import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 // import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
 import AlertText from './AlertText'
 import SearchOptions from './SearchOptions'
-import DateSortOptions from './DateSortOptions'
+import ArticleTable from './ArticleTable'
 import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
 import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
+
 // DateFilterOptions
 // TimeFilterOptions
 
@@ -26,11 +27,14 @@ import Loading from './Loading'
 
 const ViewDrafts =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
-const[originalArray,setOriginalArray] = useState([])
+const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
 
 const [showFilter, toggleFilter] = useState(null)
+const [filterMessage, setFilterMessage] = useState('filter by:')
+
 const [showSort, toggleSort] = useState(null)
+const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
 const [AlertMessage, setAlertMessage] = useState(true);
 
@@ -47,21 +51,27 @@ dayjs.extend(AdvancedFormat) // use plugin
 
  
 useEffect(()=>{
-    fetch('/drafts/all').then((response)=>{
-        return response.json()
-       }).then((data)=>{
-           if(!data.realData || data.realData[0] === undefined ){
-            setMappedArray([{title:'NoData'}])
-           return  alert(data.message)  
-           }else{
-               setOriginalArray(data.realData)
-            return setMappedArray(data.realData)
+    if(mappedArray.length < 1){
+        fetch('/drafts/all').then((response)=>{
+            return response.json()
+           }).then((data)=>{
+               if(!data.realData || data.realData[0] === undefined ){
+                   
+                setMappedArray([{title:'NoData'}])
+               return  alert(data.message)  
+               }else{
+                   setOriginalArray(data.realData)
+                return setMappedArray(data.realData)
+    
+               }
+       
+        })
+       }
 
-           }
-   
-    })
-    console.log('changed')
-}, [])
+       return ()=>{
+           console.log('callback function')
+       }
+    }, [mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
@@ -70,116 +80,58 @@ useEffect(()=>{
 
         <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
  
-        {(mappedArray)
-                ?
-                <Container>
-                <Container  style={{width:'100%'}}>
-
-                {
-                    mappedArray.map((m)=>{
-                        if(m.id === displayId){
-                        return(
         
-                            <ArticleCard as='button' key={m.id} {...m}/>      
-                          
-                                   )}else{
-        return(
-            <p></p>
-        )
-                        }
-                    })
-                }
-            
-                </Container> 
-                {(showFilter)
-                    ?
-                  <Container>
-              <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
-              setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-               />
-
-              <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
-              setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
-              />
-                 
-                  </Container>
-                    :
-                <p></p>
-                }
-                {
-                    (showSort) ? 
-                   <Container>
-                   <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
-                   <DateSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
-                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
-                   </Container>
-                    :
-                     <p></p>
-                }
+                <Container>
                 <h1> your drafts</h1>
+               
                 <Button
                 onClick={()=>{
                     toggleSort(!showSort)
+                    toggleFilter(false)
                     console.log(showSort)
                 }}
                 >Sort By</Button>
                 <Button
                 onClick={()=>{
                     toggleFilter(!showFilter)
+                    toggleSort(false)
+                    console.log(showFilter)
                 }}
                 >Filter</Button>
                 <Button
                 onClick={()=>{
                     setMappedArray(originalArray)
                 }}
-                >reset list</Button>
+                >reset list</Button><h4>{sortMessage}</h4>
+                <Container  style={{width:'100%'}}>
+
                 <div style={{border: '2px dashed red', width:'100%'}}>
-                <Table bordered striped responsive ='sm' >
-                <thead>
-                <tr >
                 
-                <th >#</th>
-                <th >Date added 
-                <DateSortOptions array={mappedArray} setNewArray={setMappedArray} 
-                toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-                 /> 
-                </th>
-                <th >Time Added</th>
-                <th >Title</th>
-                </tr>
+               <ArticleTable 
+               mappedArray={mappedArray} setMappedArray={setMappedArray} 
+               setSortMessage={setSortMessage} setDisplayId={setDisplayId}
+               toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
                
-                </thead>
-                <tbody>
-            
-        
-                {
-                    mappedArray.map((m)=>{
-                        return(
-                            <tr as='button'
-                            onClick={()=>{
-                                setDisplayId(m.id)
-                            }}
-                            key={m.id}>
-                            <th >{(mappedArray.indexOf(m) + 1)}</th>
-                            
-                            <th >{m.datePublished}</th>
-                            <th >{m.timePublished}</th>
-                            <th > 
-                            { m.title}    
-                               
-                            </th>
-                            </tr>
-                           
-                        )
-                    })
-                }
-                </tbody>
-                </Table>
+               />
                 </div>
+
+            
+                </Container> 
+                <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+                 />
+  
+                <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
+                />
+                
+                <TimeSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
+                   <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
+                  
+                
+                
                 </Container>
-            :
-            <Loading/>
-        }
+         
         
 
         </Container>

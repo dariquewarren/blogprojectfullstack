@@ -35,16 +35,22 @@ const SearchOptions = (props)=>{
         props.setShowAlert(true)
         return 
     
-    }else if(titleSearch.length < 1 || articleSearch.length < 1){
-        props.setAlertMessage('Nothing Found. Try changing the keyword or choosing a different search location from the dropdown')
+    }else if(titleSearch.length < 1 && articleSearch.length < 1){
+        props.setAlertMessage('Nothing Found. Try changing the keyword or choosing a different search location from the dropdown',searchTerm, titleSearch, articleSearch,)
         props.setShowAlert(true)
         return
-    }else{
+    }else if(searchParam === 'title'){
         console.log('search clicked', searchTerm, titleSearch, articleSearch)
         props.setShowAlert(false)
     
        return props.setNewArray(titleSearch)
     
+    }else if(searchParam === 'article'){
+        console.log('search clicked', searchTerm, articleSearch)
+        props.setShowAlert(false)
+    
+       return props.setNewArray(articleSearch)
+
     }
     // takein array and filter by searchTerm
     }
