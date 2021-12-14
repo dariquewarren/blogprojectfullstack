@@ -33,7 +33,6 @@ const [displayId, setDisplayId] = useState(null)
 const [showFilter, toggleFilter] = useState(null)
 const [filterMessage, setFilterMessage] = useState('filter by:')
 
-const [showSort, toggleSort] = useState(null)
 const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
 const [AlertMessage, setAlertMessage] = useState(true);
@@ -84,17 +83,10 @@ useEffect(()=>{
                 <Container>
                 <h1> your drafts</h1>
                
-                <Button
-                onClick={()=>{
-                    toggleSort(!showSort)
-                    toggleFilter(false)
-                    console.log(showSort)
-                }}
-                >Sort By</Button>
+                
                 <Button
                 onClick={()=>{
                     toggleFilter(!showFilter)
-                    toggleSort(false)
                     console.log(showFilter)
                 }}
                 >Filter</Button>
@@ -110,7 +102,7 @@ useEffect(()=>{
                <ArticleTable 
                mappedArray={mappedArray} setMappedArray={setMappedArray} 
                setSortMessage={setSortMessage} setDisplayId={setDisplayId}
-               toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
                
                />
                 </div>
@@ -125,7 +117,6 @@ useEffect(()=>{
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
                 />
                 
-               <TitleSortOptions array={mappedArray} setNewArray={setMappedArray} toggleSort={toggleSort} setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} /> 
                   
                 
                 

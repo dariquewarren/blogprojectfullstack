@@ -2,59 +2,75 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import {BsFillCaretUpFill} from 'react-icons/bs'
+import {BsFillCaretDownFill} from 'react-icons/bs'
 
 
 const TitleSortOptions = (props)=>{
+    let newArray
 
-    const handleTitleSort = (array, direction)=>{
-        let newArray
-        switch (direction){
+    const sortTitleAscending =(array,sortDirection)=>{
+
+        let newArray =array.sort((a, b)=>{
+            if(a.title < b.title){
+               return -1
+            }else if(a > b){
+               return 1
+            }
+            else{
+                return 0
+            }
+        })
+       props.setSortMessage('Alphabetical TITLE ASCENDING')
+       props.setNewArray(newArray)
+       console.log('ascending clicked', sortDirection, newArray);
+   }
+   
+   const sortTitleDescending =(array, sortDirection)=>{
+     let newArray =  array.sort((a, b)=>{
+        if(a.title > b.title){
+           return -1
+        }else if(a < b){
+           return 1
+        }
+        else{
+            return 0
+        }
+    })
+       props.setSortMessage('Alphabetical TITLE DESCENDING')
+       props.setNewArray(newArray)
+           console.log('descending clicked', sortDirection, newArray );
+   }
+
+
+    const handleTitleSort = (currentArray, currentDirection)=>{
+
+        switch (currentDirection){
             case 'AZ' :
-            newArray = array.sort((a,b)=>{
-                if (a.title < b.title) {
-                    return -1;
-                  }
-                  if (a.title > b.title) {
-                    return 1;
-                  }
-                  return 0;
-            }) ;   
-            console.log(direction, newArray);
+                sortTitleAscending(currentArray, currentDirection)
             break;
             case 'ZA' :
-                newArray = array.sort((a,b)=>{
-                    if (a.title > b.title) {
-                        return -1;
-                      }
-                      if (a.title < b.title) {
-                        return 1;
-                      }
-                      return 0;
-                }) ;   
-                console.log(direction, newArray);
+                sortTitleDescending(currentArray, currentDirection)
+
             break;
             default:
             console.log('no direction')
         }
-        props.setNewArray(newArray)
-        props.toggleSort(false)
     }
 
     return(
-        <Container style={{border: '2px solid red', width: '50%'}}>
-        <p>By Title</p>
-        <Form.Group>
-        <Button
-        onClick={()=>{
-            handleTitleSort(props.array, 'AZ')
-        }}
-        >Title(AZ)</Button>
-        <Button
-        onClick={()=>{
-            handleTitleSort(props.array, 'ZA')
-        }}
-        >Title(ZA)</Button>
-        </Form.Group>
+        <Container style={{border: '2px solid red', width: 'auto'}}>
+        
+      
+        <BsFillCaretUpFill style={{border: '2px solid black'}} onClick={()=>{
+            handleTitleSort(props.array,'AZ')
+            
+        }}  />
+        <BsFillCaretDownFill style={{border: '2px solid black'}} onClick={()=>{
+            handleTitleSort(props.array,'ZA')
+        }}  /> 
+        
+    
         </Container>
     )
 }
