@@ -30,6 +30,8 @@ const DateFilterOptions = (props)=>{
             props.setShowAlert(true)
             return props.toggleDateFilter(false)
           }else{
+            props.setShowAlert(false)
+
             props.setFilterMessage(`ARTICLES FILTERED BETWEEN ${dayjs(beginningDate).format('M/D')} AND ${dayjs(endingDate).format('M/D')}`)
             props.setMappedArray(filteredDateArray)
            return props.toggleDateFilter(false)
