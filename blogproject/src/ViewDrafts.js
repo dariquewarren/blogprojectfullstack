@@ -30,10 +30,9 @@ const [mappedArray, setMappedArray] = useState([])
 const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
 
-const [showFilter, toggleFilter] = useState(false)
 const [showDateFilter, toggleDateFilter] = useState(false)
 const [showTimeFilter, toggleTimeFilter] = useState(false)
-const [filterMessage, setFilterMessage] = useState('filter by:')
+const [filterMessage, setFilterMessage] = useState()
 
 const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
@@ -82,30 +81,27 @@ useEffect(()=>{
         <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
  {(showDateFilter)
 ?
-<DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+<DateFilterOptions toggleDateFilter={toggleDateFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+                 setFilterMessage={setFilterMessage} filterMessage={filterMessage}
                  />
 :
 <p></p>
 }
 {(showTimeFilter)
     ?
-    <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+    <TimeFilterOptions toggleTimeFilter={toggleTimeFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
+                setFilterMessage={setFilterMessage} filterMessage={filterMessage}
                 />
     :
     <p></p>
     }
- 
-        <Container>
-  
-  
-               
- </Container>
+        
        
         
                 <Container>
-                <h1> your drafts</h1>
+                <h3>{filterMessage}</h3>
                
                 
                 <Button
@@ -113,7 +109,6 @@ useEffect(()=>{
                     toggleTimeFilter(false)
 
                     toggleDateFilter(!showDateFilter)
-                    console.log(showFilter)
                 }}
                 >Date Filter</Button>
                 <Button
@@ -121,7 +116,6 @@ useEffect(()=>{
                     toggleDateFilter(false)
 
                     toggleTimeFilter(!showTimeFilter)
-                    console.log(showFilter)
                 }}
                 >Time Filter</Button>
                 <Button

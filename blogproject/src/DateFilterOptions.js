@@ -10,25 +10,29 @@ const DateFilterOptions = (props)=>{
     const [endingDate, setEndingDate] = useState(null)
 
     const handleDateFilter=()=>{
-        if(!props.beginningDate || !props.endingDate){
-            alert(' both dates required to form a range')
+        if(!beginningDate || !endingDate){
+           props.setAlertMessage(' both dates required to form a range') 
+           props.setShowAlert(true)
     console.log('beginDate',beginningDate , 'endDate', endingDate)
     return
         }else{
-    
+          let beginningDateRef = dayjs(beginningDate).valueOf()
+          let endingDateRef = dayjs(endingDate).valueOf()
+         
         const filteredDateArray = props.mappedArray.filter((f)=>{
-            let beginningDateRef = dayjs(beginningDate).valueOf()
-            let endingDateRef = dayjs(endingDate).valueOf()
-            let comparisonDateRef = dayjs(f.datePublished).valueOf() 
+             let comparisonDateRef = dayjs(f.datePublished).valueOf() 
               return   comparisonDateRef >= beginningDateRef  && comparisonDateRef <= endingDateRef 
           })
           console.log('filteredDateArray', filteredDateArray)
           if(filteredDateArray.length < 1){
-          return  alert('no data in range')
-    
+
+          props.setAlertMessage('no data in range')
+            props.setShowAlert(true)
+            return props.toggleDateFilter(false)
           }else{
+            props.setFilterMessage(`ARTICLES FILTERED BETWEEN ${dayjs(beginningDate).format('M/D')} AND ${dayjs(endingDate).format('M/D')}`)
             props.setMappedArray(filteredDateArray)
-           return props.toggleFilter(false)
+           return props.toggleDateFilter(false)
     
           }
           
@@ -41,15 +45,16 @@ const DateFilterOptions = (props)=>{
 
 return(
     <Row>
+
                   <Form.Group style={{width:'50%'}} >
-                  <Form.Label style={{width:'100%'}}>Beginning</Form.Label>
+                  <Form.Label style={{width:'100%'}}>Start Date</Form.Label>
                   <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
                     setBeginningDate(e.target.value)
                       console.log(e.target.value)
                   }}/>
                   </Form.Group>
                   <Form.Group style={{width:'50%'}} >
-                  <Form.Label style={{width:'100%'}}>Ending</Form.Label>
+                  <Form.Label style={{width:'100%'}}>End Date</Form.Label>
                   <Form.Control style={{width:'100%'}} type='date' onChange={(e)=>{
                     setEndingDate(e.target.value)
                    console.log(e.target.value)
