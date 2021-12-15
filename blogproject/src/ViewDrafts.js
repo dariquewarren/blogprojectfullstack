@@ -68,7 +68,7 @@ useEffect(()=>{
        }
 
        return ()=>{
-           console.log('callback function')
+           console.log('callback function called')
        }
     }, [mappedArray])
 
