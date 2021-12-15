@@ -13,6 +13,6 @@ const AlertText =(props) => {
         </Alert>
       );
     }
-    return <Button onClick={() => props.setShowAlert(true)}>Show Alert</Button>;
+    return <p></p>;
   }
 export default AlertText
