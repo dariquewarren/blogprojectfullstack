@@ -30,7 +30,9 @@ const [mappedArray, setMappedArray] = useState([])
 const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
 
-const [showFilter, toggleFilter] = useState(null)
+const [showFilter, toggleFilter] = useState(false)
+const [showDateFilter, toggleDateFilter] = useState(false)
+const [showTimeFilter, toggleTimeFilter] = useState(false)
 const [filterMessage, setFilterMessage] = useState('filter by:')
 
 const [sortMessage, setSortMessage] = useState()
@@ -78,7 +80,29 @@ useEffect(()=>{
 
 
         <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
+ {(showDateFilter)
+?
+<DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+                 />
+:
+<p></p>
+}
+{(showTimeFilter)
+    ?
+    <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
+                />
+    :
+    <p></p>
+    }
  
+        <Container>
+  
+  
+               
+ </Container>
+       
         
                 <Container>
                 <h1> your drafts</h1>
@@ -86,10 +110,20 @@ useEffect(()=>{
                 
                 <Button
                 onClick={()=>{
-                    toggleFilter(!showFilter)
+                    toggleTimeFilter(false)
+
+                    toggleDateFilter(!showDateFilter)
                     console.log(showFilter)
                 }}
-                >Filter</Button>
+                >Date Filter</Button>
+                <Button
+                onClick={()=>{
+                    toggleDateFilter(false)
+
+                    toggleTimeFilter(!showTimeFilter)
+                    console.log(showFilter)
+                }}
+                >Time Filter</Button>
                 <Button
                 onClick={()=>{
                     setMappedArray(originalArray)
@@ -109,13 +143,7 @@ useEffect(()=>{
 
             
                 </Container> 
-                <DateFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
-                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-                 />
-  
-                <TimeFilterOptions toggleFilter={toggleFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
-                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
-                />
+               
                 
                   
                 
