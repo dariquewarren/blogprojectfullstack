@@ -78,7 +78,6 @@ useEffect(()=>{
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} AlertMessage={AlertMessage}/>
 
 
-        <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
  {(showDateFilter)
 ?
 <DateFilterOptions toggleDateFilter={toggleDateFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
@@ -124,6 +123,7 @@ useEffect(()=>{
                 }}
                 >reset list</Button><h4>{sortMessage}</h4>
                 <Container  style={{width:'100%'}}>
+                <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
 
                 <div style={{border: '2px dashed red', width:'100%'}}>
                 
