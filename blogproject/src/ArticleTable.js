@@ -16,7 +16,9 @@ useEffect(()=>{
         
         <th >#</th>
         <th >Date added 
-        <DateSortOptions array={props.mappedArray} setNewArray={props.setMappedArray} 
+        <DateSortOptions 
+        closeAllOptions={props.closeAllOptions}
+        array={props.mappedArray} setNewArray={props.setMappedArray} 
         setSortMessage={props.setSortMessage}
      setAlertMessage={props.setAlertMessage} setShowAlert={props.setShowAlert}
          /> 
