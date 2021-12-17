@@ -105,7 +105,9 @@ for (const info in data){
         article: data[info].article,
         datePublished: data[info].datePublished,
         timePublished: data[info].timePublished,
-        type: data[info].type
+        type: data[info].type,
+        sortableDate: data[info].sortableDate,
+        sortableTime: data[info].sortableTime
 
     })
 }
@@ -148,17 +150,19 @@ app.get('/published/all', async (req, res)=>{
         const newDataArray= []
   for (const info in data){
       newDataArray.push({
-          id:info,
-          author: data[info].author,
-          title: data[info].title,
-          subtitle: data[info].subtitle,
-          image: data[info].image,
-          article: data[info].article,
-          datePublished: data[info].datePublished,
-          timePublished: data[info].timePublished,
-          type: data[info].type
-  
-      })
+        id:info,
+        author: data[info].author,
+        title: data[info].title,
+        subtitle: data[info].subtitle,
+        image: data[info].image,
+        article: data[info].article,
+        datePublished: data[info].datePublished,
+        timePublished: data[info].timePublished,
+        type: data[info].type,
+        sortableDate: data[info].sortableDate,
+        sortableTime: data[info].sortableTime
+
+    })
   }
         realData = newDataArray
       });

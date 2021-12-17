@@ -23,9 +23,26 @@ return data
     return data
       }).catch((e)=>console.log('error', e))
 }
- export const getAllDrafts= fetch('/drafts/all')
-  export const getAllPublished= fetch('/published/all')
-
+ export const getAllDrafts = async ()=>{
+ await fetch('/drafts/all').then((response)=>{
+     return response.json()
+   }).then((data)=>{
+     console.log('data', data)
+     return data.realData
+   }).catch((e)=>{
+     alert(`${e}`)
+   })
+ }
+  export const getAllPublished = ()=>{
+    fetch('/published/all').then((response)=>{
+      return response.json()
+    }).then((data)=>{
+      console.log('data', data)
+      return data.realData
+    }).catch((e)=>{
+      alert(`${e}`)
+    })
+  }
   export const getSingleDraft = async (id)=>{
     const theData = await fetch(`/drafts/single/${id}`)
     return theData

@@ -256,6 +256,29 @@ function CreateArticle(props) {
         const [tags, setTags] = useState([])
 
     const [articleType, setArticleType] = useState('published')
+   
+    const publishedTime = Dayjs().format('hh:mm:ss A')
+
+    const referencePublishedTime = Dayjs().format('hhmmss')
+
+
+    const transformTime = ()=>{
+       
+
+        if(publishedTime.includes('A') && publishedTime[0] ==='1' && publishedTime[1] === '2'){
+          const militaryMidnight = referencePublishedTime.replace('12', '00')
+return Number(militaryMidnight) 
+        }else if(publishedTime.includes('P') && publishedTime[0] !=='1'  ){
+          const militaryAfternoon = Number(referencePublishedTime) + 120000
+          return militaryAfternoon
+           
+        }else if(publishedTime.includes('A') && publishedTime[0] ==='0'){
+            const militaryMorning = Number(referencePublishedTime) 
+return militaryMorning
+        }else{
+            return Number(referencePublishedTime)
+        }
+    }
     const newArticle = {
         category,
          tags,  
@@ -265,7 +288,9 @@ function CreateArticle(props) {
         image,
         author: "Darique Tester",
         datePublished: Dayjs().format('M/DD/YYYY'),
-        timePublished: Dayjs().format('hh:mm A')
+        timePublished: Dayjs().format('hh:mm A'),
+        sortableTime: transformTime(),
+        sortableDate: Dayjs().valueOf() 
     }
 
     const [articlePreview, toggleArticlePreview] = useState(false)
@@ -273,7 +298,16 @@ function CreateArticle(props) {
     if(articlePreview){
 return(
     <>
+    <Button
+onClick={()=>{
     
+   
+
+    console.log('transformTime',transformTime() )
+    console.log('newArticle', newArticle)
+
+}}
+>test</Button>
     <Button
     style={{position: 'sticky', top: '10px'}}
     onClick={()=>{
