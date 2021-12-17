@@ -3,11 +3,12 @@ import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
+
+import Row from 'react-bootstrap/Row'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 const SearchOptions = (props)=>{
     const [searchTerm, changeSearchTerm] = useState(undefined)
-    const [searchParam, changeSearchParam] = useState(undefined)
     
     const handleSearch =()=>{
     
@@ -39,13 +40,13 @@ const SearchOptions = (props)=>{
         props.setAlertMessage('Nothing Found. Try changing the keyword or choosing a different search location from the dropdown',searchTerm, titleSearch, articleSearch,)
         props.setShowAlert(true)
         return
-    }else if(searchParam === 'title'){
+    }else if(props.searchLocation === 'title'){
         console.log('search clicked', searchTerm, titleSearch, articleSearch)
         props.setShowAlert(false)
     
        return props.setNewArray(titleSearch)
     
-    }else if(searchParam === 'article'){
+    }else if(props.searchLocation === 'article'){
         console.log('search clicked', searchTerm, articleSearch)
         props.setShowAlert(false)
     
@@ -55,36 +56,25 @@ const SearchOptions = (props)=>{
     // takein array and filter by searchTerm
     }
         return(
-            <Container>
-            <Form.Control type='text' placeholder={`Type keyword(s) here to search VIA ${searchParam}`} onChange={(e)=>{
+            <Form.Group style={{border: '2px solid green', width:'100%'}}>
+            <Form.Label style={{border: '2px solid green',width: '100% ',textAlign: 'center'}}>{props.searchLocation}</Form.Label>
+            <Row>
+            <Form.Control style={{width:'60%', marginLeft: '5%', marginRight: '0px'}}
+             type='text' placeholder={`Search VIA ${props.searchLocation} text`} onChange={(e)=>{
                 changeSearchTerm(e.target.value)
             }} />
-            <Button disabled={(searchParam) ? false: true}
+            <Button style={{width:'25%', marginLeft: '0px', marginRight: 'auto'}} 
             onClick={()=>{
                 handleSearch()
             }}
             >
             Search
-            </Button>   
-            <Dropdown as={ButtonGroup}>
-      <Button variant="success">{(searchParam )? `Currently Searching via ${searchParam.toUpperCase()} `: `Select search location from dropdown`}</Button>
-    
-      <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
-    
-      <Dropdown.Menu>
-        <Dropdown.Item value={'title'} as={Button} onClick={(e)=>{
-            changeSearchParam(e.target.value)
-            console.log('in title button clicked', e.target.value)
-        }}>in title</Dropdown.Item>
-        <Dropdown.Item value={'article'} as={Button} onClick={(e)=>{
-            changeSearchParam(e.target.value)
-            console.log('in article button clicked',e.target.value)
-        }}>in article </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-    
-    
-            </Container>
+            </Button> 
+            </Row>
+            </Form.Group>
+
+           
+           
         )
     }
 

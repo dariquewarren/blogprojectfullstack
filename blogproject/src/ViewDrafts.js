@@ -31,6 +31,10 @@ const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
 
 const [showDateFilter, toggleDateFilter] = useState(false)
+const [showSearchFilter, toggleSearchFilter] = useState(false)
+const [showTitleSearch, toggleTitleSearch] = useState(false)
+const [showArticleSearch, toggleArticleSearch] = useState(false)
+
 const [showTimeFilter, toggleTimeFilter] = useState(false)
 const [filterMessage, setFilterMessage] = useState()
 
@@ -97,7 +101,55 @@ useEffect(()=>{
     <p></p>
     }
         
-       
+
+    {(showTitleSearch)
+        ?
+        <Form.Group>
+        <SearchOptions
+         array={mappedArray} setNewArray={setMappedArray}  
+         setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+         searchLocation={'title'}
+         />
+
+        </Form.Group>
+        :
+    <p></p>
+    }
+    {(showArticleSearch)
+        ?
+        <Form.Group>
+        <SearchOptions
+         array={mappedArray} setNewArray={setMappedArray}  
+         setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+         searchLocation={'article'}
+
+         />
+
+        </Form.Group>
+        :
+    <p></p>
+    }
+
+       {(showSearchFilter)
+        ?
+        <Form.Group>
+        <Button
+        onClick={()=>{
+            toggleTitleSearch(!showTitleSearch)
+            toggleArticleSearch(false)
+        }}
+        >Title</Button>
+
+        <Button
+        onClick={()=>{
+            toggleArticleSearch(!showArticleSearch)
+            toggleTitleSearch(false)
+        }}
+        >Article</Button>
+        </Form.Group>
+        :
+    <p></p>
+    }
         
                 <Container>
                 <h3>{filterMessage}</h3>
@@ -119,11 +171,17 @@ useEffect(()=>{
                 >Time Filter</Button>
                 <Button
                 onClick={()=>{
+                    toggleSearchFilter(!showSearchFilter)
+                    toggleArticleSearch(false)
+                    toggleTitleSearch(false)
+
+                }}>Search Options</Button>
+                <Button
+                onClick={()=>{
                     setMappedArray(originalArray)
                 }}
                 >reset list</Button><h4>{sortMessage}</h4>
                 <Container  style={{width:'100%'}}>
-                <SearchOptions array={mappedArray} setNewArray={setMappedArray}  setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}/>
 
                 <div style={{border: '2px dashed red', width:'100%'}}>
                 
