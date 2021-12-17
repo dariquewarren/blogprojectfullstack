@@ -10,10 +10,7 @@ import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
 import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
-
-// DateFilterOptions
-// TimeFilterOptions
-
+import {BsArrowRepeat} from 'react-icons/bs'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
@@ -182,14 +179,22 @@ useEffect(()=>{
                    
 
                 }}>Search Options</Button>
-                <Button
+            
+                
+                <h4>{sortMessage}</h4>
+                <h4>{filterMessage}</h4>
+
+                <Container  style={{width:'100%'}}>
+               
+                <div style={{border: '2px dashed red', width:'100%'}}>
+                <h6 style={{border: '2px dashed red', textAlign: 'right'}}>
+                <BsArrowRepeat
+                style={{ height: '2rem', width: '2rem'}}
                 onClick={()=>{
+                    closeAllOptions()
                     setMappedArray(originalArray)
                 }}
-                >reset list</Button><h4>{sortMessage}</h4>
-                <Container  style={{width:'100%'}}>
-
-                <div style={{border: '2px dashed red', width:'100%'}}>
+                /></h6>
                 
                <ArticleTable 
                mappedArray={mappedArray} setMappedArray={setMappedArray} 
