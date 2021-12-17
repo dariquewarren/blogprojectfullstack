@@ -56,6 +56,7 @@ const TitleSortOptions = (props)=>{
             default:
             console.log('no direction')
         }
+        props.closeAllOptions()
     }
 
     return(

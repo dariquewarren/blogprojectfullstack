@@ -28,14 +28,13 @@ const DateFilterOptions = (props)=>{
 
           props.setAlertMessage('no data in range')
             props.setShowAlert(true)
-            return props.toggleDateFilter(false)
+            return 
           }else{
             props.setShowAlert(false)
-
+            props.closeAllOptions()
             props.setFilterMessage(`ARTICLES FILTERED BETWEEN ${dayjs(beginningDate).format('M/D')} AND ${dayjs(endingDate).format('M/D')}`)
-            props.setMappedArray(filteredDateArray)
-           return props.toggleDateFilter(false)
-    
+           return  props.setMappedArray(filteredDateArray)
+           
           }
           
     

@@ -41,6 +41,7 @@ const TimeSortOptions = (props)=>{
         console.log('sortclicked type has no value', currentSortDirection)
           
         }
+        props.closeAllOptions()
         }
     return(
         <Container style={{border: '2px solid red', width: 'auto'}}>

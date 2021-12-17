@@ -87,16 +87,21 @@ useEffect(()=>{
 
  {(showDateFilter)
 ?
-<DateFilterOptions toggleDateFilter={toggleDateFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
-                setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-                 setFilterMessage={setFilterMessage} filterMessage={filterMessage}
+<DateFilterOptions 
+
+            closeAllOptions={closeAllOptions} 
+            mappedArray={mappedArray} setMappedArray={setMappedArray} 
+            setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+            setFilterMessage={setFilterMessage} filterMessage={filterMessage}
                  />
 :
 <p></p>
 }
 {(showTimeFilter)
     ?
-    <TimeFilterOptions toggleTimeFilter={toggleTimeFilter} mappedArray={mappedArray} setMappedArray={setMappedArray} 
+    <TimeFilterOptions 
+                closeAllOptions={closeAllOptions} 
+                mappedArray={mappedArray} setMappedArray={setMappedArray} 
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert} 
                 setFilterMessage={setFilterMessage} filterMessage={filterMessage}
                 />
@@ -109,6 +114,8 @@ useEffect(()=>{
         ?
         <Form.Group>
         <SearchOptions
+        closeAllOptions={closeAllOptions} 
+
          array={mappedArray} setNewArray={setMappedArray}  
          setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
          searchLocation={'title'}
@@ -122,6 +129,7 @@ useEffect(()=>{
         ?
         <Form.Group>
         <SearchOptions
+        closeAllOptions={closeAllOptions} 
          array={mappedArray} setNewArray={setMappedArray}  
          setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
          searchLocation={'article'}
@@ -197,6 +205,8 @@ useEffect(()=>{
                 /></h6>
                 
                <ArticleTable 
+               closeAllOptions={closeAllOptions} 
+
                mappedArray={mappedArray} setMappedArray={setMappedArray} 
                setSortMessage={setSortMessage} setDisplayId={setDisplayId}
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}

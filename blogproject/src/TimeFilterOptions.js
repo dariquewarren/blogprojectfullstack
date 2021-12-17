@@ -30,8 +30,7 @@ const TimeFilterOptions = (props)=>{
            return  alert('no data in range')
        
            }else{
-            props.setMappedArray(filteredTimeArray)
-            return props.toggleFilter(false)
+            return props.closeAllOptions()
        
            }
         }

@@ -49,12 +49,14 @@ const SearchOptions = (props)=>{
     }else if(props.searchLocation === 'article'){
         console.log('search clicked', searchTerm, articleSearch)
         props.setShowAlert(false)
-    
+        props.closeAllOptions()
        return props.setNewArray(articleSearch)
 
     }
     // takein array and filter by searchTerm
     }
+
+    
         return(
             <Form.Group style={{border: '2px solid green', width:'100%'}}>
             <Form.Label style={{border: '2px solid green',width: '100% ',textAlign: 'center'}}>{props.searchLocation}</Form.Label>

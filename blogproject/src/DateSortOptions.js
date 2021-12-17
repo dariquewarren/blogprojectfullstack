@@ -31,16 +31,19 @@ const DateSortOptions = (props)=>{
 
     const handleDateSort=(currentArray, currentSortDirection)=>{
     if(currentSortDirection === 'ascending'){
-        sortAscending(currentArray, currentSortDirection)
+        props.closeAllOptions()
+      return  sortAscending(currentArray, currentSortDirection)
     }else if(currentSortDirection === 'descending'){
-        sortDescending(currentArray, currentSortDirection)
+        props.closeAllOptions()
+       return sortDescending(currentArray, currentSortDirection)
     }else{
-        console.log('alertmessage: nothing chosen')
-    }
+ props.setAlertMessage('nothing chosen: consult developer team')
+ props.setShowAlert(true)
+}
     // take in sortby value, sort direction and array to sort
         // create sorted array depending on sortby type
             // setmapped array value to the sorted array
-        return props.setShowAlert(false)
+    
 
             
 }

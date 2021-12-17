@@ -22,13 +22,17 @@ useEffect(()=>{
          /> 
         </th>
         <th >Time Added
-        <TimeSortOptions array={props.mappedArray} setNewArray={props.setMappedArray} 
+        <TimeSortOptions 
+        closeAllOptions={props.closeAllOptions}
+        array={props.mappedArray} setNewArray={props.setMappedArray} 
         setSortMessage={props.setSortMessage}
          setAlertMessage={props.setAlertMessage} setShowAlert={props.setShowAlert} /> 
                  
         </th>
         <th >Title
-        <TitleSortOptions array={props.mappedArray} setNewArray={props.setMappedArray} 
+        <TitleSortOptions 
+        closeAllOptions={props.closeAllOptions}
+        array={props.mappedArray} setNewArray={props.setMappedArray} 
         setSortMessage={props.setSortMessage}
         setAlertMessage={props.setAlertMessage} setShowAlert={props.setShowAlert}
          /> 
