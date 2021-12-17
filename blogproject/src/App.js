@@ -10,6 +10,7 @@ import Footer from './Footer'
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
 import ReadArticle from './ReadArticle';
+import ViewPublished from './ViewPublished';
 import AuthPage from './AuthPage';
 function App() {
   const [userInfo, setUserInfo] = useState(undefined)
@@ -82,15 +83,18 @@ const testArticle = {
    {(userInfo)?userInfo.email : 'undefined'   }
     <Switch>
 
-    <Route exact path='/' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
-   
+    <Route exact path='/' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
+
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
     <Route exact path='/all/drafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
     <Route exact path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
     
     <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
-    <Route path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
+    
+    <Route exact path='/all/published' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
+
+    <Route exact path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
        
    
     </Switch>
