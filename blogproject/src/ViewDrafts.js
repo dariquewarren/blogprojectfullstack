@@ -201,6 +201,7 @@ useEffect(()=>{
                 onClick={()=>{
                     setFilterMessage('')
                     setSortMessage('')
+                    setShowAlert(false)
                     closeAllOptions()
                     setMappedArray(originalArray)
                 }}
