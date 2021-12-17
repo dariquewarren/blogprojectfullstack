@@ -1,5 +1,3 @@
-import React from 'react'
-
 import React, {useState, useEffect, useCallback} from 'react'
 import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
