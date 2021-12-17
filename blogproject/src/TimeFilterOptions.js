@@ -45,10 +45,12 @@ let endingTimeDisplay
     const handleTimeFilter= ()=>{
  
         if(!beginningTime || !endingTime){
-           alert(' both dates required to form a range')
-       
+      props.setAlertMessage(' both dates required to form a range')
+      props.setShowAlert(true)
+
         }else if((Number(beginningTime.replace(':', ''))* 100) > (Number(endingTime.replace(':', '')) * 100) ){
-          alert(' beginning date must be later than ending date. ex: 12:00AM to 11:59PM')
+          props.setAlertMessage(' beginning date must be later than ending date. ex: 12:00AM to 11:59PM')
+          props.setShowAlert(true)
 
         }else{
        

@@ -163,7 +163,7 @@ useEffect(()=>{
     }
         
                 <Container>
-                <h3>{filterMessage}</h3>
+               
                
                 
                 <Button
@@ -199,6 +199,8 @@ useEffect(()=>{
                 <BsArrowRepeat
                 style={{ height: '2rem', width: '2rem'}}
                 onClick={()=>{
+                    setFilterMessage('')
+                    setSortMessage('')
                     closeAllOptions()
                     setMappedArray(originalArray)
                 }}
