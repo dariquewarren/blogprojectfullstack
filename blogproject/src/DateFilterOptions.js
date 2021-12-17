@@ -15,6 +15,10 @@ const DateFilterOptions = (props)=>{
            props.setShowAlert(true)
     console.log('beginDate',beginningDate , 'endDate', endingDate)
     return
+        }else if(dayjs(beginningDate).valueOf() > dayjs(endingDate).valueOf() ){
+          props.setAlertMessage(' start date must be before end date') 
+          props.setShowAlert(true)
+          return
         }else{
           let beginningDateRef = dayjs(beginningDate).valueOf()
           let endingDateRef = dayjs(endingDate).valueOf()
