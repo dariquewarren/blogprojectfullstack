@@ -43,10 +43,16 @@ const [showAlert, setShowAlert] = useState(false);
 const [AlertMessage, setAlertMessage] = useState(true);
 
 
-
-
 dayjs.extend(AdvancedFormat) // use plugin
 
+const closeAllOptions=()=>{
+toggleDateFilter(false)
+toggleTimeFilter(false)
+toggleSearchFilter(false)
+toggleTitleSearch(false)
+toggleArticleSearch(false)
+
+}
 
 
 
@@ -157,23 +163,23 @@ useEffect(()=>{
                 
                 <Button
                 onClick={()=>{
-                    toggleTimeFilter(false)
-
+                    closeAllOptions()
                     toggleDateFilter(!showDateFilter)
                 }}
                 >Date Filter</Button>
                 <Button
                 onClick={()=>{
-                    toggleDateFilter(false)
+                    closeAllOptions()
 
                     toggleTimeFilter(!showTimeFilter)
                 }}
                 >Time Filter</Button>
                 <Button
                 onClick={()=>{
+                    closeAllOptions()
+
                     toggleSearchFilter(!showSearchFilter)
-                    toggleArticleSearch(false)
-                    toggleTitleSearch(false)
+                   
 
                 }}>Search Options</Button>
                 <Button
