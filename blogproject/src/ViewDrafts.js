@@ -31,6 +31,8 @@ const [showDateFilter, toggleDateFilter] = useState(false)
 const [showSearchFilter, toggleSearchFilter] = useState(false)
 const [showTitleSearch, toggleTitleSearch] = useState(false)
 const [showArticleSearch, toggleArticleSearch] = useState(false)
+const [showCategorySearch, toggleCategorySearch] = useState(false)
+const [showTagsSearch, toggleTagsSearch] = useState(false)
 
 const [showTimeFilter, toggleTimeFilter] = useState(false)
 const [filterMessage, setFilterMessage] = useState()
@@ -118,7 +120,7 @@ useEffect(()=>{
 
          array={mappedArray} setNewArray={setMappedArray}  
          setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-         searchLocation={'title'}
+         searchLocation={'title'} setFilterMessage={setFilterMessage}
          />
 
         </Form.Group>
@@ -132,7 +134,7 @@ useEffect(()=>{
         closeAllOptions={closeAllOptions} 
          array={mappedArray} setNewArray={setMappedArray}  
          setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
-         searchLocation={'article'}
+         searchLocation={'article'} setFilterMessage={setFilterMessage}
 
          />
 
@@ -141,6 +143,38 @@ useEffect(()=>{
     <p></p>
     }
 
+
+    {(showCategorySearch)
+    ?
+    <Form.Group>
+    <SearchOptions
+    closeAllOptions={closeAllOptions} 
+     array={mappedArray} setNewArray={setMappedArray}  
+     setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+     searchLocation={'category'} setFilterMessage={setFilterMessage}
+
+     />
+
+    </Form.Group>
+    :
+    <p></p>
+    }
+    {(showTagsSearch)
+        ?
+        <Form.Group>
+        <SearchOptions
+        closeAllOptions={closeAllOptions} 
+         array={mappedArray} setNewArray={setMappedArray}  
+         setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
+         searchLocation={'tags'} setFilterMessage={setFilterMessage}
+    
+         />
+    
+        </Form.Group>
+        :
+        <p></p>
+        }
+
        {(showSearchFilter)
         ?
         <Form.Group>
@@ -148,15 +182,36 @@ useEffect(()=>{
         onClick={()=>{
             toggleTitleSearch(!showTitleSearch)
             toggleArticleSearch(false)
-        }}
+                        toggleCategorySearch(false)
+                        toggleTagsSearch(false)
+
+       }}
         >Title</Button>
 
         <Button
         onClick={()=>{
             toggleArticleSearch(!showArticleSearch)
             toggleTitleSearch(false)
+            toggleCategorySearch(false)
+            toggleTagsSearch(false)
         }}
         >Article</Button>
+        <Button
+        onClick={()=>{
+            toggleCategorySearch(!showCategorySearch)
+            toggleTitleSearch(false)
+            toggleArticleSearch(false)
+            toggleTagsSearch(false)
+        }}
+        >Category</Button>
+        <Button
+        onClick={()=>{
+            toggleTagsSearch(!showTagsSearch)
+            toggleCategorySearch(false)
+            toggleArticleSearch(false)
+            toggleTitleSearch(false)
+        }}
+        >Tags</Button>
         </Form.Group>
         :
     <p></p>
