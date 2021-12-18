@@ -10,51 +10,83 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 const SearchOptions = (props)=>{
     const [searchTerm, changeSearchTerm] = useState(undefined)
     
-    const handleSearch =()=>{
-    
-    const titleSearch = props.array.filter((f)=>{
-        if(f.title.includes(searchTerm)){
+    const getSearchArray = (location, currentSearchTerm)=>{
+        let specialArray
+        switch(location){
+            case 'title':
+              //  sortTimeAscending(currentArray, currentSortDirection)
+              specialArray = props.array.filter((f)=>{
+                if(currentSearchTerm && f.title.includes(currentSearchTerm)){
+                        return  f
             
-            return f
-        }else{
-            return
+                }
+            })
+                    break;
+            case 'article':
+               // sortTimeDescending(currentArray, currentSortDirection)
+               specialArray = props.array.filter((f)=>{
+                if(currentSearchTerm && f.article.includes(currentSearchTerm)){
+                        return  f
+            
+                }
+            })
+                    break;
+                    case 'category':
+               // sortTimeDescending(currentArray, currentSortDirection)
+               specialArray = props.array.filter((f)=>{
+                
+                if(currentSearchTerm &&f.category && f.category.includes(currentSearchTerm.toUpperCase())){
+                        return  f
+            
+                }
+            })
+            break;
+                    case 'tags':
+               // sortTimeDescending(currentArray, currentSortDirection)
+               specialArray = props.array.filter((f)=>{
+                if(currentSearchTerm && f.tags && f.tags.includes(currentSearchTerm.toUpperCase())){
+                        return  f
+            
+                }
+            })
+                    break;
+        default:
+        console.log('searchlocation has no value case', location)
+          
         }
         
-    })
-    const articleSearch = props.array.filter((f)=>{
-        if(f.article.includes(searchTerm)){
-            
-            return f
-        }else{
-            return
-        }
-        
-    })
-    if( !searchTerm ){
-        console.log('search clicked', searchTerm, titleSearch, articleSearch)
-        props.setAlertMessage('No keyword selected')
-        props.setShowAlert(true)
-        return 
-    
-    }else if(titleSearch.length < 1 && articleSearch.length < 1){
-        props.setAlertMessage('Nothing Found. Try changing the keyword or choosing a different search location from the dropdown',searchTerm, titleSearch, articleSearch,)
-        props.setShowAlert(true)
-        return
-    }else if(props.searchLocation === 'title'){
-        console.log('search clicked', searchTerm, titleSearch, articleSearch)
-        props.setShowAlert(false)
-    
-       return props.setNewArray(titleSearch)
-    
-    }else if(props.searchLocation === 'article'){
-        console.log('search clicked', searchTerm, articleSearch)
-        props.setShowAlert(false)
-        props.closeAllOptions()
-       return props.setNewArray(articleSearch)
 
+
+console.log(location, specialArray)
+return specialArray
     }
-    // takein array and filter by searchTerm
+
+    const deliverSearchArray= async ()=>{
+        const transformedArray = await getSearchArray(props.searchLocation, searchTerm)
+        if(!searchTerm || !searchTerm === 'undefined' ){
+            props.setAlertMessage('Please type something')
+            props.setShowAlert(true)
+            return
+        }else if(transformedArray.length <1 ){
+            props.setAlertMessage('NO RESULTS')
+            props.setShowAlert(true)
+            return
+        }else if(!transformedArray){
+            props.setAlertMessage('array doesnt exist. try again or contact Admin')
+            props.setShowAlert(true)
+            return
+        }else if(transformedArray){
+            props.setNewArray(transformedArray)
+            props.setFilterMessage(`Showing every ${props.searchLocation.toUpperCase()} that includes the term(s) ${searchTerm}`)
+            return
+        }else{
+            props.setAlertMessage('SPECIAL CASE. unknown issue. SPECIAL CASE')
+            props.setShowAlert(true)
+            return
+        }
     }
+    
+  
 
     
         return(
@@ -67,7 +99,7 @@ const SearchOptions = (props)=>{
             }} />
             <Button style={{width:'25%', marginLeft: '0px', marginRight: 'auto'}} 
             onClick={()=>{
-                handleSearch()
+                deliverSearchArray()
             }}
             >
             Search
