@@ -45,13 +45,14 @@ const [AlertMessage, setAlertMessage] = useState(true);
 dayjs.extend(AdvancedFormat) // use plugin
 
 const closeAllOptions=()=>{
-toggleDateFilter(false)
-toggleTimeFilter(false)
-toggleSearchFilter(false)
-toggleTitleSearch(false)
-toggleArticleSearch(false)
-
-}
+    toggleDateFilter(false)
+    toggleTimeFilter(false)
+    toggleSearchFilter(false)
+    toggleTitleSearch(false)
+    toggleArticleSearch(false)
+    toggleCategorySearch(false)
+    toggleTagsSearch(false)
+    }
 
 
 

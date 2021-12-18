@@ -50,7 +50,8 @@ toggleTimeFilter(false)
 toggleSearchFilter(false)
 toggleTitleSearch(false)
 toggleArticleSearch(false)
-
+toggleCategorySearch(false)
+toggleTagsSearch(false)
 }
 
 
