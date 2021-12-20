@@ -6,6 +6,7 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 function Article(props) {
     return (
         <Container style={{marginBottom: '2rem'}}>
+        
         <h1 style={{textAlign:'center'}}>{props.title}</h1>
         <h4 style={{textAlign:'left'}}>{props.subtitle}</h4>
         <Row>
@@ -15,8 +16,15 @@ function Article(props) {
         <Container style={{maxWidth:'60%', textAlign: 'right'}}>
                 <img src={props.image} style={{height: '20rem', width:'100%', display:'block', marginBottom:'2rem', marginLeft:'auto',marginRight:'0rem'}}/>
                 </Container>
+{(props.showEditMode)? 
+    <div>
+    <input type='text' /> 
+    <p>{ReactHtmlParser(props.article) } </p>
+    </div>
 
-{ReactHtmlParser(props.article) }
+:
+ <p>{ReactHtmlParser(props.article) } </p> }
+
         </Container>
     )
 }

@@ -182,6 +182,7 @@ app.get('/published/all', async (req, res)=>{
       // get single published article
       app.get('/published/single/:id', jsonParser, async (req, res) => { //Line 9
         try{
+          console.log(req.params.id)
           PublishedRef.child(req.params.id).on("value", function(snapshot) {
             const data = snapshot.val()
             res.status(200).send({ message: 'drafts single connected', data})
