@@ -16,13 +16,13 @@ function ArticleForm(props){
     const ImageRef = useRef()
         
     const handleTags = async (nextTag)=>{
-    const newTags = await nextTag.split(',')
+    const newTags = await nextTag.replace(' ', '').toUpperCase().split(',')
     props.setTags(newTags)
 
 
     }
     const handleCategory = async (newCategory)=>{
-        const newCategories = await newCategory.toUpperCase().split(',')
+        const newCategories = await newCategory.replace(' ', '').toUpperCase().split(',')
     props.setCategory(newCategories)
         console.log('category', newCategories)
     

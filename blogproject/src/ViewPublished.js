@@ -22,7 +22,7 @@ import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 
-const ViewDrafts =  (props)=> {
+const ViewPublished =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
 const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
@@ -45,14 +45,14 @@ const [AlertMessage, setAlertMessage] = useState(true);
 dayjs.extend(AdvancedFormat) // use plugin
 
 const closeAllOptions=()=>{
-    toggleDateFilter(false)
-    toggleTimeFilter(false)
-    toggleSearchFilter(false)
-    toggleTitleSearch(false)
-    toggleArticleSearch(false)
-    toggleCategorySearch(false)
-    toggleTagsSearch(false)
-    }
+toggleDateFilter(false)
+toggleTimeFilter(false)
+toggleSearchFilter(false)
+toggleTitleSearch(false)
+toggleArticleSearch(false)
+toggleCategorySearch(false)
+toggleTagsSearch(false)
+}
 
 
 
@@ -62,7 +62,7 @@ const closeAllOptions=()=>{
  
 useEffect(()=>{
     if(mappedArray.length < 1){
-        fetch('/drafts/all').then((response)=>{
+        fetch('/published/all').then((response)=>{
             return response.json()
            }).then((data)=>{
                if(!data.realData || data.realData[0] === undefined ){
@@ -85,6 +85,19 @@ useEffect(()=>{
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
+{(displayId)?
+    mappedArray.map((m)=>{
+        if(displayId === m.id){
+            return <ArticleCard {...m}/>
+        }else{
+            return
+        }
+        
+    })
+    :
+    <p></p>
+}
+
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} AlertMessage={AlertMessage}/>
 
 
@@ -288,5 +301,4 @@ useEffect(()=>{
     )
 }
 
-
-export default ViewDrafts
+export default ViewPublished

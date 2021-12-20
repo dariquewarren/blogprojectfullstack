@@ -12,7 +12,7 @@ useEffect(()=>{
         <div>
         <Table bordered striped responsive ='sm' >
         <thead>
-        <tr >
+        <tr  >
         
         <th >#</th>
         <th >Date added 
