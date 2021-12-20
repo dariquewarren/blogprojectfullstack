@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from "react-router-dom";
-import Container from 'react-bootstrap/esm/Container'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
 import Article from './Article'
-import { getSingleDraft } from './APICalls';
+import { getSinglePublished } from './APICalls';
 import Loading from './Loading';
 function ReadPublished(props) {
 
@@ -14,7 +15,7 @@ function ReadPublished(props) {
 
  useEffect(()=>{
  if(!draft){
-    getSingleDraft(id).then((data)=>{
+    getSinglePublished(id).then((data)=>{
         return data.json()
     }).then((data)=>{
         if(!data.data || data.data.article === undefined ){
@@ -33,6 +34,8 @@ function ReadPublished(props) {
 
     return (
         <Container>
+        <Button>Edit Mode</Button>
+
         {(draft)?
     <Article {...draft} />
         :
