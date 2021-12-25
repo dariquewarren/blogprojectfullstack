@@ -39,7 +39,7 @@ if(mappedArray.length < 1 || !mappedArray){
                 ?
             mappedArray.map((m)=>{
                 return (
-                    <ArticleCard key={m.id} {...m}/>
+                    <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
                 )
             })
             :
