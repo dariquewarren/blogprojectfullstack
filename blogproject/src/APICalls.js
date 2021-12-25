@@ -97,9 +97,7 @@ return data
      },
        body: JSON.stringify(theArticle) 
      }).then((data)=>{
-       return data.json()
-     }).then((data)=>{
-       return console.log('updateDraft data',data)
+       return data
      }).catch((e)=>{
        console.log(e)
      })    }
