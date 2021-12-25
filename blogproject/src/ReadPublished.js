@@ -14,7 +14,6 @@ function ReadPublished(props) {
 
 const [draft, setDraft] = useState()
 const [showEditMode, toggleEditMode] = useState(false)
-const [showTitle, toggleTitle] = useState(false)
 const [newTitle, setNewTitle] = useState()
 const [newSubtitle, setNewSubtitle] = useState()
 const [newTags, setNewTags] = useState()
@@ -56,6 +55,7 @@ const updateObject = {
     return (
         <Container>
         <Button
+        style={{backgroundColor: (showEditMode)?'red':'blue' ,position:'sticky', top: 0, left: 0}}
         onClick={()=>{
             
             if(showEditMode){
@@ -70,56 +70,23 @@ const updateObject = {
 
 
         
-<Button onClick={()=>{
-    updatePublished(updateObject, id)
+<Button style={{display:(showEditMode)?'inline': 'none' ,position:'sticky', top: 0, left: 0}} onClick={()=>{
+    updatePublished(updateObject, id).then(()=>{
+        window.location.reload(true)
+    })
 }}>Update</Button>
         {(draft)?
             <Container>
-            {(showEditMode)
-                ?
-                <Container>
-                 <Form.Group>
-                <Form.Label>Title</Form.Label>
-                
-                <Form.Control  placeholder={updateObject.title} type='text'
-                onChange={(e)=>{
-                    setNewTitle(e.target.value)
-                }}
-                />
-                </Form.Group>
-               
-                <Form.Group>
-            <Form.Label>SubTitle</Form.Label>
-            
-            <Form.Control  placeholder={updateObject.subtitle} type='text'
-            onChange={(e)=>{
-                setNewSubtitle(e.target.value)
-            }}
-            />
-            </Form.Group>
-            <Form.Group>
-            <Form.Label>Categories</Form.Label>
-            
-            <Form.Control value={updateObject.category} placeholder={updateObject.category} type='text'/>
-            </Form.Group>       <Form.Group>
            
-            <Form.Label>Tags</Form.Label>
-            
-            <Form.Control value={updateObject.tags} placeholder={updateObject.tags} type='text'/>
-            </Form.Group>
-            <Form.Group>
-            <Form.Label>Article</Form.Label>
-            <ReactQuill value={updateObject.article} placeholder={updateObject.article} onChange={(e)=>{
-                setNewArticle(e)
-            }} />
-            
-            </Form.Group>
-         
-                </Container>
-               :
-               <p></p>
-            }
-    <Article showEditMode= {showEditMode} toggleEditMode={toggleEditMode} {...draft} />
+    <Article 
+    showEditMode= {showEditMode} toggleEditMode={toggleEditMode}
+    newTitle={newTitle} setNewTitle={setNewTitle}
+    newSubtitle={newSubtitle} setNewSubtitle={setNewSubtitle}
+    newTags={newTags} setNewTags={setNewTags}
+    newCategory={newCategory} setNewCategory={setNewCategory}
+    newImage={newImage} setNewImage={setNewImage}
+    newArticle={newArticle} setNewArticle={setNewArticle}
+    {...draft} />
     </Container>    
     :
     <Loading/>
