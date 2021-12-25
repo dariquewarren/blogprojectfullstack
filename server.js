@@ -129,7 +129,7 @@ res.status(200).send({ message: 'drafts/all connected', realData })
   // get single draft
   app.get('/drafts/single/:id',jsonParser, async (req, res) => { //Line 9
     try{
-     DraftsRef.child(req.params.id).on("value", function(snapshot) {
+     DraftsRef.child(req.params.id).once("value", function(snapshot) {
        const data = snapshot.val()
        res.status(200).send({ message: 'drafts single connected', data})
       }, (errorObject)=>{
@@ -184,7 +184,7 @@ app.get('/published/all', async (req, res)=>{
         try{
           PublishedRef.child(req.params.id).on("value", function(snapshot) {
             const data = snapshot.val()
-            res.status(200).send({ message: 'drafts single connected', data})
+            res.status(200).send({ message: 'drafts single connected', data:data})
            }, (errorObject)=>{
              console.log('The read failed: ' + errorObject.name)
            });
