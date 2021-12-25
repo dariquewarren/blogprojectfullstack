@@ -73,27 +73,36 @@ return data
     })
    }
 
-   export const   updateArticle= (theArticle)=>{
-     return fetch('/update/published/:id',{
+   export const   updatePublished= (theArticle,theID)=>{
+     return fetch(`/update/published/${theID}`,{
       method: 'PATCH',
       headers: {
        'Content-Type': 'application/json'
        // 'Content-Type': 'application/x-www-form-urlencoded',
      },
        body: JSON.stringify(theArticle) 
-     })
+     }).then((data)=>{
+      return data
+    }).catch((e)=>{
+      console.log(e)
+    }) 
     }
 
-    export const  updateDraft= (theArticle)=>{
-     return fetch('/update/drafts/:id',{
+    export const  updateDraft= (theArticle, theID)=>{
+     return fetch(`/update/drafts/${theID}`,{
       method: 'PATCH',
       headers: {
        'Content-Type': 'application/json'
        // 'Content-Type': 'application/x-www-form-urlencoded',
      },
        body: JSON.stringify(theArticle) 
-     })
-    }
+     }).then((data)=>{
+       return data.json()
+     }).then((data)=>{
+       return console.log('updateDraft data',data)
+     }).catch((e)=>{
+       console.log(e)
+     })    }
     export const deleteSinglePublishedArticle= (id)=>{
      return fetch(`/delete/published/single/${id}`,{method: 'DELETE'})
    }

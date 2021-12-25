@@ -10,6 +10,8 @@ import Footer from './Footer'
 import ViewDrafts from './ViewDrafts';
 import ReadDraft from './ReadDraft'
 import ReadArticle from './ReadArticle';
+import ReadPublished from './ReadPublished';
+
 import ViewPublished from './ViewPublished';
 import AuthPage from './AuthPage';
 function App() {
@@ -94,7 +96,7 @@ const testArticle = {
     
     <Route exact path='/all/published' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
 
-    <Route exact path='/read/published/:id' element={<ReadArticle articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/read/published/:id' element={<ReadPublished articleAuthor={articleAuthor}/>}/>
        
    
     </Switch>

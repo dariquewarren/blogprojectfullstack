@@ -201,7 +201,7 @@ app.patch('/update/published/:id', jsonParser, async (req, res)=>{
 //    await PublishedRef.set({})
   await PublishedRef.child(req.params.id).update(req.body)
 
-res.status(200).send({ message: 'published updated', body: req.body })
+res.status(200).send({ message: 'published updated' })
    
   }catch(e){
     res.status(200).send({ message: 'published not updated', error: e })

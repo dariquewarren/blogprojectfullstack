@@ -297,7 +297,7 @@ return militaryMorning
     
     if(articlePreview){
 return(
-    <>
+    <Container>
     <Button
 onClick={()=>{
     
@@ -349,7 +349,7 @@ Save Draft
     </Button>
  
     <Article {...newArticle} />
-    </>
+    </Container>
 )
     }else{
 return(
