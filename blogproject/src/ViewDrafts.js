@@ -85,6 +85,18 @@ useEffect(()=>{
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
+        {(displayId)?
+            mappedArray.map((m)=>{
+                if(displayId === m.id){
+                    return <ArticleCard {...m}/>
+                }else{
+                    return
+                }
+                
+            })
+            :
+            <p></p>
+        }
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} AlertMessage={AlertMessage}/>
 
 
