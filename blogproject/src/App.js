@@ -85,7 +85,7 @@ const testArticle = {
    {(userInfo)?userInfo.email : 'undefined'   }
     <Switch>
 
-    <Route exact path='/' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
 
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
