@@ -182,7 +182,6 @@ app.get('/published/all', async (req, res)=>{
       // get single published article
       app.get('/published/single/:id', jsonParser, async (req, res) => { //Line 9
         try{
-          console.log(req.params.id)
           PublishedRef.child(req.params.id).on("value", function(snapshot) {
             const data = snapshot.val()
             res.status(200).send({ message: 'drafts single connected', data})
@@ -202,7 +201,7 @@ app.patch('/update/published/:id', jsonParser, async (req, res)=>{
 //    await PublishedRef.set({})
   await PublishedRef.child(req.params.id).update(req.body)
 
-res.status(200).send({ message: 'published updated', body: req.body })
+res.status(200).send({ message: 'published updated' })
    
   }catch(e){
     res.status(200).send({ message: 'published not updated', error: e })

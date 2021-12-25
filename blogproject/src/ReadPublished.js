@@ -71,9 +71,10 @@ const updateObject = {
 
         
 <Button style={{display:(showEditMode)?'inline': 'none' ,position:'sticky', top: 0, left: 0}} onClick={()=>{
-    updatePublished(updateObject, id).then(()=>{
-        window.location.reload(true)
-    })
+    updatePublished(updateObject, id)
+    setTimeout(()=>{
+window.location.reload(true)
+    },[3000])
 }}>Update</Button>
         {(draft)?
             <Container>

@@ -16,7 +16,23 @@ const ImageRef = useRef()
 
  var {title, subtitle, tags, category, image, article} = props
  var {newTitle, newSubtitle, newTags, newCategory, newImage, newArticle} = props
-
+ 
+ const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'],
+      ['clean']
+    ],
+  }
+ 
+  const quillFormats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ]
 
 
 const setInitalValues = ()=>{
@@ -144,7 +160,13 @@ const setInitalValues = ()=>{
 
 {(props.showEditMode)? 
     <div>
-    <ReactQuill placeholder={props.article} value={(newArticle) ? newArticle: article} onChange={(e)=>{
+    <ReactQuill 
+    theme='snow' 
+    modules={quillModules}
+    formats={quillFormats}
+    placeholder={props.article} 
+    value={(newArticle) ? newArticle: article} 
+    onChange={(e)=>{
         props.setNewArticle(e)
         console.log(e)
     }} /> 
