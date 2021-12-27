@@ -32,14 +32,14 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-       <Row>
+       <Container responsive style={{display:'flex', flexDirection: 'row'}}>
        
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '5vw'}}>
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
        <Nav.Item> test</Nav.Item>
        <Nav.Item> test</Nav.Item>
        <Nav.Item> test</Nav.Item>
        </Nav>
-       <Nav className='flex-column' style={{border:'2px solid black', width: '70vw'}}>
+       <Nav className='flex-column' style={{border:'2px solid black', width: '75vw'}}>
      
        
 
@@ -56,7 +56,7 @@ if(mappedArray.length < 1 || !mappedArray){
        
 
        </Nav>
-       </Row>
+       </Container>
     )
 }
 
