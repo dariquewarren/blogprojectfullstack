@@ -42,7 +42,7 @@ const setInitalValues = ()=>{
     }
     },[])
     return (
-        <article style={{marginBottom: '2rem'}}>
+        <Container responsive style={{marginBottom: '2rem'}}>
        
      
 
@@ -61,8 +61,7 @@ const setInitalValues = ()=>{
     <img src={(newImage)? newImage : image } style={{height: '20rem', width:'100%', display:'block', marginBottom:'2rem', marginLeft:'auto',marginRight:'0rem'}}/>
     </Container>
 
-    <p>{(newArticle)?ReactHtmlParser(newArticle) : ReactHtmlParser(article) } </p>
-
+    {(newArticle)?ReactHtmlParser(newArticle) : ReactHtmlParser(article) } 
 
 
 
@@ -75,7 +74,7 @@ const setInitalValues = ()=>{
 }
 
 
-        </article>
+        </Container>
     )
 }
 
