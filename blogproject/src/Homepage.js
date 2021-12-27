@@ -16,11 +16,13 @@ const [categoryArray, setCategoryArray] = useState([])
 const [tagsArray, setTagsArray] = useState([])
 
 
-const handleCategoryFilter = (array, filterWord)=>{
+const handleCategoryFilter = (filterWord)=>{
+    const interimArray = baseArray
+
 // filter array by matches to filterWord
 var trueCategoryArray = []
 
-const filterWordArray = array.map((m)=>{
+interimArray.map((m)=>{
     if(m.category.includes(filterWord.toUpperCase())){
         trueCategoryArray.push(m)
 return m
@@ -33,13 +35,15 @@ console.log('trueCategoryArray', trueCategoryArray)
 
 
     // set main page array to new Category array
+    setMappedArray(trueCategoryArray)
     // console.log('category filter')
     }
-const handleTagsFilter = (array, filterWord)=>{
+const handleTagsFilter = (filterWord)=>{
 // filter array by matches to filterWord
+const interimArray = baseArray
 var trueTagsArray = []
 
-const filterWordArray = array.map((m)=>{
+interimArray.map((m)=>{
     if(m.tags.includes(filterWord.toUpperCase())){
         trueTagsArray.push(m)
 return m
@@ -132,22 +136,53 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-       <Container responsive style={{display:'flex', flexDirection: 'row'}}>
-       
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
+        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '90vw' }}>
+      
+     
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%'}}>
+     
+     
+       {(categoryArray.length > 0)
+        ?
+
+            categoryArray.map((m)=>{
+            return(    
+                        <button 
+                        key={m.id}
+
+                        style={{textDecoration:'underline'}}
+                      onClick={()=>{
+         handleCategoryFilter(m)
+                            console.log(m)
+                      }}
+                        
+                        >{m}</button>
+            )
+            
+        })
+    
+    
+        :
+    <p></p>}
        <button onClick={()=>{
-        categoryMap(mappedArray)
-       }}>test button</button>
+        handleCategoryFilter('opinion')
+       }}>test </button>
        <button style={{position:'sticky', top: 0}} onClick={()=>{
         setMappedArray(baseArray)
-       }}>Reset Array</button>
+       }}>reset</button>
+      <h2>TAGS</h2>
       
-       {(categoryArray.length > 0)
+      
+      
+      
+      {(tagsArray.length > 0)
         ?
         tagsArray.map((m)=>{
             return(    
-                        <button key={tagsArray.indexOf(m)} onClick={()=>{
-                            handleTagsFilter(mappedArray,m)
+                        <button 
+                        key={m.id}
+                        style={{width:'100%', height:'50px', borderRadius:'50%', backgroundColor: 'whitesmoke'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                            handleTagsFilter(m)
                             console.log(m)
                         }}>{m}</button>
             )
@@ -156,7 +191,7 @@ if(mappedArray.length < 1 || !mappedArray){
     :
     <p></p>}
        </Nav>
-       <Nav className='flex-column' style={{border:'2px solid black', width: '75vw'}}>
+       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginRight: '0rem'}}>
      
    
        
@@ -174,7 +209,7 @@ if(mappedArray.length < 1 || !mappedArray){
        
 
        </Nav>
-       </Container>
+       </div>
     )
 }
 
