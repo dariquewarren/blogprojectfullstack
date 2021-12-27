@@ -54,7 +54,11 @@ const updateObject = {
 
     return (
         <Container>
-        <Button
+        
+
+{(props.articleFrom === 'hompage')
+?
+<Button
         style={{backgroundColor: (showEditMode)?'red':'blue' ,position:'sticky', top: 0, left: 0}}
         onClick={()=>{
             
@@ -67,8 +71,9 @@ const updateObject = {
             }
         }}
         >Edit Mode</Button>
-
-
+:
+<p></p>
+}
         
 <Button style={{display:(showEditMode)?'inline': 'none' ,position:'sticky', top: 0, left: 0}} onClick={()=>{
     updatePublished(updateObject, id)
