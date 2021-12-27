@@ -95,9 +95,11 @@ if(mappedArray.length < 1 || !mappedArray){
        <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
        {(categoryArray.length > 0)
         ?
-        categoryArray.map((m)=>{
+        tagsArray.map((m)=>{
             return(    
-                        <p key={categoryArray.indexOf(m)} >{m}</p>
+                        <button key={tagsArray.indexOf(m)} onClick={()=>{
+                            console.log(m)
+                        }}>{m}</button>
             )
             
         })
