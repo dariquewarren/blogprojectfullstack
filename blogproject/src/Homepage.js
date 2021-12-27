@@ -16,16 +16,30 @@ const [categoryArray, setCategoryArray] = useState([])
 const [tagsArray, setTagsArray] = useState([])
 
 
-const handleCategoryFilter = ()=>{
-console.log('category filter')
-}
-const handleTagsFilter = (array, filterWord)=>{
-    // create regex to search for filterWord
-    var tagRegex = /lifestyle\w+/gi
-    // filter array by matches to filterWord
-   var trueTagsArray = []
+const handleCategoryFilter = (array, filterWord)=>{
+// filter array by matches to filterWord
+var trueCategoryArray = []
 
-const testArray = array.map((m)=>{
+const filterWordArray = array.map((m)=>{
+    if(m.category.includes(filterWord.toUpperCase())){
+        trueCategoryArray.push(m)
+return m
+    }else{
+        return
+    }
+})
+
+console.log('trueCategoryArray', trueCategoryArray)
+
+
+    // set main page array to new Category array
+    // console.log('category filter')
+    }
+const handleTagsFilter = (array, filterWord)=>{
+// filter array by matches to filterWord
+var trueTagsArray = []
+
+const filterWordArray = array.map((m)=>{
     if(m.tags.includes(filterWord.toUpperCase())){
         trueTagsArray.push(m)
 return m
@@ -33,15 +47,15 @@ return m
         return
     }
 })
-console.log('array', array)
-
-console.log('testArray', testArray)
+setMappedArray(trueTagsArray)
 console.log('trueTagsArray', trueTagsArray)
 
 
     // set main page array to new filtered array
     // console.log('category filter')
-    }
+    
+    
+}
 
 
 const categoryMap =(array)=>{
@@ -119,10 +133,15 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
        <Container responsive style={{display:'flex', flexDirection: 'row'}}>
+       
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
        <button onClick={()=>{
         categoryMap(mappedArray)
        }}>test button</button>
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
+       <button style={{position:'sticky', top: 0}} onClick={()=>{
+        setMappedArray(baseArray)
+       }}>Reset Array</button>
+      
        {(categoryArray.length > 0)
         ?
         tagsArray.map((m)=>{
