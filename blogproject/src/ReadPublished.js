@@ -53,7 +53,7 @@ const updateObject = {
 
 
     return (
-        <Container>
+        <Container  style={{border:'2px solid red'}}>
         
 
 {(props.articleFrom === 'hompage')
