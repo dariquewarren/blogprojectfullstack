@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 
-import Card from 'react-bootstrap/Card'
+import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -32,22 +32,31 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-        <Container fluid style={{border: '2px dashed red', backgroundColor:'grey'}}>
-        <h1> read the latest</h1>
- 
-        {(mappedArray.length > 0)
-                ?
-            mappedArray.map((m)=>{
-                return (
-                    <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
-                )
-            })
-            :
-            <Loading/>
-        }
-        
+       <Row>
+       
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '5vw'}}>
+       <Nav.Item> test</Nav.Item>
+       <Nav.Item> test</Nav.Item>
+       <Nav.Item> test</Nav.Item>
+       </Nav>
+       <Nav className='flex-column' style={{border:'2px solid black', width: '70vw'}}>
+     
+       
 
-        </Container>
+       {(mappedArray.length > 0)
+               ?
+           mappedArray.map((m)=>{
+               return (
+                   <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
+               )
+           })
+           :
+           <Loading/>
+       }
+       
+
+       </Nav>
+       </Row>
     )
 }
 
