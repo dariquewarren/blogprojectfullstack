@@ -25,7 +25,6 @@ const setInitalValues = ()=>{
     props.setNewCategory(props.category)
     props.setNewImage(props.image)
     props.setNewArticle(props.article)
-    console.log(title)
     }
 
     useEffect(()=>{
@@ -130,7 +129,6 @@ const setInitalValues = ()=>{
         <Form.Label>{(showUpload)?'Upload Image':'Paste URL'} <Button
         onClick={()=>{
             toggleUpload(!showUpload)
-            console.log('switch to url')
         }}
         >{(showUpload)?'Switch to URL': 'Switch to UPLOAD'}</Button> 
         </Form.Label>
@@ -141,11 +139,9 @@ const setInitalValues = ()=>{
         onChange={(e)=>{
             if(ImageRef.current){
                 let file = ImageRef.current.files[0]
-                console.log('current exists', file)
                 let fileReader = new FileReader(); 
           fileReader.readAsDataURL(file); 
           fileReader.onload = function() {
-          console.log('filereader result',fileReader.result);
           props.setNewImage(fileReader.result)
           }; 
           fileReader.onerror = function() {
@@ -153,7 +149,6 @@ const setInitalValues = ()=>{
           }; 
                 console.log('current exists', )
             }else{
-                console.log('no current')
                 console.log('no current', ImageRef.current)
           
             }
@@ -179,7 +174,6 @@ const setInitalValues = ()=>{
         value={(newArticle) ? newArticle: article} 
         onChange={(e)=>{
             props.setNewArticle(e)
-            console.log(e)
         }} /> 
         </Form.Group>
         <Form.Group>
@@ -187,14 +181,12 @@ const setInitalValues = ()=>{
         <Form.Control type='text' placeholder={tags} value={(newTags)?newTags: tags} 
         onChange={(e)=>{
             props.setNewTags(e.target.value)
-            console.log(props.newTags)
         }}/>
         <Form.Label>Category</Form.Label>
         <Form.Control type='text' 
         placeholder={category} value={(newCategory)?newCategory: category} 
         onChange={(e)=>{
             props.setNewCategory(e.target.value)
-            console.log(props.newCategory)
         }}/>
         </Form.Group>
 

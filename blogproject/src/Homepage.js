@@ -11,7 +11,53 @@ import Loading from './Loading'
 
 const Homepage =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
+const [categoryArray, setCategoryArray] = useState([])
+const [tagsArray, setTagsArray] = useState([])
+ 
+const categoryMap =(array)=>{
+    const newCategoryArray =[]
+
+const categories = array.map((m)=>{
+    if(m.category){
+        let i= 0
+for(i; m.category.length > i; i++){
     
+    newCategoryArray.push(m.category[i])
+}
+return 
+    }else{
+        return
+    }
+})
+
+const finalCategoryArray = Array.from(new Set(newCategoryArray))
+console.log('finalCategoryArray',finalCategoryArray)
+console.log('newCategoryArray',newCategoryArray)
+setCategoryArray(finalCategoryArray)
+return finalCategoryArray
+}
+const tagsMap =(array)=>{
+    const newTagsArray =[]
+
+ array.map((m)=>{
+    if(m.tags){
+        let i= 0
+for(i; m.tags.length > i; i++){
+    
+    newTagsArray.push(m.tags[i])
+}
+return 
+    }else{
+        return
+    }
+})
+
+const finalTagsArray = Array.from(new Set(newTagsArray))
+console.log('finalTagsArray',finalTagsArray)
+console.log('newTagsArray',newTagsArray)
+setTagsArray(finalTagsArray)
+return finalTagsArray
+}
 
 useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
@@ -19,13 +65,23 @@ if(mappedArray.length < 1 || !mappedArray){
         return response.json()
        }).then((data)=>{
            if(!data.realData || data.realData[0] === undefined ){
-           return  alert(data.message)  
+           return  data.realData  
            }else{
-            return setMappedArray(data.realData)
+               setMappedArray(data.realData)
+
+
+
+            return data.realData
 
            }
    
+    }).then((data)=>{
+        console.log(data)
+        categoryMap(data)
+        tagsMap(data)
+
     })
+    
 }else {
     return
 }
@@ -33,14 +89,24 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
        <Container responsive style={{display:'flex', flexDirection: 'row'}}>
-       
+       <button onClick={()=>{
+        categoryMap(mappedArray)
+       }}>test button</button>
        <Nav className='flex-column ' style={{border:'2px solid black', width:'20vw', marginLeft: '2vw'}}>
-       <Nav.Item> test</Nav.Item>
-       <Nav.Item> test</Nav.Item>
-       <Nav.Item> test</Nav.Item>
+       {(categoryArray.length > 0)
+        ?
+        categoryArray.map((m)=>{
+            return(    
+                        <p key={categoryArray.indexOf(m)} >{m}</p>
+            )
+            
+        })
+    :
+    <p></p>}
        </Nav>
        <Nav className='flex-column' style={{border:'2px solid black', width: '75vw'}}>
      
+   
        
 
        {(mappedArray.length > 0)

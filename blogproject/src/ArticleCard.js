@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 
 function ArticleCard(props) {
-    console.log(props)
+
     return (
         <Container style={{width:'100%', marginBottom: '1rem'}}>
         <Card 
