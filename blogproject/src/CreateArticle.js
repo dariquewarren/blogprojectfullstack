@@ -17,14 +17,21 @@ function ArticleForm(props){
         
     const handleTags = async (nextTag)=>{
     const newTags = await nextTag.replace(' ', '').toUpperCase().split(',')
-    props.setTags(newTags)
+    var finalTags = newTags.map((m)=>{
+        return m.split(' ').join('')
+    })
+    props.setTags(finalTags)
+    console.log('finalTags', finalTags)
 
 
     }
     const handleCategory = async (newCategory)=>{
         const newCategories = await newCategory.replace(' ', '').toUpperCase().split(',')
-    props.setCategory(newCategories)
-        console.log('category', newCategories)
+        var finalCategories = newCategories.map((m)=>{
+            return m.split(' ').join('')
+        })
+    props.setCategory(finalCategories)
+        console.log('category', finalCategories)
     
     
         }

@@ -10,10 +10,40 @@ import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 
 const Homepage =  (props)=> {
+const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
 const [categoryArray, setCategoryArray] = useState([])
 const [tagsArray, setTagsArray] = useState([])
- 
+
+
+const handleCategoryFilter = ()=>{
+console.log('category filter')
+}
+const handleTagsFilter = (array, filterWord)=>{
+    // create regex to search for filterWord
+    var tagRegex = /lifestyle\w+/gi
+    // filter array by matches to filterWord
+   var trueTagsArray = []
+
+const testArray = array.map((m)=>{
+    if(m.tags.includes(filterWord.toUpperCase())){
+        trueTagsArray.push(m)
+return m
+    }else{
+        return
+    }
+})
+console.log('array', array)
+
+console.log('testArray', testArray)
+console.log('trueTagsArray', trueTagsArray)
+
+
+    // set main page array to new filtered array
+    // console.log('category filter')
+    }
+
+
 const categoryMap =(array)=>{
     const newCategoryArray =[]
 
@@ -68,7 +98,7 @@ if(mappedArray.length < 1 || !mappedArray){
            return  data.realData  
            }else{
                setMappedArray(data.realData)
-
+               setBaseArray(data.realData)
 
 
             return data.realData
@@ -98,6 +128,7 @@ if(mappedArray.length < 1 || !mappedArray){
         tagsArray.map((m)=>{
             return(    
                         <button key={tagsArray.indexOf(m)} onClick={()=>{
+                            handleTagsFilter(mappedArray,m)
                             console.log(m)
                         }}>{m}</button>
             )
