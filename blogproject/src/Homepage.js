@@ -136,10 +136,10 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '90vw' }}>
+        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
       
      
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%'}}>
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%', marginLeft: '.5rem'}}>
      
      
        {(categoryArray.length > 0)
@@ -191,7 +191,7 @@ if(mappedArray.length < 1 || !mappedArray){
     :
     <p></p>}
        </Nav>
-       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginRight: '0rem'}}>
+       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginLeft: '.5rem', marginRight:'.5rem'}}>
      
    
        

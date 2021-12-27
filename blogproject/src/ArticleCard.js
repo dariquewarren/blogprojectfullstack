@@ -5,10 +5,9 @@ import Container from 'react-bootstrap/Container'
 function ArticleCard(props) {
 
     return (
-        <Container style={{width:'100%', marginBottom: '1rem'}}>
         <Card 
         
-        style={{border: '1px solid black', width: '60%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
+        style={{border: '1px solid black', width: '95%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
         onClick={()=>{
             alert('go to view page w/id', props.id)
             if(props.type === 'drafts'){
@@ -44,7 +43,6 @@ function ArticleCard(props) {
     </p> 
     </Card.Body>
         </Card>
-        </Container>
     )
 }
 
