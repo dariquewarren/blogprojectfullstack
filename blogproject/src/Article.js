@@ -43,12 +43,12 @@ const setInitalValues = ()=>{
     }
     },[])
     return (
-        <Container style={{marginBottom: '2rem'}}>
+        <article style={{marginBottom: '2rem'}}>
        
      
 
-                    <h1 style={{textAlign:'center'}}>{(newTitle)? newTitle : title}</h1>
-                    <h4 style={{textAlign:'left'}}>{(newSubtitle)?newSubtitle: subtitle}</h4>
+                    <h1 style={{textAlign:'center'}}>{(newTitle)? newTitle.toUpperCase() : title.toUpperCase()}</h1>
+                    <h4 style={{textAlign:'left'}}>{(newSubtitle)?newSubtitle.toUpperCase(): subtitle.toUpperCase()}</h4>
 
 
        
@@ -76,7 +76,7 @@ const setInitalValues = ()=>{
 }
 
 
-        </Container>
+        </article>
     )
 }
 
