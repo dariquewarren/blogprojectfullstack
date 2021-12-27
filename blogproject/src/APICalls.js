@@ -3,7 +3,6 @@ export const userSignIn = async (information)=>{
    method: 'POST',
    body: {information},
  }).then((data)=>{
-  console.log('success', data)
   return data
  }) 
  .catch((e)=>{
@@ -27,7 +26,6 @@ return data
  await fetch('/drafts/all').then((response)=>{
      return response.json()
    }).then((data)=>{
-     console.log('data', data)
      return data.realData
    }).catch((e)=>{
      alert(`${e}`)
@@ -37,7 +35,6 @@ return data
     fetch('/published/all').then((response)=>{
       return response.json()
     }).then((data)=>{
-      console.log('data', data)
       return data.realData
     }).catch((e)=>{
       alert(`${e}`)
