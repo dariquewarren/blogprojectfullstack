@@ -150,7 +150,7 @@ if(mappedArray.length < 1 || !mappedArray){
                         <button 
                         key={m.id}
 
-                        style={{textDecoration:'underline'}}
+                        style={{textDecoration:'underline', maxWidth:'100%'}}
                       onClick={()=>{
          handleCategoryFilter(m)
                             console.log(m)
