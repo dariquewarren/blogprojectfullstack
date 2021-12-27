@@ -21,8 +21,8 @@ const categories = array.map((m)=>{
     if(m.category){
         let i= 0
 for(i; m.category.length > i; i++){
-    
-    newCategoryArray.push(m.category[i])
+    var categoryItem = m.category[i].split(' ').join('')
+    newCategoryArray.push(categoryItem)
 }
 return 
     }else{
@@ -43,8 +43,8 @@ const tagsMap =(array)=>{
     if(m.tags){
         let i= 0
 for(i; m.tags.length > i; i++){
-    
-    newTagsArray.push(m.tags[i])
+    var tagsItem = m.tags[i].split(' ').join('')
+    newTagsArray.push(tagsItem)
 }
 return 
     }else{
