@@ -185,11 +185,44 @@ if(mappedArray.length < 1 || !mappedArray){
     
         :
     <p></p>}
+
+    <Nav.Item>
+        <Nav.Link
+        onClick={()=>{
+            console.log('search clicked')
+        }}
+        >
+        SEARCH
+        </Nav.Link>
+    </Nav.Item>
      </Nav>
         <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
       
      
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%', marginLeft: '.5rem'}}>
+       
+       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginLeft: '.5rem', marginRight:'.5rem'}}>
+     
+   <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{categorySelected}</h1>
+       
+
+       {(mappedArray.length > 0)
+               ?
+           mappedArray.map((m)=>{
+               return (
+                   <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
+               )
+           })
+           :
+           <Loading/>
+       }
+       
+
+       </Nav>
+
+
+       
+       </div>
+       <Nav  style={{border:'2px solid black', width:'100%', marginLeft: '.5rem'}}>
      
      
        
@@ -206,7 +239,7 @@ if(mappedArray.length < 1 || !mappedArray){
             return(    
                         <button 
                         key={m.id}
-                        style={{width:'100%', height:'50px', borderRadius:'50%', backgroundColor: 'whitesmoke'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                        style={{width:'auto', height:'50px', borderRadius:'50%', backgroundColor: 'whitesmoke'}} key={tagsArray.indexOf(m)} onClick={()=>{
                             handleTagsFilter(m)
                             console.log(m)
                         }}>{m}</button>
@@ -216,25 +249,6 @@ if(mappedArray.length < 1 || !mappedArray){
     :
     <p></p>}
        </Nav>
-       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginLeft: '.5rem', marginRight:'.5rem'}}>
-     
-   
-       
-
-       {(mappedArray.length > 0)
-               ?
-           mappedArray.map((m)=>{
-               return (
-                   <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
-               )
-           })
-           :
-           <Loading/>
-       }
-       
-
-       </Nav>
-       </div>
    </div>
     )
 }
