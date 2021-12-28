@@ -13,6 +13,8 @@ const Homepage =  (props)=> {
 const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
 const [categoryArray, setCategoryArray] = useState([])
+const [categorySelected, setCategorySelected] = useState(false)
+
 const [tagsArray, setTagsArray] = useState([])
 
 
@@ -136,27 +138,46 @@ if(mappedArray.length < 1 || !mappedArray){
 }, [mappedArray])
 
     return (
-        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
-      
-     
-       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%', marginLeft: '.5rem'}}>
-     
-     
-       {(categoryArray.length > 0)
+        <div>
+        <Nav variant='tabs' style={{outline: '2px dashed red'}} >
+        <Nav.Item>
+        <Nav.Link 
+        
+        onClick={()=>{
+            handleCategoryFilter('opinion')
+           }}>test </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+        <Nav.Link style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+        onClick={()=>{
+            setMappedArray(baseArray)
+            setCategorySelected('HOME')
+           }}>
+           Home
+           </Nav.Link>
+        </Nav.Item>
+     {(categoryArray.length > 0)
         ?
 
             categoryArray.map((m)=>{
             return(    
-                        <button 
-                        key={m.id}
+                <Nav.Item 
+                key={m.id}
+                value={m}
+                style={{textDecoration: (categorySelected === m)?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
 
-                        style={{textDecoration:'underline', maxWidth:'100%'}}
-                      onClick={()=>{
-         handleCategoryFilter(m)
-                            console.log(m)
-                      }}
-                        
-                        >{m}</button>
+                onClick={()=>{
+                    handleCategoryFilter(m)
+                    setCategorySelected(m)
+                                       console.log(m)
+                                 }}
+                >
+                
+                
+                        <Nav.Link
+                        style={{ maxWidth:'100%'}}                  
+                        >{m}</Nav.Link>
+                        </Nav.Item>
             )
             
         })
@@ -164,12 +185,16 @@ if(mappedArray.length < 1 || !mappedArray){
     
         :
     <p></p>}
-       <button onClick={()=>{
-        handleCategoryFilter('opinion')
-       }}>test </button>
-       <button style={{position:'sticky', top: 0}} onClick={()=>{
-        setMappedArray(baseArray)
-       }}>reset</button>
+     </Nav>
+        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
+      
+     
+       <Nav className='flex-column ' style={{border:'2px solid black', width:'20%', marginLeft: '.5rem'}}>
+     
+     
+       
+       
+     
       <h2>TAGS</h2>
       
       
@@ -210,6 +235,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
        </Nav>
        </div>
+   </div>
     )
 }
 
