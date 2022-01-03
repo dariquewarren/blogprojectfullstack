@@ -17,6 +17,16 @@ const [categorySelected, setCategorySelected] = useState(false)
 
 const [tagsArray, setTagsArray] = useState([])
 
+const handleSearch = (array, searchType)=>{
+
+// take in variable for type of searching ie by tags, by title, by article
+    
+//take in a keyword
+    
+// return a filtered base array by keyword
+
+ }
+
 
 const handleCategoryFilter = (filterWord)=>{
     const interimArray = baseArray
@@ -196,13 +206,14 @@ if(mappedArray.length < 1 || !mappedArray){
         </Nav.Link>
     </Nav.Item>
      </Nav>
+     <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{categorySelected}</h1>
+
         <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
       
      
        
        <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginLeft: '.5rem', marginRight:'.5rem'}}>
      
-   <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{categorySelected}</h1>
        
 
        {(mappedArray.length > 0)
