@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {Link} from 'react-router-dom'
 
 import Nav from 'react-bootstrap/Nav'
@@ -8,14 +8,24 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
-
+import SearchOptions from './SearchOptions'
+import AlertText from './AlertText'
 const Homepage =  (props)=> {
 const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
 const [categoryArray, setCategoryArray] = useState([])
 const [categorySelected, setCategorySelected] = useState(false)
-
+const [showSearch, toggleSearch] = useState(false)
+const [showAlert, setShowAlert] = useState(false)
+const [alertMessage, setAlertMessage] = useState('')
+const [filterMessage, setFilterMessage] = useState('')
+const [radioSelected, toggleRadioSelected] = useState(false)
 const [tagsArray, setTagsArray] = useState([])
+
+const radioRef = useRef()
+const titleRef = useRef()
+const subtitleRef = useRef()
+const body = useRef()
 
 const handleSearch = (array, searchType)=>{
 
@@ -199,13 +209,35 @@ if(mappedArray.length < 1 || !mappedArray){
     <Nav.Item>
         <Nav.Link
         onClick={()=>{
+            toggleSearch(!showSearch)
             console.log('search clicked')
         }}
         >
-        SEARCH
+        {(showSearch) ? 'Hide Search' : 'Show Search'}
         </Nav.Link>
     </Nav.Item>
      </Nav>
+
+     {(showSearch)
+        ?
+    <div>
+    <AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
+    <h6>{filterMessage}</h6>
+    <SearchOptions array={mappedArray} setNewArray={setMappedArray} 
+    setFilterMessage={setFilterMessage} searchLocation={'title'}
+    setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
+     />
+     <input ref={radioRef} type='radio' id='title' value='title' onClick={(e)=>{
+         toggleRadioSelected(!radioSelected)
+         radioRef.current.checked = radioSelected
+        
+         console.log('title', radioRef.current.checked)
+     }}/>
+   <label for='title'>title</label>
+      </div>
+        :
+     <p></p>   
+        }
      <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{categorySelected}</h1>
 
         <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
