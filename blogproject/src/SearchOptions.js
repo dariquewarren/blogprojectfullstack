@@ -22,6 +22,15 @@ const SearchOptions = (props)=>{
                 }
             })
                     break;
+                    case 'subtitle':
+                        // sortTimeDescending(currentArray, currentSortDirection)
+                        specialArray = props.array.filter((f)=>{
+                         if(currentSearchTerm && f.subtitle.includes(currentSearchTerm)){
+                                 return  f
+                     
+                         }
+                     })
+                             break;
             case 'article':
                // sortTimeDescending(currentArray, currentSortDirection)
                specialArray = props.array.filter((f)=>{
@@ -55,11 +64,11 @@ const SearchOptions = (props)=>{
           
         }
         
-
-
-console.log(location, specialArray)
 return specialArray
-    }
+
+}
+
+    
 
     const deliverSearchArray= async ()=>{
         const transformedArray = await getSearchArray(props.searchLocation, searchTerm)
@@ -67,8 +76,8 @@ return specialArray
             props.setAlertMessage('Please type something')
             props.setShowAlert(true)
             return
-        }else if(transformedArray.length <1 ){
-            props.setAlertMessage('NO RESULTS')
+        }else if(transformedArray.length <  1 ){
+            props.setAlertMessage('NO RESULTS FOUND. PLEASE TRY ANOTHER TERM. ALSO CHECK FOR SPELLING AND EXTRA SPACES')
             props.setShowAlert(true)
             return
         }else if(!transformedArray){
@@ -76,6 +85,7 @@ return specialArray
             props.setShowAlert(true)
             return
         }else if(transformedArray){
+            props.setShowAlert(false)
             props.setNewArray(transformedArray)
             props.setFilterMessage(`Showing every ${props.searchLocation.toUpperCase()} that includes the term(s) ${searchTerm}`)
             return

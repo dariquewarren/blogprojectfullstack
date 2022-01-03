@@ -16,16 +16,71 @@ const [mappedArray, setMappedArray] = useState([])
 const [categoryArray, setCategoryArray] = useState([])
 const [categorySelected, setCategorySelected] = useState(false)
 const [showSearch, toggleSearch] = useState(false)
+const [searchLocation, setSearchLocation] = useState('title')
+
 const [showAlert, setShowAlert] = useState(false)
 const [alertMessage, setAlertMessage] = useState('')
 const [filterMessage, setFilterMessage] = useState('')
-const [radioSelected, toggleRadioSelected] = useState(false)
 const [tagsArray, setTagsArray] = useState([])
 
-const radioRef = useRef()
 const titleRef = useRef()
 const subtitleRef = useRef()
-const body = useRef()
+const articleRef = useRef()
+const categoryRef = useRef()
+const tagsRef = useRef()
+
+const handleRadios = (type)=>{
+switch(type){
+    case 'title':
+        setSearchLocation('title')
+        titleRef.current.checked = true
+        articleRef.current.checked = false
+        subtitleRef.current.checked = false
+        categoryRef.current.checked = false
+        tagsRef.current.checked = false
+        console.log(type, titleRef.current.checked)
+        break;
+        case 'subtitle':
+            setSearchLocation('subtitle')
+            subtitleRef.current.checked = true
+            titleRef.current.checked = false
+            articleRef.current.checked = false
+            categoryRef.current.checked = false
+            tagsRef.current.checked = false
+            console.log(type, subtitleRef.current.checked)
+            break;
+            case 'article':
+        setSearchLocation('article')
+        articleRef.current.checked = true
+        titleRef.current.checked = false
+        subtitleRef.current.checked = false
+        categoryRef.current.checked = false
+        tagsRef.current.checked = false
+        console.log(type,articleRef.current.checked)
+        break;
+        case 'tags':
+            setSearchLocation('tags')
+            tagsRef.current.checked = true
+            titleRef.current.checked = false
+            articleRef.current.checked = false
+            subtitleRef.current.checked = false
+            categoryRef.current.checked = false
+            console.log(type, tagsRef.current.checked)
+            break;
+            case 'category':
+            setSearchLocation('category')
+            categoryRef.current.checked = true
+            titleRef.current.checked = false
+            articleRef.current.checked = false
+            subtitleRef.current.checked = false
+            tagsRef.current.checked = false
+            console.log(type, categoryRef.current.checked)
+            break;
+default: 
+console.log('default')
+}
+}
+
 
 const handleSearch = (array, searchType)=>{
 
@@ -210,6 +265,7 @@ if(mappedArray.length < 1 || !mappedArray){
         <Nav.Link
         onClick={()=>{
             toggleSearch(!showSearch)
+            setFilterMessage('')
             console.log('search clicked')
         }}
         >
@@ -223,17 +279,45 @@ if(mappedArray.length < 1 || !mappedArray){
     <div>
     <AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
     <h6>{filterMessage}</h6>
-    <SearchOptions array={mappedArray} setNewArray={setMappedArray} 
-    setFilterMessage={setFilterMessage} searchLocation={'title'}
+    <SearchOptions array={baseArray} setNewArray={setMappedArray} 
+    setFilterMessage={setFilterMessage} searchLocation={searchLocation}
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
-     <input ref={radioRef} type='radio' id='title' value='title' onClick={(e)=>{
-         toggleRadioSelected(!radioSelected)
-         radioRef.current.checked = radioSelected
+     <input ref={titleRef} type='radio' id='title' value='title' onClick={(e)=>{
+        handleRadios(e.target.value)
+
         
-         console.log('title', radioRef.current.checked)
      }}/>
-   <label for='title'>title</label>
+   <label HTMLfor='subtitle'>title</label>
+   
+   <input ref={subtitleRef} type='radio' id='subtitle' value='subtitle' onClick={(e)=>{
+    handleRadios(e.target.value)
+
+
+    
+ }}/>
+<label HTMLfor='subtitle'>subtitle</label>
+<input ref={articleRef} type='radio' id='article' value='article' onClick={(e)=>{
+    handleRadios(e.target.value)
+
+
+    
+ }}/>
+<label HTMLfor='article'>article</label>
+<input ref={categoryRef} type='radio' id='category' value='category' onClick={(e)=>{
+    handleRadios(e.target.value)
+
+
+    
+ }}/>
+<label HTMLfor='category'>category</label>
+<input ref={tagsRef} type='radio' id='tags' value='tags' onClick={(e)=>{
+    handleRadios(e.target.value)
+
+
+    
+ }}/>
+<label HTMLfor='tags'>tags</label>
       </div>
         :
      <p></p>   

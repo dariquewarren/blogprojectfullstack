@@ -39,7 +39,7 @@ const [filterMessage, setFilterMessage] = useState()
 
 const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
-const [AlertMessage, setAlertMessage] = useState(true);
+const [alertMessage, setAlertMessage] = useState(true);
 
 
 dayjs.extend(AdvancedFormat) // use plugin
@@ -98,7 +98,7 @@ useEffect(()=>{
     <p></p>
 }
 
-        <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} AlertMessage={AlertMessage}/>
+        <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage}/>
 
 
  {(showDateFilter)

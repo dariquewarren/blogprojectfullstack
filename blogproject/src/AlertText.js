@@ -8,7 +8,7 @@ const AlertText =(props) => {
         <Alert variant="danger" onClose={() => props.setShowAlert(false)} dismissible>
           <Alert.Heading>Oh snap!</Alert.Heading>
           <p>
-            {props.AlertMessage}
+            {props.alertMessage}
           </p>
         </Alert>
       );
