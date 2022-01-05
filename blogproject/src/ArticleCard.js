@@ -7,7 +7,7 @@ function ArticleCard(props) {
     return (
         <Card 
         
-        style={{border: '1px solid black', width:'100%', textAlign: 'center', marginBottom: '1rem', marginTop: '1rem'}}
+        style={(props.displayType === 'suggested') ?{border: '1px solid black', width:'50%', textAlign: 'center', margin: '.2rem', paddingRight: '.5rem', paddingLeft:'.5rem'} :{border: '1px solid black', width:'100%', textAlign: 'center', marginBottom: '1rem', marginTop: '1rem'}}
         onClick={()=>{
             alert('go to view page w/id', props.id)
             if(props.type === 'drafts'){
@@ -24,7 +24,7 @@ function ArticleCard(props) {
         <img 
     alt={props.image}
     src={props.image}
-    style={{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto'}}
+    style={(props.displayType === 'suggested')?{height:'4rem', width: '4rem', marginLeft:'auto',marginRight:'auto'}:{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto'}}
     /> 
     <Card.Body>
 
@@ -32,15 +32,11 @@ function ArticleCard(props) {
     <h4>
     {props.subtitle}
     </h4>
-    <h6 style={{borderTop: '2px solid black', display:'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-  </h6>  <p 
-    style={{width: 'auto', marginLeft: '1rem', marginRight: 'auto', textAlign: 'left', paddingLeft:'2px'}}
+    <p 
+    style={{width: '80%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', padding:'1px'}}
     >
-    By {props.author}  {props.datePublished}</p> 
-    <p
-    style={{width: '40%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'right', paddingRight:'2px'}}
-    >
-    </p> 
+    By {props.author}  </p> 
+   
     </Card.Body>
         </Card>
     )

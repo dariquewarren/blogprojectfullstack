@@ -31,11 +31,9 @@ return data
      alert(`${e}`)
    })
  }
-  export const getAllPublished = ()=>{
-    fetch('/published/all').then((response)=>{
-      return response.json()
-    }).then((data)=>{
-      return data.realData
+  export const getAllPublished = async ()=>{
+   await fetch('/published/all').then((response)=>{
+      return response.json() 
     }).catch((e)=>{
       alert(`${e}`)
     })

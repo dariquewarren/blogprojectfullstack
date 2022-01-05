@@ -42,6 +42,7 @@ const updateObject = {
         if(!data.data || data.data.article === undefined ){
             return  alert(data.message)  
             }else{
+               
              return setDraft(data.data)
  
             }
@@ -56,7 +57,7 @@ const updateObject = {
         <Container  style={{border:'2px solid red'}}>
         
 
-{(props.articleFrom === 'hompage')
+{(props.articleFrom === 'homepage')
 ?
 <Button
         style={{backgroundColor: (showEditMode)?'red':'blue' ,position:'sticky', top: 0, left: 0}}
@@ -98,7 +99,6 @@ window.location.reload(true)
     <Loading/>
         }
 
-       
         </Container>
     )
 }

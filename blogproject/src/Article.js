@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';// css
+import SuggestedArticles from './SuggestedArticles'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -42,9 +43,9 @@ const setInitalValues = ()=>{
     }
     },[])
     return (
-        <Container responsive style={{marginBottom: '2rem'}}>
+        <Container  style={{marginBottom: '2rem'}}>
        
-     
+    
 
                     <h1 style={{textAlign:'center'}}>{(newTitle)? newTitle.toUpperCase() : title.toUpperCase()}</h1>
                     <h4 style={{textAlign:'left'}}>{(newSubtitle)?newSubtitle.toUpperCase(): subtitle.toUpperCase()}</h4>
@@ -73,7 +74,7 @@ const setInitalValues = ()=>{
 <p></p>
 }
 
-
+<SuggestedArticles/>
         </Container>
     )
 }
@@ -190,6 +191,8 @@ const setInitalValues = ()=>{
         </Form.Group>
 
         </Form.Group>
+        
+
         </Container>
     )
  }
