@@ -7,7 +7,7 @@ function ArticleCard(props) {
     return (
         <Card 
         
-        style={{border: '1px solid black', width: '95%',marginRight: 'auto',marginLeft: 'auto', textAlign: 'center'}}
+        style={{border: '1px solid black', width:'100%', textAlign: 'center', marginBottom: '1rem', marginTop: '1rem'}}
         onClick={()=>{
             alert('go to view page w/id', props.id)
             if(props.type === 'drafts'){

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
+import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
@@ -288,7 +288,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
         
      }}/>
-   <label HTMLfor='subtitle'>title</label>
+   <label htmlFor='title'>title</label>
    
    <input ref={subtitleRef} type='radio' id='subtitle' value='subtitle' onClick={(e)=>{
     handleRadios(e.target.value)
@@ -296,28 +296,28 @@ if(mappedArray.length < 1 || !mappedArray){
 
     
  }}/>
-<label HTMLfor='subtitle'>subtitle</label>
+<label htmlFor='subtitle'>subtitle</label>
 <input ref={articleRef} type='radio' id='article' value='article' onClick={(e)=>{
     handleRadios(e.target.value)
 
 
     
  }}/>
-<label HTMLfor='article'>article</label>
+<label htmlFor='article'>article</label>
 <input ref={categoryRef} type='radio' id='category' value='category' onClick={(e)=>{
     handleRadios(e.target.value)
 
 
     
  }}/>
-<label HTMLfor='category'>category</label>
+<label htmlFor='category'>category</label>
 <input ref={tagsRef} type='radio' id='tags' value='tags' onClick={(e)=>{
     handleRadios(e.target.value)
 
 
     
  }}/>
-<label HTMLfor='tags'>tags</label>
+<label htmlFor='tags'>tags</label>
       </div>
         :
      <p></p>   
@@ -328,54 +328,57 @@ if(mappedArray.length < 1 || !mappedArray){
       
      
        
-       <Nav className='flex-column' style={{border:'2px solid black', width: '80%', marginLeft: '.5rem', marginRight:'.5rem'}}>
+       <Nav className='flex-column' style={{border:'2px solid black', width: '75%'}}>
      
        
+<button atyle={{width: '100%'}}>
 
-       {(mappedArray.length > 0)
-               ?
-           mappedArray.map((m)=>{
-               return (
-                   <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
-               )
-           })
-           :
-           <Loading/>
-       }
-       
+{(mappedArray.length > 0)
+    ?
+mappedArray.map((m)=>{
+    return (
+        <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
+    )
+})
+:
+<Loading/>
+}
+
+</button>
 
        </Nav>
 
-
+       <Nav className='flex-column' style={{border:'2px solid black', width:'30%', marginLeft: '.5rem'}}>
+     
+     
+       
+       
+     
+       <h2 className='text-center' style={{textDecoration: 'underline'}}>TAGS</h2>
+       
+       
+       
+       
+       {(tagsArray.length > 0)
+         ?
+         tagsArray.map((m)=>{
+             return(    
+                         <Card 
+                         key={m.id}
+                         style={{width:'100%', textDecoration:'underline', color: 'black', backgroundColor:'white', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                             handleTagsFilter(m)
+                             console.log(m)
+                         }}><Button>{m}</Button></Card>
+             )
+             
+         })
+     :
+     <p></p>}
+  
+        </Nav>
        
        </div>
-       <Nav  style={{border:'2px solid black', width:'100%', marginLeft: '.5rem'}}>
-     
-     
-       
-       
-     
-      <h2>TAGS</h2>
       
-      
-      
-      
-      {(tagsArray.length > 0)
-        ?
-        tagsArray.map((m)=>{
-            return(    
-                        <button 
-                        key={m.id}
-                        style={{width:'auto', height:'50px', borderRadius:'50%', backgroundColor: 'whitesmoke'}} key={tagsArray.indexOf(m)} onClick={()=>{
-                            handleTagsFilter(m)
-                            console.log(m)
-                        }}>{m}</button>
-            )
-            
-        })
-    :
-    <p></p>}
-       </Nav>
    </div>
     )
 }
