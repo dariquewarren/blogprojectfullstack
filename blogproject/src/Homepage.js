@@ -322,16 +322,16 @@ if(mappedArray.length < 1 || !mappedArray){
         :
      <p></p>   
         }
-     <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{categorySelected}</h1>
+     
+        <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{(categorySelected && categorySelected !=='HOME') ? `Category: ${categorySelected}`: 'All Articles'}</h1>
 
         <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
       
-     
        
        <Nav className='flex-column' style={{border:'2px solid black', width: '75%'}}>
      
        
-<button atyle={{width: '100%'}}>
+<button style={{width: '100%'}}>
 
 {(mappedArray.length > 0)
     ?
