@@ -6,7 +6,7 @@ function ArticleCard(props) {
 
     return (
       <Button variant='light' 
-      style={(props.displayType === 'suggested')?{marginLeft:'auto', marginRight:'auto',marginBottom:'2rem' , height:'50%', width:'45%'}:{marginTop:'1.5rem', marginBottom:'.75rem'}}
+      style={(props.displayType === 'suggested')?{marginLeft:'auto', marginRight:'auto',marginBottom:'2rem' , height:'50%', width:'45%'}:{marginTop:'1.5rem', marginBottom:'.75rem',marginLeft:'2%',marginRight:'2%', width: '100%'}}
       onClick={()=>{
           alert('go to view page w/id', props.id)
           if(props.type === 'drafts'){
@@ -17,15 +17,19 @@ function ArticleCard(props) {
          
       }}>
       <Card 
-      style={(props.displayType === 'suggested') ?{backgroundColor:"white", color:'black',border: '1px solid black', width:'auto', textAlign: 'center', paddingRight: '.5rem', paddingLeft:'.5rem'} :{backgroundColor:"white",color:'black',border: '1px solid black', width:'100%', textAlign: 'center'}}
+      style={(props.displayType === 'suggested') ?{backgroundColor:"white", color:'black',border: '1px solid black', width:'100%', textAlign: 'center', paddingRight: '.5rem', paddingLeft:'.5rem'} :{backgroundColor:"white",color:'black',border: '1px solid black', width:'100%', textAlign: 'center'}}
 
       >
       
   
       <Card.Header 
-      style={{overflow:'hidden',textOverflow:'ellipsis', width:'90%',marginLeft:'auto', marginRight: 'auto', whiteSpace:'nowrap'}}
+      style={(props.displayType === 'suggested')
+      ?
+      {overflow:'hidden',textOverflow:'ellipsis', width:'90%',marginLeft:'auto',marginRight: 'auto', whiteSpace:'nowrap'}:
+       { color:'green'}}
       >
       {props.title}
+
       </Card.Header>
       <Card.Img 
   alt={props.image}

@@ -322,7 +322,7 @@ if(mappedArray.length < 1 || !mappedArray){
         <div style={{display: 'flex', flexDirection:'row', width: '100%' }}>
       
        
-       <Nav className='flex-column' style={{ width: '75%'}}>
+       <Nav className='flex-column' style={{ width: '70%' }}>
      
        
 
@@ -342,7 +342,7 @@ mappedArray.map((m)=>{
 
        </Nav>
 
-       <Nav className='flex-column' style={{ width:'30%', marginLeft: '.5rem'}}>
+       <Nav className='flex-column' style={{ width:'20%', marginLeft: 'auto', marginRight:'2%'}}>
      
      
        
