@@ -12,13 +12,9 @@ function Header() {
         backgroundColor: '#212121', color: 'whitesmoke'}}
         >
         <h2 style={{textAlign: 'center'}} >
-           The Blog 
+           This Evil Bunny
            </h2>
-           <Row style={{border: '2px solid red', width:'100%'}}>
-           <Col style={{border: '2px solid blue', width:'33%'}}> <Link to='/'>Home</Link></Col>
-           <Col style={{border: '2px solid green', width:'33%'}}><Link to='/all/drafts'>View Drafts</Link></Col>
-           <Col style={{border: '2px solid yellow', width:'33%'}}><Link to='/write'>Write an Article</Link></Col>
-           </Row>
+          
         </div>
     )
 }

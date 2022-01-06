@@ -82,7 +82,7 @@ const testArticle = {
     <BrowserRouter  >
 
     <Header/>
-   {(userInfo)?userInfo.email : 'undefined'   }
+   
     <Switch  >
 
     <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>

@@ -215,13 +215,7 @@ if(mappedArray.length < 1 || !mappedArray){
     return (
         <div>
         <Nav variant='tabs' style={{outline: '2px dashed red'}} >
-        <Nav.Item>
-        <Nav.Link 
-        
-        onClick={()=>{
-            handleCategoryFilter('opinion')
-           }}>test </Nav.Link>
-        </Nav.Item>
+       
         <Nav.Item>
         <Nav.Link style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
         onClick={()=>{
@@ -325,13 +319,13 @@ if(mappedArray.length < 1 || !mappedArray){
      
         <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{(categorySelected && categorySelected !=='HOME') ? `Category: ${categorySelected}`: 'All Articles'}</h1>
 
-        <div style={{display: 'flex', flexDirection:'row',outline: '1px solid green', width: '100%' }}>
+        <div style={{display: 'flex', flexDirection:'row', width: '100%' }}>
       
        
-       <Nav className='flex-column' style={{border:'2px solid black', width: '75%'}}>
+       <Nav className='flex-column' style={{ width: '75%'}}>
      
        
-<button style={{width: '100%'}}>
+
 
 {(mappedArray.length > 0)
     ?
@@ -344,11 +338,11 @@ mappedArray.map((m)=>{
 <Loading/>
 }
 
-</button>
+
 
        </Nav>
 
-       <Nav className='flex-column' style={{border:'2px solid black', width:'30%', marginLeft: '.5rem'}}>
+       <Nav className='flex-column' style={{ width:'30%', marginLeft: '.5rem'}}>
      
      
        

@@ -43,8 +43,8 @@ const SuggestedArticles = (props) =>{
         
         }, [])
     return (
-       <Container style={{marginTop:'8rem', backgroundColor: 'grey'}}>
-       <h4>Check these out too</h4>
+       <div style={{outline:'2px solid red' ,width:'100%', marginTop:'8rem', backgroundColor: 'grey'}}>
+       <h4 style={{textAlign: 'center'}}>Check these out too</h4>
        <div style={{display:'flex', flexDirection: 'row', marginTop: '5rem'}}>
     
       
@@ -60,7 +60,7 @@ const SuggestedArticles = (props) =>{
        }):<p></p>}
     
        </div>
-       </Container>
+       </div>
     )
 }
 
