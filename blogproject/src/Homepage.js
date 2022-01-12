@@ -29,6 +29,8 @@ const articleRef = useRef()
 const categoryRef = useRef()
 const tagsRef = useRef()
 
+
+
 const handleRadios = (type)=>{
 switch(type){
     case 'title':
@@ -82,15 +84,31 @@ console.log('default')
 }
 
 
-const handleSearch = (array, searchType)=>{
+const displayAmount = (type,arr, term)=>{
+var newArray
+switch(type){
+    case 'tags':
+        
+        newArray = arr.filter((f)=>{
+            return f.tags.includes(term)
+        });
+        break;
+    case 'category':
+       newArray = arr.filter((f)=>{
+            return f.category.includes(term)
+        });
+             break;
 
-// take in variable for type of searching ie by tags, by title, by article
-    
-//take in a keyword
-    
-// return a filtered base array by keyword
+    default:
+        console.log('type undefined')
+}
 
- }
+
+
+
+
+return newArray.length
+}
 
 
 const handleCategoryFilter = (filterWord)=>{
@@ -139,49 +157,31 @@ console.log('trueTagsArray', trueTagsArray)
 }
 
 
-const categoryMap =(array)=>{
-    const newCategoryArray =[]
-
-const categories = array.map((m)=>{
-    if(m.category){
-        let i= 0
-for(i; m.category.length > i; i++){
-    var categoryItem = m.category[i].split(' ').join('')
-    newCategoryArray.push(categoryItem)
-}
-return 
-    }else{
-        return
-    }
+const categoryMap = async(array)=>{
+  
+const changedArray = array.map((m)=>{
+    return m.category
 })
+const flatArray = await changedArray.flat()
+const setArray = await[...new Set(flatArray)]
+console.log(`flatArray`, flatArray)
+console.log(`setArray`, setArray)
+console.log(`changedArray`, changedArray)
 
-const finalCategoryArray = Array.from(new Set(newCategoryArray))
-console.log('finalCategoryArray',finalCategoryArray)
-console.log('newCategoryArray',newCategoryArray)
-setCategoryArray(finalCategoryArray)
-return finalCategoryArray
+setCategoryArray(setArray)
 }
-const tagsMap =(array)=>{
-    const newTagsArray =[]
 
- array.map((m)=>{
-    if(m.tags){
-        let i= 0
-for(i; m.tags.length > i; i++){
-    var tagsItem = m.tags[i].split(' ').join('')
-    newTagsArray.push(tagsItem)
-}
-return 
-    }else{
-        return
-    }
-})
 
-const finalTagsArray = Array.from(new Set(newTagsArray))
-console.log('finalTagsArray',finalTagsArray)
-console.log('newTagsArray',newTagsArray)
-setTagsArray(finalTagsArray)
-return finalTagsArray
+const tagsMap =async (array)=>{
+    const changedArray = await array.map((m)=>{
+        return m.tags
+    })
+    const flatArray = await changedArray.flat()
+    const setArray = await [...new Set(flatArray)]
+    console.log(`flatArray`, flatArray)
+    console.log(`setArray`, setArray)
+    console.log(`changedArray`, changedArray)
+setTagsArray(setArray)
 }
 
 useEffect(()=>{
@@ -201,7 +201,6 @@ if(mappedArray.length < 1 || !mappedArray){
            }
    
     }).then((data)=>{
-        console.log(data)
         categoryMap(data)
         tagsMap(data)
 
@@ -225,35 +224,7 @@ if(mappedArray.length < 1 || !mappedArray){
            Home
            </Nav.Link>
         </Nav.Item>
-     {(categoryArray.length > 0)
-        ?
-
-            categoryArray.map((m)=>{
-            return(    
-                <Nav.Item 
-                key={m.id}
-                value={m}
-                style={{textDecoration: (categorySelected === m)?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
-
-                onClick={()=>{
-                    handleCategoryFilter(m)
-                    setCategorySelected(m)
-                                       console.log(m)
-                                 }}
-                >
-                
-                
-                        <Nav.Link
-                        style={{ maxWidth:'100%'}}                  
-                        >{m}</Nav.Link>
-                        </Nav.Item>
-            )
-            
-        })
-    
-    
-        :
-    <p></p>}
+   
 
     <Nav.Item>
         <Nav.Link
@@ -348,27 +319,48 @@ mappedArray.map((m)=>{
        
        
      
-       <h2 className='text-center' style={{textDecoration: 'underline'}}>TAGS</h2>
+       <h2 className='text-center' style={{textDecoration: 'underline'}}>Categories</h2>
        
        
        
        
-       {(tagsArray.length > 0)
+       {(categoryArray.length > 0)
          ?
-         tagsArray.map((m)=>{
-             return(    
-                         <Card 
-                         key={m.id}
-                         style={{width:'100%', textDecoration:'underline', color: 'black', backgroundColor:'white', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
-                             handleTagsFilter(m)
-                             console.log(m)
-                         }}><Button>{m}</Button></Card>
+         categoryArray.map((m)=>{
+             return (    
+                <p 
+                key={m.id}
+                
+                style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                    handleCategoryFilter(m)
+                    setCategorySelected(m.toUpperCase())
+                    console.log(m)
+                }}>{m} {displayAmount('category', baseArray, m)}</p>
              )
              
          })
      :
      <p></p>}
-  
+
+     tags
+     <br/>
+     {(tagsArray.length > 0)
+        ?
+        tagsArray.map((m, index)=>{
+            return(    
+                        <p 
+                        key={m.id}
+                        
+                        style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                            handleTagsFilter(m)
+                            
+                            console.log(m)
+                        }}>{m} {displayAmount('tags', baseArray, m)}</p>
+            )
+            
+        })
+    :
+    <p></p>}
         </Nav>
        
        </div>
