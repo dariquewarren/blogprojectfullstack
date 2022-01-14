@@ -100,8 +100,10 @@ return specialArray
 
     
         return(
-            <Form.Group style={{border: '2px solid green', width:'100%'}}>
-            <Form.Label style={{border: '2px solid green',width: '100% ',textAlign: 'center'}}>{props.searchLocation}</Form.Label>
+            <Form.Group style={{width:'100%'}}>
+            <Form.Label style={{width: '100% ',textAlign: 'center', fontSize:'2rem'}}>
+            {(props.searchLocation === undefined) ? `Select Search location` :`Search ${props.searchLocation.toUpperCase()}`}  
+            </Form.Label>
             <Row>
             <Form.Control style={{width:'60%', marginLeft: '5%', marginRight: '0px'}}
              type='text' placeholder={`Search VIA ${props.searchLocation} text`} onChange={(e)=>{

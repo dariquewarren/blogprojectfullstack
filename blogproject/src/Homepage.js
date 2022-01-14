@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {Link} from 'react-router-dom'
-
+import logo from './logo.svg';
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 import SearchOptions from './SearchOptions'
@@ -16,7 +16,7 @@ const [mappedArray, setMappedArray] = useState([])
 const [categoryArray, setCategoryArray] = useState([])
 const [categorySelected, setCategorySelected] = useState(false)
 const [showSearch, toggleSearch] = useState(false)
-const [searchLocation, setSearchLocation] = useState('title')
+const [searchLocation, setSearchLocation] = useState(undefined)
 
 const [showAlert, setShowAlert] = useState(false)
 const [alertMessage, setAlertMessage] = useState('')
@@ -163,7 +163,7 @@ const changedArray = array.map((m)=>{
     return m.category
 })
 const flatArray = await changedArray.flat()
-const setArray = await[...new Set(flatArray)]
+const setArray = [...new Set(flatArray)]
 console.log(`flatArray`, flatArray)
 console.log(`setArray`, setArray)
 console.log(`changedArray`, changedArray)
@@ -213,10 +213,11 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <div>
-        <Nav variant='tabs' style={{outline: '2px dashed red'}} >
+        <Nav variant='tabs' style={{borderBottom: '2px solid black'}} >
        
         <Nav.Item>
-        <Nav.Link style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+        <Nav.Link
+         style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
         onClick={()=>{
             setMappedArray(baseArray)
             setCategorySelected('HOME')
@@ -224,14 +225,36 @@ if(mappedArray.length < 1 || !mappedArray){
            Home
            </Nav.Link>
         </Nav.Item>
-   
-
+        {(categoryArray.length > 0)
+            ?
+            categoryArray.map((m)=>{
+                return (    
+                    <Nav.Item                    
+                    key={m.id} >
+                   <Nav.Link 
+                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+                   
+                   key={tagsArray.indexOf(m)} onClick={()=>{
+                       handleCategoryFilter(m)
+                       setCategorySelected(m.toUpperCase())
+                       console.log(m)
+                   }}>{m} </Nav.Link>
+                   </Nav.Item>
+                )
+                
+            })
+        :
+        <p></p>}
     <Nav.Item>
         <Nav.Link
+        style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+
         onClick={()=>{
             toggleSearch(!showSearch)
+            setSearchLocation(undefined)
             setFilterMessage('')
             console.log('search clicked')
+
         }}
         >
         {(showSearch) ? 'Hide Search' : 'Show Search'}
@@ -248,55 +271,99 @@ if(mappedArray.length < 1 || !mappedArray){
     setFilterMessage={setFilterMessage} searchLocation={searchLocation}
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
-     <input ref={titleRef} type='radio' id='title' value='title' onClick={(e)=>{
-        handleRadios(e.target.value)
+     <Nav 
+     variant='tabs'
+      style={{width: '90%', marginLeft:'auto', marginRight:'auto' }}
+       >
+     
 
-        
-     }}/>
-   <label htmlFor='title'>title</label>
+     <Nav.Item 
+     style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}
+     onClick={(e)=>{
+        handleRadios(e.target.value)    
+     }}
+     >
+    
+     <Form.Check ref={titleRef} type='radio' id='title' value='title'/>
+     
+     <h5
+     htmlFor='title'>Title</h5>
+     
+     
+     </Nav.Item>
+   <Nav.Item
+   style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}   
+   onClick={(e)=>{
+    handleRadios(e.target.value)    
+ }}
+   >
+ 
+   <Form.Check
    
-   <input ref={subtitleRef} type='radio' id='subtitle' value='subtitle' onClick={(e)=>{
-    handleRadios(e.target.value)
+   ref={subtitleRef} type='radio' id='subtitle' value='subtitle' />
+ <h5
+
+ htmlFor='subtitle'>SubTitle</h5> 
+   </Nav.Item>
+   
+   
+<Nav.Item 
+style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}   
+onClick={(e)=>{
+    handleRadios(e.target.value)    
+ }}
+>
+
+<Form.Check ref={articleRef} type='radio' id='article' value='article' />
+<h4 
+htmlFor='article'>Article</h4>
+</Nav.Item>
 
 
-    
- }}/>
-<label htmlFor='subtitle'>subtitle</label>
-<input ref={articleRef} type='radio' id='article' value='article' onClick={(e)=>{
-    handleRadios(e.target.value)
+<Nav.Item
+style={{ cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}  
+onClick={(e)=>{
+    handleRadios(e.target.value)    
+ }}
+>
+
+<Form.Check ref={categoryRef} type='radio' id='category' value='category' />
+<h5
+ htmlFor='category'>Category</h5>
+</Nav.Item>
 
 
-    
- }}/>
-<label htmlFor='article'>article</label>
-<input ref={categoryRef} type='radio' id='category' value='category' onClick={(e)=>{
-    handleRadios(e.target.value)
+ <Nav.Item 
+ style={{cursor: 'pointer', width:'auto', marginLeft: '1%', marginRight: '1%'}} 
+ onClick={(e)=>{
+    handleRadios(e.target.value)    
+ }}
+ >
+ 
+ <Form.Check ref={tagsRef} type='radio' id='tags' value='tags'/>
+<h5
+htmlFor='tags'>Tags</h5>
+</Nav.Item>
 
-
-    
- }}/>
-<label htmlFor='category'>category</label>
-<input ref={tagsRef} type='radio' id='tags' value='tags' onClick={(e)=>{
-    handleRadios(e.target.value)
-
-
-    
- }}/>
-<label htmlFor='tags'>tags</label>
+     </Nav>
       </div>
         :
      <p></p>   
         }
      
-        <h1 style={{marginLeft:'auto',marginRight:'auto', width: '50%'}}>{(categorySelected && categorySelected !=='HOME') ? `Category: ${categorySelected}`: 'All Articles'}</h1>
 
         <div style={{display: 'flex', flexDirection:'row', width: '100%' }}>
       
-       
-       <Nav className='flex-column' style={{ width: '70%' }}>
+        <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '30%' }}>
+    
+    <img src={logo} style={{ height: '100vh', width:'100%', position:'sticky', top:'2px'}} />
+        </Nav>
+       <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '50%' }}>
      
-       
 
+       <h4 style={{textAlign:'center' ,borderBottom:'2px solid black', marginLeft:'auto',marginRight:'auto', width: '50%'}}>
+        {(categorySelected && categorySelected !=='HOME') ? categorySelected: 'All Articles'}
+        </h4>
 
 {(mappedArray.length > 0)
     ?
@@ -313,49 +380,21 @@ mappedArray.map((m)=>{
 
        </Nav>
 
-       <Nav className='flex-column' style={{ width:'20%', marginLeft: 'auto', marginRight:'2%'}}>
-     
-     
+       <Nav className='flex-column' style={{ width:'15%', marginLeft: 'auto', marginRight:'auto'}}>
+       <h2 className='text-center' style={{textDecoration: 'underline'}}>Tags</h2>
        
-       
-     
-       <h2 className='text-center' style={{textDecoration: 'underline'}}>Categories</h2>
-       
-       
-       
-       
-       {(categoryArray.length > 0)
-         ?
-         categoryArray.map((m)=>{
-             return (    
-                <p 
-                key={m.id}
-                
-                style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
-                    handleCategoryFilter(m)
-                    setCategorySelected(m.toUpperCase())
-                    console.log(m)
-                }}>{m} {displayAmount('category', baseArray, m)}</p>
-             )
-             
-         })
-     :
-     <p></p>}
-
-     tags
-     <br/>
      {(tagsArray.length > 0)
         ?
-        tagsArray.map((m, index)=>{
+        tagsArray.map((m)=>{
             return(    
                         <p 
                         key={m.id}
                         
-                        style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black', borderLeft:'2px solid green'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                        style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black'}} key={tagsArray.indexOf(m)} onClick={()=>{
                             handleTagsFilter(m)
                             
                             console.log(m)
-                        }}>{m} {displayAmount('tags', baseArray, m)}</p>
+                        }}>{m.toUpperCase()} ({displayAmount('tags', baseArray, m)}) </p>
             )
             
         })

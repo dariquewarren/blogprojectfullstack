@@ -54,7 +54,7 @@ const updateObject = {
 
 
     return (
-        <Container  style={{border:'2px solid red'}}>
+        <div  style={{border:'2px solid red'}}>
         
 
 {(props.articleFrom === 'homepage')
@@ -83,7 +83,6 @@ window.location.reload(true)
     },[3000])
 }}>Update</Button>
         {(draft)?
-            <Container>
            
     <Article 
     showEditMode= {showEditMode} toggleEditMode={toggleEditMode}
@@ -94,12 +93,12 @@ window.location.reload(true)
     newImage={newImage} setNewImage={setNewImage}
     newArticle={newArticle} setNewArticle={setNewArticle}
     {...draft} />
-    </Container>    
+     
     :
     <Loading/>
         }
 
-        </Container>
+        </div>
     )
 }
 

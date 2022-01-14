@@ -5,53 +5,63 @@ import Button from 'react-bootstrap/Button'
 function ArticleCard(props) {
 
     return (
-      <Button variant='light' 
-      style={(props.displayType === 'suggested')?{marginLeft:'auto', marginRight:'auto',marginBottom:'2rem' , height:'50%', width:'45%'}:{marginTop:'1.5rem', marginBottom:'.75rem',marginLeft:'2%',marginRight:'2%', width: '100%'}}
+     
+      <Card.Header 
+      style={
+        (props.displayType === 'suggested') ?
+      {cursor:'pointer', color:'black', width:'80%', marginLeft:'auto', marginRight:'auto', textAlign: 'center', paddingRight: '.5rem', paddingLeft:'.5rem',marginTop:'1rem', marginBottom: '1rem', borderLeft: '2px solid black', borderRight: '2px solid black', borderBottom: '2px solid black'} 
+      :
+      {cursor:'pointer',color:'black', width:'80%', marginLeft:'auto', marginRight:'auto', textAlign: 'center',marginTop:'1rem', marginBottom: '1rem', borderLeft: '2px solid black', borderBottom: '2px solid black'}
+    }
       onClick={()=>{
-          alert('go to view page w/id', props.id)
-          if(props.type === 'drafts'){
-              window.open(`/read/draft/${props.id}`)
-          }else if(props.type === 'published'){
-              window.open(`/read/published/${props.id}`)
-          }
-         
-      }}>
-      <Card 
-      style={(props.displayType === 'suggested') ?{backgroundColor:"white", color:'black',border: '1px solid black', width:'100%', textAlign: 'center', paddingRight: '.5rem', paddingLeft:'.5rem'} :{backgroundColor:"white",color:'black',border: '1px solid black', width:'100%', textAlign: 'center'}}
-
-      >
+        alert('go to view page w/id', props.id)
+        if(props.type === 'drafts'){
+            window.open(`/read/draft/${props.id}`)
+        }else if(props.type === 'published'){
+            window.open(`/read/published/${props.id}`)
+        }
+       
+    }}>
+      
       
   
-      <Card.Header 
+      <h3 
       style={(props.displayType === 'suggested')
       ?
-      {overflow:'hidden',textOverflow:'ellipsis', width:'90%',marginLeft:'auto',marginRight: 'auto', whiteSpace:'nowrap'}:
-       { color:'green'}}
+      {overflow:'hidden',textOverflow:'ellipsis', whiteSpace:'nowrap'}:
+       { fontSize:'1rem'}}
       >
-      {props.title}
+      {props.title.toUpperCase()}
+<br/>
+<br/>
+<p
+style={{paddingBottom:'1rem',overflow:'hidden',textOverflow:'ellipsis', width:'90%',marginLeft:'auto', marginRight: 'auto', whiteSpace:'nowrap'}}
+>
 
-      </Card.Header>
-      <Card.Img 
-  alt={props.image}
-  src={props.image}
-  style={(props.displayType === 'suggested')?{height:'4rem', width: '4rem', marginLeft:'auto',marginRight:'auto', marginTop:'1.5rem'}:{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto',marginTop:'1.5rem'}}
-  /> 
-  <Card.Body
-  style={{overflow:'hidden',textOverflow:'ellipsis', width:'90%',marginLeft:'auto', marginRight: 'auto', whiteSpace:'nowrap'}}
-  >
 
-  
-  
-  {props.subtitle}
+
+{props.subtitle}
+
+
+
+</p>
+      </h3>
+    {(props.articleFrom !== 'homepage')
+    ?
+    <Card.Img 
+    alt={props.image}
+    src={props.image}
+    style={(props.displayType === 'suggested')?{height:'4rem', width: '4rem', marginLeft:'auto',marginRight:'auto', marginTop:'1.5rem'}:{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto',marginTop:'1.5rem'}}
+    /> 
+    :  
+    <p></p>
+}
 
   <Card.Footer 
-  style={{width: '80%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', padding:'1px'}}
+  style={{width: '99%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', padding:'1px'}}
   >
-  By {props.author}  </Card.Footer> 
- 
-  </Card.Body>
-      </Card>
-      </Button>
+  By   {props.author} {props.datePublished} {props.timePublished}    </Card.Footer> 
+      </Card.Header>
     )
 }
 
