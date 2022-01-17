@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import {getAllPublished} from './APICalls'
-import ArticleCard from './ArticleCard'
+import SuggestedCard from './SuggestedCard'
 const SuggestedArticles = (props) =>{
     const [suggestedArray, setSuggestedArray] = useState(false)
     const [index1, setIndex1] =useState()
@@ -45,9 +45,10 @@ const SuggestedArticles = (props) =>{
     return (
        <div style={{outline:'2px solid red' ,width:'100%', marginTop:'8rem', backgroundColor: 'grey'}}>
        <h4 style={{textAlign: 'center'}}>Check these out too</h4>
-       <div style={{display:'flex', flexDirection: 'row', marginTop: '5rem'}}>
-    
-suggested articles
+       <div style={{display:'flex', flexDirection: 'row', marginTop: '1rem'}}>
+    <SuggestedCard {...suggestedArray[index1]}/>
+    <SuggestedCard {...suggestedArray[index2]}/>
+
        </div>
        </div>
     )
