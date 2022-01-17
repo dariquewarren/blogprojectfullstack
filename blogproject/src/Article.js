@@ -48,7 +48,7 @@ const setInitalValues = ()=>{
     
 
                     <h1 style={{textAlign:'center'}}>{(newTitle)? newTitle.toUpperCase() : title.toUpperCase()}</h1>
-                    <h4 style={{textAlign:'left'}}>{(newSubtitle)?newSubtitle.toUpperCase(): subtitle.toUpperCase()}</h4>
+                    <h4 style={{textAlign:'center'}}>{(newSubtitle)?newSubtitle.toUpperCase(): subtitle.toUpperCase()}</h4>
 
 
        

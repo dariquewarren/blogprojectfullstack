@@ -47,18 +47,7 @@ const SuggestedArticles = (props) =>{
        <h4 style={{textAlign: 'center'}}>Check these out too</h4>
        <div style={{display:'flex', flexDirection: 'row', marginTop: '5rem'}}>
     
-      
-       
-       {(suggestedArray !== false)?suggestedArray.map((m)=>{
-           if(suggestedArray.indexOf(m) === index1 || suggestedArray.indexOf(m) === index2){
-               return (
-                   <ArticleCard  key={m.id} displayType={'suggested'} {...m}/>
-               )
-           }else{
-               return
-           }
-       }):<p></p>}
-    
+suggested articles
        </div>
        </div>
     )

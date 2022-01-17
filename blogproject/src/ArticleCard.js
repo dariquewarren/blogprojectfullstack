@@ -46,16 +46,7 @@ style={{paddingBottom:'1rem',overflow:'hidden',textOverflow:'ellipsis', width:'9
 
 </p>
       </h3>
-    {(props.articleFrom !== 'homepage')
-    ?
-    <Card.Img 
-    alt={props.image}
-    src={props.image}
-    style={(props.displayType === 'suggested')?{height:'4rem', width: '4rem', marginLeft:'auto',marginRight:'auto', marginTop:'1.5rem'}:{height:'10rem', width: '10rem', marginLeft:'auto',marginRight:'auto',marginTop:'1.5rem'}}
-    /> 
-    :  
-    <p></p>
-}
+ 
 
   <Card.Footer 
   style={{width: '99%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', padding:'1px'}}

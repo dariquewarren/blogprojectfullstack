@@ -54,7 +54,7 @@ const updateObject = {
 
 
     return (
-        <div  style={{border:'2px solid red'}}>
+        <div style={{height: '100vh',overflow: 'scroll', whiteSpace: 'wrap'}}>
         
 
 {(props.articleFrom === 'homepage')
