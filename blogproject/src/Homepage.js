@@ -185,31 +185,18 @@ setTagsArray(setArray)
 }
 
 useEffect(()=>{
+    console.log('trueArray',props.trueArray)
 if(mappedArray.length < 1 || !mappedArray){
-    fetch('/published/all').then((response)=>{
-        return response.json()
-       }).then((data)=>{
-           if(!data.realData || data.realData[0] === undefined ){
-           return  data.realData  
-           }else{
-               setMappedArray(data.realData)
-               setBaseArray(data.realData)
-
-
-            return data.realData
-
-           }
-   
-    }).then((data)=>{
-        categoryMap(data)
-        tagsMap(data)
-
-    })
+    setMappedArray(props.publishedArray)
+    setBaseArray(props.trueArray)
+    categoryMap(props.trueArray)
+    tagsMap(props.trueArray)
+    
     
 }else {
     return
 }
-}, [mappedArray])
+}, [props.trueArray, props.publishedArray])
 
     return (
         <div>

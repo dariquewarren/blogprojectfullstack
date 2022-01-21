@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
@@ -17,7 +17,9 @@ import AuthPage from './AuthPage';
 function App() {
   const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
-  const [trueArray, settrueArray] = useState([])
+  const [trueArray, setTrueArray] = useState([])
+  const [publishedArray, setPublishedArray] = useState([])
+
 const testArticle = {
   author: 'this is just a test. delete me before release'
 }
@@ -67,16 +69,17 @@ const testArticle = {
     
   },]
 
-  const handleRetrieveData = async (type, author)=>{
-    
-  Promise.resolve(getArticlesByType(type, author)).then((data)=>{
-    console.log('retrievedFromFn', data)
-    settrueArray(data)
-    return data
-  })
+ 
 
-  }
-
+  useEffect(()=>{
+    fetch('/published/all').then((response)=>{
+      return response.json()
+    }).then((data)=>{
+      setTrueArray(data.realData)
+      setPublishedArray(data.realData)
+  return 
+    })
+  }, [])
   
   return (
     <BrowserRouter  >
@@ -85,18 +88,18 @@ const testArticle = {
    
     <Switch  >
 
-    <Route exact path='/' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route exact path='/' element={<Homepage  publishedArray={publishedArray} trueArray={trueArray} author={articleAuthor} />}/>
 
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
     <Route exact path='/all/drafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
     <Route exact path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
     
-    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} handleRetrieveData={handleRetrieveData} author={articleAuthor} />}/>
+    <Route exact path='/homepage' element={<Homepage articleArray={dummyArticleArray} trueArray={trueArray} author={articleAuthor} />}/>
     
     <Route exact path='/all/published' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
 
-    <Route exact path='/read/published/:id' element={<ReadPublished articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/read/published/:id' element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
        
    
     </Switch>
