@@ -34,6 +34,7 @@ function App() {
     })
    }else{
     return 
+    console.log('true array already exists')
    }
   }, [trueArray])
   
