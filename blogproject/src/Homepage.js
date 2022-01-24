@@ -253,11 +253,13 @@ if(mappedArray.length < 1 || !mappedArray){
         ?
     <div>
     <AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
-    <h6>{filterMessage}</h6>
-    <SearchOptions array={baseArray} setNewArray={setMappedArray} 
-    setFilterMessage={setFilterMessage} searchLocation={searchLocation}
+
+    <SearchOptions array={baseArray}  setNewArray={setMappedArray} 
+    filterMessage={filterMessage} setFilterMessage={setFilterMessage} searchLocation={searchLocation}
+    setCategorySelected={setCategorySelected} 
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
+
      <Nav 
      variant='tabs'
       style={{width: '90%', marginLeft:'auto', marginRight:'auto' }}

@@ -104,6 +104,8 @@ return specialArray
             <Form.Label style={{width: '100% ',textAlign: 'center', fontSize:'2rem'}}>
             {(props.searchLocation === undefined) ? `Select Search location` :`Search ${props.searchLocation.toUpperCase()}`}  
             </Form.Label>
+            <h6 style={{textAlign:'center'}}>{props.filterMessage}</h6>
+
             <Row>
             <Form.Control style={{width:'60%', marginLeft: '5%', marginRight: '0px'}}
              type='text' placeholder={`Search VIA ${props.searchLocation} text`} onChange={(e)=>{
@@ -112,6 +114,7 @@ return specialArray
             <Button style={{width:'25%', marginLeft: '0px', marginRight: 'auto'}} 
             onClick={()=>{
                 deliverSearchArray()
+                props.setCategorySelected(` Search Results For - "${searchTerm}"} `)
             }}
             >
             Search

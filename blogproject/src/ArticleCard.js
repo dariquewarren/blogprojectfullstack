@@ -14,7 +14,6 @@ function ArticleCard(props) {
       {cursor:'pointer',color:'black', width:'80%', marginLeft:'auto', marginRight:'auto', textAlign: 'center',marginTop:'1rem', marginBottom: '1rem', borderLeft: '2px solid black', borderBottom: '2px solid black'}
     }
       onClick={()=>{
-        alert('go to view page w/id', props.id)
         if(props.type === 'drafts'){
             window.open(`/read/draft/${props.id}`)
         }else if(props.type === 'published'){
