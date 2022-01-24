@@ -86,7 +86,7 @@ useEffect(()=>{
     ?
     displayArray.map((m)=>{
     return (
-        <ArticleCard {...m} />
+        <ArticleCard articleFrom='admin view' {...m} />
     )
 })
 :
