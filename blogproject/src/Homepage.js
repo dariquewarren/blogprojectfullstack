@@ -1,10 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {Link} from 'react-router-dom'
 import logo from './logo.svg';
 import Nav from 'react-bootstrap/Nav'
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
@@ -119,10 +115,10 @@ var trueCategoryArray = []
 
 interimArray.map((m)=>{
     if(m.category.includes(filterWord.toUpperCase())){
-        trueCategoryArray.push(m)
-return m
+return trueCategoryArray.push(m)
+ 
     }else{
-        return
+        return m
     }
 })
 
@@ -140,10 +136,9 @@ var trueTagsArray = []
 
 interimArray.map((m)=>{
     if(m.tags.includes(filterWord.toUpperCase())){
-        trueTagsArray.push(m)
-return m
+      return  trueTagsArray.push(m)
     }else{
-        return
+        return m
     }
 })
 setMappedArray(trueTagsArray)
@@ -196,7 +191,7 @@ if(mappedArray.length < 1 || !mappedArray){
 }else {
     return
 }
-}, [props.trueArray, props.publishedArray])
+}, [props.trueArray, props.publishedArray, mappedArray])
 
     return (
         <div>
@@ -219,11 +214,13 @@ if(mappedArray.length < 1 || !mappedArray){
                     <Nav.Item                    
                     key={m.id} >
                    <Nav.Link 
-                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'25%', minWidth:'10%', backgroundColor: 'black'}}                  
                    
                    key={tagsArray.indexOf(m)} onClick={()=>{
                        handleCategoryFilter(m)
                        setCategorySelected(m.toUpperCase())
+                       setFilterMessage('')
+                       toggleSearch(false)
                        console.log(m)
                    }}>{m} </Nav.Link>
                    </Nav.Item>
@@ -256,7 +253,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     <SearchOptions array={baseArray}  setNewArray={setMappedArray} 
     filterMessage={filterMessage} setFilterMessage={setFilterMessage} searchLocation={searchLocation}
-    setCategorySelected={setCategorySelected} 
+    setCategorySelected={setCategorySelected} toggleSearch={toggleSearch}
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
 
@@ -345,7 +342,7 @@ htmlFor='tags'>Tags</h5>
       
         <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '30%' }}>
     
-    <img src={logo} style={{ height: '100vh', width:'100%', position:'sticky', top:'2px'}} />
+    <img src={logo} alt='Blog owner' style={{ height: '100vh', width:'100%', position:'sticky', top:'2px'}} />
         </Nav>
        <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '50%' }}>
      
@@ -379,7 +376,9 @@ mappedArray.map((m)=>{
                         <p 
                         key={m.id}
                         
-                        style={{cursor: 'pointer',width:'100%',textAlign:'right', textDecoration:'underline', color: 'black'}} key={tagsArray.indexOf(m)} onClick={()=>{
+                        style={{cursor: 'pointer',width:'100%',textAlign:'right', 
+                        textDecoration:'underline', color: 'black'}} 
+                         onClick={()=>{
                             handleTagsFilter(m)
                             
                             console.log(m)

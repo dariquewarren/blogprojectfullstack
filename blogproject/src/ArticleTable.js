@@ -51,6 +51,8 @@ useEffect(()=>{
                     <tr as='button'
                     onClick={()=>{
                         props.setDisplayId(m.id)
+                        props.handleDisplayedCard(m.id)
+
                     }}
                     key={m.id}>
                     <th >{(props.mappedArray.indexOf(m) + 1)}</th>

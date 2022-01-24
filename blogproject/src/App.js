@@ -22,8 +22,8 @@ function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, setTrueArray] = useState([])
   const [publishedArray, setPublishedArray] = useState([])
-
-   useEffect(()=>{
+  
+  useEffect(()=>{
    if(trueArray.length < 1){
     fetch('/published/all').then((response)=>{
       return response.json()
@@ -57,7 +57,14 @@ function App() {
     
     <Route exact path='/homepage' element={<Homepage trueArray={trueArray} author={articleAuthor} />}/>
     
-    <Route exact path='/all/published' element={<ViewPublished articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/all/published' element=
+    {<ViewPublished 
+      articleAuthor={articleAuthor}
+    trueArray={trueArray}
+    setTrueArray={setTrueArray}
+    publishedArray={publishedArray}
+    setPublishedArray={setPublishedArray}
+    />}/>
 
     <Route exact path='/read/published/:id' element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
   

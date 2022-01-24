@@ -1,11 +1,8 @@
 import React, {useState} from 'react'
-import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-
+import { GiCrossMark } from 'react-icons/gi'
 import Row from 'react-bootstrap/Row'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 const SearchOptions = (props)=>{
     const [searchTerm, changeSearchTerm] = useState(undefined)
@@ -101,9 +98,17 @@ return specialArray
     
         return(
             <Form.Group style={{width:'100%'}}>
-            <Form.Label style={{width: '100% ',textAlign: 'center', fontSize:'2rem'}}>
+            <h6 style={{border:'2px solid green', textAlign: 'right', paddingRight:'1%', marginBottom:'0px'}}>
+            <GiCrossMark style={{border:'2px solid red', height: '2rem', width:'2rem'}} onClick={()=>{
+                props.toggleSearch(false)
+            }}/>
+            </h6>
+            
+            <Form.Label style={{width: '100% ',textAlign: 'center', fontSize:'2rem', marginTop: '0px'}}>
             {(props.searchLocation === undefined) ? `Select Search location` :`Search ${props.searchLocation.toUpperCase()}`}  
+           
             </Form.Label>
+            
             <h6 style={{textAlign:'center'}}>{props.filterMessage}</h6>
 
             <Row>

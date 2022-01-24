@@ -6,16 +6,13 @@ import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 import AlertText from './AlertText'
 import SearchOptions from './SearchOptions'
 import ArticleTable from './ArticleTable'
-import TimeSortOptions from './TimeSortOptions'
-import TitleSortOptions from './TitleSortOptions'
 import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
 import {BsArrowRepeat} from 'react-icons/bs'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import Dropdown from 'react-bootstrap/Dropdown'
+
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -24,6 +21,8 @@ import Loading from './Loading'
 
 const ViewPublished =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
+const [displayArray, setDisplayArray] = useState([])
+
 const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
 
@@ -54,48 +53,44 @@ toggleCategorySearch(false)
 toggleTagsSearch(false)
 }
 
-
+const handleDisplayedCard =(id)=>{
+var foundCard = originalArray.filter((m)=>{
+    return m.id === id
+})
+setDisplayArray(foundCard)
+console.log('foundCard',foundCard)
+}
 
 
 
 
  
 useEffect(()=>{
+
+
     if(mappedArray.length < 1){
-        fetch('/published/all').then((response)=>{
-            return response.json()
-           }).then((data)=>{
-               if(!data.realData || data.realData[0] === undefined ){
-                   
-                setMappedArray([{title:'NoData'}])
-               return  alert(data.message)  
-               }else{
-                   setOriginalArray(data.realData)
-                return setMappedArray(data.realData)
-    
-               }
-       
-        })
+        setOriginalArray(props.trueArray)
+        setMappedArray(props.publishedArray)
+       }else{
+           return
        }
 
        return ()=>{
            console.log('callback function called')
        }
-    }, [mappedArray])
+    }, [props.trueArray,props.trueArray,mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
-{(displayId)?
-    mappedArray.map((m)=>{
-        if(displayId === m.id){
-            return <ArticleCard {...m}/>
-        }else{
-            return
-        }
-        
-    })
-    :
-    <p></p>
+{(displayArray.length === 1) 
+    ?
+    displayArray.map((m)=>{
+    return (
+        <ArticleCard {...m} />
+    )
+})
+:
+<p></p>
 }
 
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage}/>
@@ -273,11 +268,13 @@ useEffect(()=>{
                     setShowAlert(false)
                     closeAllOptions()
                     setMappedArray(originalArray)
+                    setDisplayArray([])
                 }}
                 /></h6>
                 
                <ArticleTable 
                closeAllOptions={closeAllOptions} 
+               handleDisplayedCard={handleDisplayedCard}
 
                mappedArray={mappedArray} setMappedArray={setMappedArray} 
                setSortMessage={setSortMessage} setDisplayId={setDisplayId}
