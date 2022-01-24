@@ -4,11 +4,11 @@ import 'react-quill/dist/quill.snow.css';// css
 import { useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
 import Article from './Article'
-import { getSinglePublished ,updatePublished} from './APICalls';
 import Loading from './Loading';
 import SuggestedArticles from './SuggestedArticles';
+
+
 function ReadPublished(props) {
 
  const {id} = useParams()
@@ -61,13 +61,6 @@ const handleSingleArticle= async (identification, array)=>{
 
     return (
         <div style={{height: 'auto'}}>
-       <button
-       onclick={()=>{
-           console.log(article)
-       }}
-       >
-       test
-       </button>
        {(article) 
         ?
         <div>
@@ -75,7 +68,7 @@ const handleSingleArticle= async (identification, array)=>{
         <SuggestedArticles article1={props.publishedArray[index1]} article2={props.publishedArray[index2]}/>
 
         </div> 
-        : <p>nothing yet</p>}
+        : <Loading/>}
         </div>
     )
 }

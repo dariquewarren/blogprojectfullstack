@@ -1,12 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
-import ReactQuill from 'react-quill'; // ES6
-import 'react-quill/dist/quill.snow.css';// css
-import SuggestedArticles from './SuggestedArticles'
-import Button from 'react-bootstrap/Button';
+import Loading from './Loading'
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 function Article(props) {
@@ -15,11 +9,11 @@ function Article(props) {
 
     useEffect(()=>{
         
-       },[])
+       },[props])
     return (
        <Container>
        
-       {(props.id)?
+      
         <div style={{marginBottom:'2rem'}}>
         <h1 className='text-center mt-2rem mb-2rem'>{props.title}</h1>
 <h4 style={{marginBottom:'1rem',marginTop:'1rem'}}>{props.subtitle}</h4>
@@ -35,9 +29,8 @@ function Article(props) {
 </div>
 {ReactHtmlParser(props.article)}
 </div>
-         :
-        <p>wait for it.....</p>
-        }
+         
+        
        
        </Container>
     )

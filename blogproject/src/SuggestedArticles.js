@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
+import Loading from './Loading'
 import Nav from 'react-bootstrap/Nav'
 import {getAllPublished} from './APICalls'
 import SuggestedCard from './SuggestedCard'
@@ -21,7 +22,7 @@ const SuggestedArticles = (props) =>{
 
         </Nav>
     :
-    <p>loading....</p>
+    <Loading/>
         }
        </div>
     )
