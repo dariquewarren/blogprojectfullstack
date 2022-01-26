@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import logo from './logo.svg';
+import portfolioPic from './portfolioPic.jpg'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import ArticleCard from './ArticleCard'
@@ -19,65 +19,7 @@ const [alertMessage, setAlertMessage] = useState('')
 const [filterMessage, setFilterMessage] = useState('')
 const [tagsArray, setTagsArray] = useState([])
 
-const titleRef = useRef()
-const subtitleRef = useRef()
-const articleRef = useRef()
-const categoryRef = useRef()
-const tagsRef = useRef()
 
-
-
-const handleRadios = (type)=>{
-switch(type){
-    case 'title':
-        setSearchLocation('title')
-        titleRef.current.checked = true
-        articleRef.current.checked = false
-        subtitleRef.current.checked = false
-        categoryRef.current.checked = false
-        tagsRef.current.checked = false
-        console.log(type, titleRef.current.checked)
-        break;
-        case 'subtitle':
-            setSearchLocation('subtitle')
-            subtitleRef.current.checked = true
-            titleRef.current.checked = false
-            articleRef.current.checked = false
-            categoryRef.current.checked = false
-            tagsRef.current.checked = false
-            console.log(type, subtitleRef.current.checked)
-            break;
-            case 'article':
-        setSearchLocation('article')
-        articleRef.current.checked = true
-        titleRef.current.checked = false
-        subtitleRef.current.checked = false
-        categoryRef.current.checked = false
-        tagsRef.current.checked = false
-        console.log(type,articleRef.current.checked)
-        break;
-        case 'tags':
-            setSearchLocation('tags')
-            tagsRef.current.checked = true
-            titleRef.current.checked = false
-            articleRef.current.checked = false
-            subtitleRef.current.checked = false
-            categoryRef.current.checked = false
-            console.log(type, tagsRef.current.checked)
-            break;
-            case 'category':
-            setSearchLocation('category')
-            categoryRef.current.checked = true
-            titleRef.current.checked = false
-            articleRef.current.checked = false
-            subtitleRef.current.checked = false
-            tagsRef.current.checked = false
-            console.log(type, categoryRef.current.checked)
-            break;
-default: 
-console.log('default')
-}
-}
 
 
 const displayAmount = (type,arr, term)=>{
@@ -195,7 +137,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <div>
-        <Nav variant='tabs' style={{borderBottom: '2px solid black'}} >
+        <Nav variant='tabs' style={{borderBottom: '2px solid black', backgroundColor:'grey'}} >
        
         <Nav.Item>
         <Nav.Link
@@ -210,11 +152,34 @@ if(mappedArray.length < 1 || !mappedArray){
         {(categoryArray.length > 0)
             ?
             categoryArray.map((m)=>{
-                return (    
+                return categoryArray.indexOf(m) < categoryArray.length / 2 && (    
                     <Nav.Item                    
                     key={m.id} >
                    <Nav.Link 
-                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'25%', minWidth:'10%', backgroundColor: 'black'}}                  
+                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'auto', backgroundColor: 'black'}}                  
+                   
+                   key={tagsArray.indexOf(m)} onClick={()=>{
+                       handleCategoryFilter(m)
+                       setCategorySelected(m.toUpperCase())
+                       setFilterMessage('')
+                       toggleSearch(false)
+                       console.log(m)
+                   }}>{m} </Nav.Link>
+                   </Nav.Item>
+                )
+                
+            })
+        :
+        <p></p>}
+        <br></br>
+        {(categoryArray.length > 0)
+            ?
+            categoryArray.map((m)=>{
+                return categoryArray.indexOf(m) > categoryArray.length / 2 && (    
+                    <Nav.Item                    
+                    key={m.id} >
+                   <Nav.Link 
+                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'auto', backgroundColor: 'black'}}                  
                    
                    key={tagsArray.indexOf(m)} onClick={()=>{
                        handleCategoryFilter(m)
@@ -248,103 +213,29 @@ if(mappedArray.length < 1 || !mappedArray){
 
      {(showSearch)
         ?
-    <div>
+    <div style={{marginBottom: '4rem', borderBottom: '5px solid black'}} >
     <AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
 
     <SearchOptions array={baseArray}  setNewArray={setMappedArray} 
-    filterMessage={filterMessage} setFilterMessage={setFilterMessage} searchLocation={searchLocation}
+    filterMessage={filterMessage} setFilterMessage={setFilterMessage} setSearchLocation={setSearchLocation} searchLocation={searchLocation}
     setCategorySelected={setCategorySelected} toggleSearch={toggleSearch}
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
 
-     <Nav 
-     variant='tabs'
-      style={{width: '90%', marginLeft:'auto', marginRight:'auto' }}
-       >
      
-
-     <Nav.Item 
-     style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}
-     onClick={(e)=>{
-        handleRadios(e.target.value)    
-     }}
-     >
-    
-     <Form.Check ref={titleRef} type='radio' id='title' value='title'/>
-     
-     <h5
-     htmlFor='title'>Title</h5>
-     
-     
-     </Nav.Item>
-   <Nav.Item
-   style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}   
-   onClick={(e)=>{
-    handleRadios(e.target.value)    
- }}
-   >
- 
-   <Form.Check
-   
-   ref={subtitleRef} type='radio' id='subtitle' value='subtitle' />
- <h5
-
- htmlFor='subtitle'>SubTitle</h5> 
-   </Nav.Item>
-   
-   
-<Nav.Item 
-style={{cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}   
-onClick={(e)=>{
-    handleRadios(e.target.value)    
- }}
->
-
-<Form.Check ref={articleRef} type='radio' id='article' value='article' />
-<h4 
-htmlFor='article'>Article</h4>
-</Nav.Item>
-
-
-<Nav.Item
-style={{ cursor: 'pointer',width:'auto', marginLeft: '1%', marginRight: '1%'}}  
-onClick={(e)=>{
-    handleRadios(e.target.value)    
- }}
->
-
-<Form.Check ref={categoryRef} type='radio' id='category' value='category' />
-<h5
- htmlFor='category'>Category</h5>
-</Nav.Item>
-
-
- <Nav.Item 
- style={{cursor: 'pointer', width:'auto', marginLeft: '1%', marginRight: '1%'}} 
- onClick={(e)=>{
-    handleRadios(e.target.value)    
- }}
- >
- 
- <Form.Check ref={tagsRef} type='radio' id='tags' value='tags'/>
-<h5
-htmlFor='tags'>Tags</h5>
-</Nav.Item>
-
-     </Nav>
       </div>
         :
      <p></p>   
         }
      
 
-        <div style={{display: 'flex', flexDirection:'row', width: '100%' }}>
+        <div style={{display: 'flex', flexDirection:'row', width: '100%', marginTop:'0px' }}>
       
-        <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '30%' }}>
+        <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '40%' }}>
     
-    <img src={logo} alt='Blog owner' style={{ height: '100vh', width:'100%', position:'sticky', top:'2px'}} />
+    <img src={portfolioPic} alt='Blog owner' style={{ height: '50vh', width:'100%', position:'sticky', top:'2px'}} />
         </Nav>
-       <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '50%' }}>
+       <Nav className='flex-column' style={{marginLeft: 'auto',marginRight:'0px', width: '40%' }}>
      
 
        <h4 style={{textAlign:'center' ,borderBottom:'2px solid black', marginLeft:'auto',marginRight:'auto', width: '50%'}}>

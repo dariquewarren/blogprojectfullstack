@@ -22,7 +22,19 @@ function App() {
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [trueArray, setTrueArray] = useState([])
   const [publishedArray, setPublishedArray] = useState([])
-  
+  const [draftsArray, setDraftsArray] = useState([])
+
+const handleDraftsArray = ()=>{
+  fetch('/published/all').then((response)=>{
+    return response.json()
+  }).then((data)=>{
+    setDraftsArray(data.realData)
+    return data.realData
+  }).then((data)=>{
+    console.log('draftsArray', draftsArray)
+  })
+}
+
   useEffect(()=>{
    if(trueArray.length < 1){
     fetch('/published/all').then((response)=>{
@@ -31,20 +43,22 @@ function App() {
       setTrueArray(data.realData)
       setPublishedArray(data.realData)
  
+    }).then(()=>{
+      handleDraftsArray()
     })
    }else{
     return 
     console.log('true array already exists')
    }
-  }, [trueArray])
+  }, [trueArray, draftsArray])
   
   return (
-    <div>
+    <div style={{backgroundColor:"#93a9d4"}}>
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
 
-    <Header/>
+    <Header trueArray={trueArray}/>
    
     <Switch  >
 
@@ -57,9 +71,7 @@ function App() {
     
     <Route exact path='/homepage' element={<Homepage trueArray={trueArray} author={articleAuthor} />}/>
     
-    <Route exact path='/all/published' element=
-    {<ViewPublished 
-      articleAuthor={articleAuthor}
+    <Route exact path='/all/published' element= {<ViewPublished articleAuthor={articleAuthor}
     trueArray={trueArray}
     setTrueArray={setTrueArray}
     publishedArray={publishedArray}
