@@ -9,8 +9,6 @@ import AlertText from './AlertText'
 const Homepage =  (props)=> {
 const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
-const [categoryArray, setCategoryArray] = useState([])
-const [categorySelected, setCategorySelected] = useState(false)
 const [showSearch, toggleSearch] = useState(false)
 const [searchLocation, setSearchLocation] = useState(undefined)
 
@@ -49,28 +47,7 @@ return newArray.length
 }
 
 
-const handleCategoryFilter = (filterWord)=>{
-    const interimArray = baseArray
 
-// filter array by matches to filterWord
-var trueCategoryArray = []
-
-interimArray.map((m)=>{
-    if(m.category.includes(filterWord.toUpperCase())){
-return trueCategoryArray.push(m)
- 
-    }else{
-        return m
-    }
-})
-
-console.log('trueCategoryArray', trueCategoryArray)
-
-
-    // set main page array to new Category array
-    setMappedArray(trueCategoryArray)
-    // console.log('category filter')
-    }
 const handleTagsFilter = (filterWord)=>{
 // filter array by matches to filterWord
 const interimArray = baseArray
@@ -94,19 +71,7 @@ console.log('trueTagsArray', trueTagsArray)
 }
 
 
-const categoryMap = async(array)=>{
-  
-const changedArray = array.map((m)=>{
-    return m.category
-})
-const flatArray = await changedArray.flat()
-const setArray = [...new Set(flatArray)]
-console.log(`flatArray`, flatArray)
-console.log(`setArray`, setArray)
-console.log(`changedArray`, changedArray)
 
-setCategoryArray(setArray)
-}
 
 
 const tagsMap =async (array)=>{
@@ -126,7 +91,6 @@ useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
     setMappedArray(props.publishedArray)
     setBaseArray(props.trueArray)
-    categoryMap(props.trueArray)
     tagsMap(props.trueArray)
     
     
@@ -141,62 +105,18 @@ if(mappedArray.length < 1 || !mappedArray){
        
         <Nav.Item>
         <Nav.Link
-         style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+         style={{textDecoration: (props.categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
         onClick={()=>{
             setMappedArray(baseArray)
-            setCategorySelected('HOME')
+            props.setCategorySelected('HOME')
            }}>
            Home
            </Nav.Link>
         </Nav.Item>
-        {(categoryArray.length > 0)
-            ?
-            categoryArray.map((m)=>{
-                return categoryArray.indexOf(m) < categoryArray.length / 2 && (    
-                    <Nav.Item                    
-                    key={m.id} >
-                   <Nav.Link 
-                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'auto', backgroundColor: 'black'}}                  
-                   
-                   key={tagsArray.indexOf(m)} onClick={()=>{
-                       handleCategoryFilter(m)
-                       setCategorySelected(m.toUpperCase())
-                       setFilterMessage('')
-                       toggleSearch(false)
-                       console.log(m)
-                   }}>{m} </Nav.Link>
-                   </Nav.Item>
-                )
-                
-            })
-        :
-        <p></p>}
-        <br></br>
-        {(categoryArray.length > 0)
-            ?
-            categoryArray.map((m)=>{
-                return categoryArray.indexOf(m) > categoryArray.length / 2 && (    
-                    <Nav.Item                    
-                    key={m.id} >
-                   <Nav.Link 
-                   style={{textDecoration: (categorySelected === m.toUpperCase())?'underline':'none',width:'auto', backgroundColor: 'black'}}                  
-                   
-                   key={tagsArray.indexOf(m)} onClick={()=>{
-                       handleCategoryFilter(m)
-                       setCategorySelected(m.toUpperCase())
-                       setFilterMessage('')
-                       toggleSearch(false)
-                       console.log(m)
-                   }}>{m} </Nav.Link>
-                   </Nav.Item>
-                )
-                
-            })
-        :
-        <p></p>}
+      
     <Nav.Item>
         <Nav.Link
-        style={{textDecoration: (categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
+        style={{textDecoration: (props.categorySelected === 'HOME')?'underline':'none', maxWidth:'100%', backgroundColor: 'black'}}                  
 
         onClick={()=>{
             toggleSearch(!showSearch)
@@ -218,7 +138,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     <SearchOptions array={baseArray}  setNewArray={setMappedArray} 
     filterMessage={filterMessage} setFilterMessage={setFilterMessage} setSearchLocation={setSearchLocation} searchLocation={searchLocation}
-    setCategorySelected={setCategorySelected} toggleSearch={toggleSearch}
+    setCategorySelected={props.setCategorySelected} toggleSearch={toggleSearch}
     setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
      />
 
@@ -239,12 +159,12 @@ if(mappedArray.length < 1 || !mappedArray){
      
 
        <h4 style={{textAlign:'center' ,borderBottom:'2px solid black', marginLeft:'auto',marginRight:'auto', width: '50%'}}>
-        {(categorySelected && categorySelected !=='HOME') ? categorySelected: 'All Articles'}
+        {(props.categorySelected && props.categorySelected !=='HOME') ? props.categorySelected : 'All Articles'}
         </h4>
 
-{(mappedArray.length > 0)
+{(props.publishedArray.length > 0)
     ?
-mappedArray.map((m)=>{
+    props.publishedArray.map((m)=>{
     return (
         <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
     )

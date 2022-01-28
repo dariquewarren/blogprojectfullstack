@@ -20,9 +20,13 @@ const ReadPublished = lazy(()=>import('./ReadPublished'))
 function App() {
   const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
+  const [categorySelected, setCategorySelected] = useState(false)
+
   const [trueArray, setTrueArray] = useState([])
   const [publishedArray, setPublishedArray] = useState([])
   const [draftsArray, setDraftsArray] = useState([])
+  const [categoryArray, setCategoryArray] = useState([])
+
 
 const handleDraftsArray = ()=>{
   fetch('/published/all').then((response)=>{
@@ -35,6 +39,20 @@ const handleDraftsArray = ()=>{
   })
 }
 
+const categoryMap = async(array)=>{
+  
+  const changedArray = array.map((m)=>{
+      return m.category
+  })
+  const flatArray = await changedArray.flat()
+  const setArray = [...new Set(flatArray)]
+  console.log(`flatArray`, flatArray)
+  console.log(`setArray`, setArray)
+  console.log(`changedArray`, changedArray)
+  
+  setCategoryArray(setArray)
+  }
+
   useEffect(()=>{
    if(trueArray.length < 1){
     fetch('/published/all').then((response)=>{
@@ -42,15 +60,17 @@ const handleDraftsArray = ()=>{
     }).then((data)=>{
       setTrueArray(data.realData)
       setPublishedArray(data.realData)
- 
-    }).then(()=>{
+ return data.realData
+    }).then((data)=>{
       handleDraftsArray()
+      categoryMap(data)
     })
    }else{
-    return 
     console.log('true array already exists')
+
+    return 
    }
-  }, [trueArray, draftsArray])
+  }, [ draftsArray, publishedArray])
   
   return (
     <div style={{backgroundColor:"#93a9d4"}}>
@@ -58,11 +78,11 @@ const handleDraftsArray = ()=>{
 
     <BrowserRouter  >
 
-    <Header trueArray={trueArray}/>
+    <Header setCategorySelected={setCategorySelected} trueArray={trueArray} setPublishedArray={setPublishedArray} categoryArray={categoryArray} trueArray={trueArray}/>
    
     <Switch  >
 
-    <Route exact path='/' element={<Homepage  publishedArray={publishedArray} trueArray={trueArray} author={articleAuthor} />}/>
+    <Route exact path='/' element={<Homepage categorySelected={categorySelected} setCategorySelected={setCategorySelected} publishedArray={publishedArray} trueArray={trueArray} author={articleAuthor} />}/>
 
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
