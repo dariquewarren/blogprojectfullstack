@@ -21,12 +21,13 @@ function App() {
   const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [categorySelected, setCategorySelected] = useState(false)
-
+  const [showSearch, toggleSearch] = useState(false)
+  const [searchLocation, setSearchLocation] = useState(undefined)
+  const [filterMessage, setFilterMessage] = useState('')
   const [trueArray, setTrueArray] = useState([])
   const [publishedArray, setPublishedArray] = useState([])
   const [draftsArray, setDraftsArray] = useState([])
   const [categoryArray, setCategoryArray] = useState([])
-
 
 const handleDraftsArray = ()=>{
   fetch('/published/all').then((response)=>{
@@ -73,23 +74,32 @@ const categoryMap = async(array)=>{
   }, [ draftsArray, publishedArray])
   
   return (
-    <div style={{backgroundColor:"#93a9d4"}}>
+    <div style={{backgroundColor:"whitesmoke", color: '#212121'}}>
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
 
-    <Header setCategorySelected={setCategorySelected} trueArray={trueArray} setPublishedArray={setPublishedArray} categoryArray={categoryArray} trueArray={trueArray}/>
+    <Header showSearch={showSearch} toggleSearch={toggleSearch}
+    searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
+    setCategorySelected={setCategorySelected} trueArray={trueArray} setPublishedArray={setPublishedArray} categoryArray={categoryArray} />
    
     <Switch  >
 
-    <Route exact path='/' element={<Homepage categorySelected={categorySelected} setCategorySelected={setCategorySelected} publishedArray={publishedArray} trueArray={trueArray} author={articleAuthor} />}/>
+    <Route exact path='/' element={<Homepage 
+      searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
+      categorySelected={categorySelected} setCategorySelected={setCategorySelected} 
+    publishedArray={publishedArray} showSearch={showSearch} 
+    toggleSearch={toggleSearch} categoryArray={categoryArray} setCategoryArray={setCategoryArray}
+    trueArray={trueArray} author={articleAuthor} />}/>
 
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
     <Route exact path='/all/drafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
     <Route exact path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
     
-    <Route exact path='/homepage' element={<Homepage trueArray={trueArray} author={articleAuthor} />}/>
+    <Route exact path='/homepage' element={<Homepage 
+      searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
+      trueArray={trueArray} author={articleAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
     
     <Route exact path='/all/published' element= {<ViewPublished articleAuthor={articleAuthor}
     trueArray={trueArray}

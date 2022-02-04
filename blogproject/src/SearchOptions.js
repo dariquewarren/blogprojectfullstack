@@ -1,13 +1,14 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import { GiCrossMark } from 'react-icons/gi'
 import Row from 'react-bootstrap/Row'
-
+import ArticleCard from './ArticleCard'
 const SearchOptions = (props)=>{
     const [searchTerm, changeSearchTerm] = useState(undefined)
-    
+    const [resultsArray, setResultsArray] = useState(false)
+
     const getSearchArray = (location, currentSearchTerm)=>{
         let specialArray
         switch(location){
@@ -62,6 +63,7 @@ const SearchOptions = (props)=>{
           
         }
         
+        console.log('specialArray', specialArray)
 return specialArray
 
 }
@@ -84,7 +86,7 @@ return specialArray
             return
         }else if(transformedArray){
             props.setShowAlert(false)
-            props.setNewArray(transformedArray)
+            setResultsArray(transformedArray)
             props.setFilterMessage(`Showing every ${props.searchLocation.toUpperCase()} that includes the term(s) ${searchTerm}`)
             return
         }else{
@@ -98,6 +100,7 @@ return specialArray
 
     
         return(
+            <div>
             <Form.Group style={{width:'100%'}}>
             
             <Nav>
@@ -122,7 +125,6 @@ return specialArray
             <Button style={{width:'25%', marginLeft: '0px', marginRight: 'auto'}} 
             onClick={()=>{
                 deliverSearchArray()
-                props.setCategorySelected(` Search Results For - "${searchTerm}"} `)
             }}
             >
             Search
@@ -130,7 +132,8 @@ return specialArray
             </Row>
             <SearchRadios setSearchLocation={props.setSearchLocation}/>
             </Form.Group>
-
+           <SearchResults resultsArray={resultsArray}/>
+</div>
            
            
         )
@@ -276,4 +279,20 @@ htmlFor='tags'>Tags</h5>
         )
     }
 
+
+    const SearchResults = (props)=>{
+
+        useEffect(()=>{
+console.log('search results props',props)
+        },[props])
+        return props.resultsArray && (
+            <div style={{width:'90%', marginLeft:'auto', marginRight:'auto'}}>
+                {props.resultsArray.map((m)=>{
+                    return(
+                        <ArticleCard articleFrom={'homepage'} type={'published'} {...m}/>
+                    )
+                })}
+            </div>
+        )
+    }
 export default SearchOptions

@@ -1,57 +1,46 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import Navbar from 'react-bootstrap/Navbar'
+import SearchOptions from './SearchOptions'
+import AlertText from './AlertText'
+
 import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import Navbar from 'react-bootstrap/esm/Navbar'
+
 import NavbarBrand from 'react-bootstrap/esm/NavbarBrand'
 import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import {BsMenuButton} from 'react-icons/bs'
+import {BsMenuButton, BsSearch} from 'react-icons/bs'
+import {GiRabbit} from 'react-icons/gi'
+import DropdownItem from 'react-bootstrap/esm/DropdownItem'
+
 function Header(props) {
+const [showAlert, setShowAlert] =useState(false)
+const [alertMessage, setAlertMessage] = useState('false')
 
-    const handleCategoryFilter = (filterWord)=>{
-        // grab base arrayy
 
-        // props.trueArray
-        const interimArray = props.trueArray
-    
-    // filter array by matches to filterWord
-    var trueCategoryArray = []
-    
-    interimArray.map((m)=>{
-        if(m.category.includes(filterWord.toUpperCase())){
-    return trueCategoryArray.push(m)
-     
-        }else{
-            return m
-        }
-    })
-    
-    console.log('trueCategoryArray', trueCategoryArray)
-    
-    
-        // set main page array to new Category array
-        // props.setPublishedArray
-        props.setCategorySelected(filterWord)
-        props.setPublishedArray(trueCategoryArray)
-        // console.log('category filter')
-        }
+
     useEffect(()=>{
 
     },[props.trueArray, props.categoryArray])
     return (
 
-        <Navbar   expand="lg" style={{borderBottom:'2px solid black'}} >
-        
+<div >
+<div style={{paddingTop:'.5rem', borderBottom:'10px solid black',display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}} >
+<div style={{width:'75%', textAlign:'left',display:'flex', flexDirection:'column', justifyContent:"center", alignItems: 'center'}}>
+ <h4 style={{width:'100%'}}><GiRabbit/> THIS EVIL BUNNY <GiRabbit/></h4>
+</div>
+
+
+<div style={{width:'20%',  display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
+
 <DropdownButton
-as={ButtonGroup}
 variant="secondary"
 title={<BsMenuButton/>}
-style={{marginLeft:'.5%', outline:'2px solid red', width:'auto'}}
-
+style={{width:'auto', marginLeft:'auto',marginRight:'5px'}}
 >
+
 <Dropdown.Item  onClick={()=>{
     if(window.location.pathname === '/'){
 props.setPublishedArray(props.trueArray)
@@ -65,32 +54,43 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/write' eventKey="2" >Write</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/drafts' eventKey="3" >Edit Drafts</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
-<Dropdown.Divider/>
-<h6 style={{textAlign: 'center'}}>Categories</h6>
-{props.categoryArray.map((m)=>{
-    return(
-        <Dropdown.Item key={m} value={m}
-        onClick={(e)=>{
-            handleCategoryFilter(m)
-        }}
-        >
-        {m}
-        </Dropdown.Item>
-    )
-})}
+
 
 </DropdownButton> 
-
-<NavbarBrand href="/" style={{outline:'2px solid red', textAlign:'center', width: '80%'}} >Venita V. Johnson</NavbarBrand>
-
-
+<BsSearch style={{height:'2rem', width:'2rem'}}
+onClick={()=>{
+    props.toggleSearch(!props.showSearch)
+    props.setSearchLocation(undefined)
+    props.setFilterMessage('')
+    console.log('header props', props)
    
+   }}
+/>
 
-        
-      </Navbar>
+</div>
 
 
-       
+</div>
+<div>
+{(props.showSearch)
+    ?
+<div style={{marginBottom: '4rem', borderBottom: '5px solid black'}} >
+<AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
+
+<SearchOptions array={props.trueArray}   
+filterMessage={props.filterMessage} setFilterMessage={props.setFilterMessage} setSearchLocation={props.setSearchLocation} searchLocation={props.searchLocation}
+toggleSearch={props.toggleSearch}
+setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
+ />
+
+ 
+  </div>
+    :
+ <p></p>   
+    }
+</div>
+</div>
+
     )
 }
 
