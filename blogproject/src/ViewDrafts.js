@@ -69,8 +69,8 @@ useEffect(()=>{
 
 
     if(mappedArray.length < 1){
-        setOriginalArray(props.trueArray)
-        setMappedArray(props.publishedArray)
+        setOriginalArray(props.draftsArray)
+        setMappedArray(props.draftsArray)
        }else{
            return
        }
@@ -78,7 +78,7 @@ useEffect(()=>{
        return ()=>{
            console.log('callback function called')
        }
-    }, [props.trueArray,props.trueArray,mappedArray])
+    }, [props.draftsArray,mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
@@ -267,7 +267,7 @@ useEffect(()=>{
                     setSortMessage('')
                     setShowAlert(false)
                     closeAllOptions()
-                    setMappedArray(originalArray)
+                    setMappedArray(props.draftsArray)
                     setDisplayArray([])
                 }}
                 /></h6>
@@ -276,7 +276,7 @@ useEffect(()=>{
                closeAllOptions={closeAllOptions} 
                handleDisplayedCard={handleDisplayedCard}
 
-               mappedArray={mappedArray} setMappedArray={setMappedArray} 
+               mappedArray={props.draftsArray} setMappedArray={setMappedArray} 
                setSortMessage={setSortMessage} setDisplayId={setDisplayId}
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
                

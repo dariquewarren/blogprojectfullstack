@@ -30,7 +30,7 @@ function App() {
   const [categoryArray, setCategoryArray] = useState([])
 
 const handleDraftsArray = ()=>{
-  fetch('/published/all').then((response)=>{
+  fetch('/drafts/all').then((response)=>{
     return response.json()
   }).then((data)=>{
     setDraftsArray(data.realData)
@@ -63,7 +63,7 @@ const categoryMap = async(array)=>{
       setPublishedArray(data.realData)
  return data.realData
     }).then((data)=>{
-      handleDraftsArray()
+      handleDraftsArray(data)
       categoryMap(data)
     })
    }else{
@@ -94,19 +94,20 @@ const categoryMap = async(array)=>{
 
     <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
-    <Route exact path='/all/drafts' element={<ViewDrafts articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/all/drafts' element={<ViewDrafts   
+          articleAuthor={articleAuthor}    trueArray={trueArray}
+    setTrueArray={setTrueArray}    draftsArray={draftsArray}
+    setDraftsArray={setDraftsArray}/>}/>
     <Route exact path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
     
     <Route exact path='/homepage' element={<Homepage 
       searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
       trueArray={trueArray} author={articleAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
     
-    <Route exact path='/all/published' element= {<ViewPublished articleAuthor={articleAuthor}
-    trueArray={trueArray}
-    setTrueArray={setTrueArray}
-    publishedArray={publishedArray}
-    setPublishedArray={setPublishedArray}
-    />}/>
+    <Route exact path='/all/published' element= {<ViewPublished 
+      articleAuthor={articleAuthor}    trueArray={trueArray}
+    setTrueArray={setTrueArray}    publishedArray={publishedArray}
+    setPublishedArray={setPublishedArray}    />}/>
 
     <Route exact path='/read/published/:id' element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
   

@@ -78,7 +78,7 @@ useEffect(()=>{
        return ()=>{
            console.log('callback function called')
        }
-    }, [props.trueArray,props.trueArray,mappedArray])
+    }, [props.trueArray,mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
