@@ -29,6 +29,8 @@ var RealArticle =(props.article.length > 100)?props.article.substring(0, 101): p
     </Container>
 }
   <Button variant='primary'  
+  style={{display: (props.editMode === false) ? '': 'none'}}
+
   onClick={()=>{
       props.toggleEditMode(!props.editMode)
   }}

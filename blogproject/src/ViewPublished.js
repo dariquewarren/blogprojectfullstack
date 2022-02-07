@@ -88,8 +88,6 @@ useEffect(()=>{
     displayArray.map((m)=>{
     return (
         <div>
-        <h1>admin view of selected article. option to edit or delete</h1>
-
        <AdminArticleCard 
        key={m.id}
        editMode={editMode} toggleEditMode={toggleEditMode}

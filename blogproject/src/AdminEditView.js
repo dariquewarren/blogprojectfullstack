@@ -111,11 +111,10 @@ useEffect(()=>{
     <img src={props.image} style={{height:'10rem', width:'10rem'}} />
   
     <h1
-    > <GiPokecog
     style={{cursor:'pointer'}}
     onClick={()=>{
         toggleTitleInput(!showTitleInput)
-    }} />
+    }}>
     {updatedArticle.title}  </h1>
     {(showTitleInput)
         ?
@@ -127,13 +126,14 @@ useEffect(()=>{
         }}
         >
         
-        <Form.Control type='text' value={updatedArticle.title} value={updatedArticle.title} onChange={(e)=>{
+        <Form.Control type='text' 
+        value={updatedArticle.title} onChange={(e)=>{
             e.preventDefault()
             setNewTitle(e.target.value)
 
         }}/>
-        <Button type='submit' variant='success'>Submit</Button>
-        <Button  variant='warning'
+        <Button type='submit' variant='primary'>Save</Button>
+        <Button  variant='danger'
         onClick={(e)=>{
             e.preventDefault()
             setNewTitle(baseArticle.title)
@@ -144,21 +144,35 @@ useEffect(()=>{
         :
         <p></p>
     }
+   
     <h3
-    
-    >
-    <GiPokecog
     style={{cursor:'pointer'}}
     onClick={()=>{
         toggleSubtitleInput(!showSubtitleInput)
-    }} />
+    }}
+    >
+    
     {updatedArticle.subtitle}</h3>
     {(showSubtitleInput)
         ?
-        <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
-            e.preventDefault()
-            setNewsubtitle(e.target.value)
-        }}/>
+       <Form
+       onSubmit={(e)=>{
+        e.preventDefault()
+        toggleSubtitleInput(false)
+        console.log('new subtitle', newSubtitle, 'updatedArticle', updatedArticle)
+    }}
+       >
+       <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
+        e.preventDefault()
+        setNewsubtitle(e.target.value)
+    }}/>
+    <Button type='submit' variant='primary'>Save</Button>
+    <Button  variant='danger'
+    onClick={(e)=>{
+        e.preventDefault()
+        setNewsubtitle(baseArticle.subtitle)
+    }}
+    >Reset</Button>       </Form>
         :
         <p></p>
     }
@@ -176,8 +190,10 @@ useEffect(()=>{
                         onChange={(e)=>{
                             setNewArticle(e.target.value)
                         }} />
-                        <Button type="submit">Submit</Button>
-                        <Button onclick={()=>{
+                        <Button type="submit" variant='primary'>Save</Button>
+                        <Button
+                        variant='danger'
+                        onclick={()=>{
                             setNewArticle(baseArticle.article)
                         }} >Reset</Button>
 
@@ -185,12 +201,11 @@ useEffect(()=>{
         :
        <p></p>
     }
-    <h6>
-    <GiPokecog
-    style={{cursor:'pointer'}}
+    <h6 style={{cursor:'pointer'}}
     onClick={()=>{
         toggleArticleInput(!showArticleInput)
-    }} />
+    }}>
+   
     {ReactHtmlParser(updatedArticle.article)}
     </h6>
    
