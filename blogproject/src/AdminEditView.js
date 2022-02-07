@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import {GiPokecog} from 'react-icons/gi'
 import ReactQuill from 'react-quill'; // ES6
+import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
@@ -17,12 +18,15 @@ function AdminEditView(props) {
     const [newImage, setNewImage] = useState('')
     const [showArticleInput, toggleArticleInput] = useState(false)
     const [newArticle, setNewArticle] = useState('')
+    const [pageMessage,setPageMessage] = useState('')
 
-    const submitUpdate =()=>{
+    const submitUpdate =(articleObject, articleID)=>{
+        updatePublished(articleObject, articleID)
         console.log('update this Article', updatedArticle)
     }
 
-    const deleteArticle =()=>{
+    const deleteArticle =(theID)=>{
+        deleteSinglePublishedArticle(theID)
         console.log('delete this Article', updatedArticle)
     }
 
@@ -41,10 +45,19 @@ const updatedArticle={
     updatedAt: '12:39'
 }
 
+useEffect(()=>{
+    setPageMessage('Edit View')
+}, [])
+
+
     return <Container style={{textAlign:'center'}}>
     <Button variant='primary'
     onClick={()=>{
-        submitUpdate()
+        submitUpdate(updatedArticle, props.id)
+        setPageMessage('SUBMITTING....YOUR...CHANGES')
+        setTimeout(()=>{
+            window.location.reload(true)
+        },[2000])
     }}
     >Submit All Changes</Button>
     <Button variant='success'
@@ -54,11 +67,11 @@ const updatedArticle={
     >Go Back</Button>
     <Button variant='danger' 
     onClick={()=>{
-        deleteArticle()
+        deleteArticle(props.id)
     }}
     >Delete Article</Button>
 
-<h1>EDIT VIEW</h1>
+<h1>{pageMessage}</h1>
 
     <img src={props.image} style={{height:'10rem', width:'10rem'}} />
   
@@ -68,7 +81,7 @@ const updatedArticle={
     onClick={()=>{
         toggleTitleInput(!showTitleInput)
     }} />
-    {(newTitle)? newTitle:props.title}  </h1>
+    {updatedArticle.title}  </h1>
     {(showTitleInput)
         ?
         <Form
@@ -104,13 +117,12 @@ const updatedArticle={
     onClick={()=>{
         toggleSubtitleInput(!showSubtitleInput)
     }} />
-    {props.subtitle}</h3>
+    {updatedArticle.subtitle}</h3>
     {(showSubtitleInput)
         ?
         <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
             e.preventDefault()
-
-            console.log('subtitle changed', e.target.value)
+            setNewsubtitle(e.target.value)
         }}/>
         :
         <p></p>

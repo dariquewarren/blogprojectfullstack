@@ -68,7 +68,7 @@ return data
     })
    }
 
-   export const   updatePublished= (theArticle,theID)=>{
+   export const updatePublished= (theArticle,theID)=>{
      return fetch(`/update/published/${theID}`,{
       method: 'PATCH',
       headers: {
@@ -77,13 +77,14 @@ return data
      },
        body: JSON.stringify(theArticle) 
      }).then((data)=>{
+       console.log(data)
       return data
     }).catch((e)=>{
       console.log(e)
     }) 
     }
-
-    export const  updateDraft= (theArticle, theID)=>{
+    
+    export const updateDraft= (theArticle, theID)=>{
      return fetch(`/update/drafts/${theID}`,{
       method: 'PATCH',
       headers: {
