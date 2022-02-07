@@ -11,7 +11,9 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 function AdminEditView(props) {
     
     const [userCheck, toggleUserCheck] = useState(false)
+    const [userDecisionType, toggleUserDecisionType] = useState(false)
 
+    
     const [showTitleInput, toggleTitleInput] = useState(false)
     const [newTitle, setNewTitle] = useState('')
     const [showSubtitleInput, toggleSubtitleInput] = useState(false)
@@ -30,6 +32,21 @@ function AdminEditView(props) {
     const deleteArticle =(theID)=>{
         deleteSinglePublishedArticle(theID)
         console.log('delete this Article', updatedArticle)
+    }
+
+    const handleUserDecision = (decisionType, currentObject, currentID)=>{
+// submit article, delete article
+
+switch(decisionType){
+    case 'submit':
+        submitUpdate(currentObject, currentID);
+        break;
+        case 'delete':
+            deleteArticle(currentID);
+            break;
+            default:
+                alert('no decision type')
+}
     }
 
 const baseArticle ={
@@ -55,11 +72,10 @@ useEffect(()=>{
     return <Container style={{textAlign:'center'}}>
     <Button variant='primary'
     onClick={()=>{
-        submitUpdate(updatedArticle, props.id)
-        setPageMessage('SUBMITTING....YOUR...CHANGES')
-        setTimeout(()=>{
-            window.location.reload(true)
-        },[2000])
+        toggleUserCheck(true)
+        toggleUserDecisionType('submit')
+
+       
     }}
     >Submit All Changes</Button>
     <Button variant='success'
@@ -69,25 +85,23 @@ useEffect(()=>{
     >Go Back</Button>
     <Button variant='danger' 
     onClick={()=>{
-
         toggleUserCheck(true)
+        toggleUserDecisionType('delete')
+
         
     }}
     >Delete Article</Button>
 
-    {(userCheck)?<div>
-        <h6>Are you Sure?</h6>
-        <Button variant='danger'
-        onClick={()=>{
-            toggleUserCheck(false)
-        }}
-        >no</Button>
+    {(userCheck && userDecisionType )?<div>
+        <h6>Are you Sure you want to {userDecisionType}?</h6>
+        <Button variant='danger'>no</Button>
         <Button variant='success' onClick={()=>{
-            deleteArticle(props.id)
-        setPageMessage('DELETING....THIS...ARTICLE')
-        setTimeout(()=>{
-            window.location.reload(true)
-        },[2000])
+            handleUserDecision(userDecisionType,updatedArticle, props.id)
+            setPageMessage('SUBMITTING....YOUR...CHANGES')
+            alert(`${userDecisionType}`)
+            setTimeout(()=>{
+                window.location.reload(true)
+            },[2000])
         }}>yes</Button>
 
         </div> : <p></p>}
