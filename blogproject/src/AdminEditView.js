@@ -9,6 +9,8 @@ import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 function AdminEditView(props) {
+    
+    const [userCheck, toggleUserCheck] = useState(false)
 
     const [showTitleInput, toggleTitleInput] = useState(false)
     const [newTitle, setNewTitle] = useState('')
@@ -67,9 +69,28 @@ useEffect(()=>{
     >Go Back</Button>
     <Button variant='danger' 
     onClick={()=>{
-        deleteArticle(props.id)
+
+        toggleUserCheck(true)
+        
     }}
     >Delete Article</Button>
+
+    {(userCheck)?<div>
+        <h6>Are you Sure?</h6>
+        <Button variant='danger'
+        onClick={()=>{
+            toggleUserCheck(false)
+        }}
+        >no</Button>
+        <Button variant='success' onClick={()=>{
+            deleteArticle(props.id)
+        setPageMessage('DELETING....THIS...ARTICLE')
+        setTimeout(()=>{
+            window.location.reload(true)
+        },[2000])
+        }}>yes</Button>
+
+        </div> : <p></p>}
 
 <h1>{pageMessage}</h1>
 
