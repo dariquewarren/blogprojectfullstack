@@ -36,6 +36,7 @@ const handleDraftsArray = ()=>{
     setDraftsArray(data.realData)
     return data.realData
   }).then((data)=>{
+    
     console.log('draftsArray', draftsArray)
   })
 }
