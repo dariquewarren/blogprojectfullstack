@@ -47,7 +47,10 @@ function ArticleForm(props){
           
             <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
            
-            <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+            <img 
+            src={props.image} 
+            style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}
+            />
 
          
 
@@ -165,8 +168,11 @@ function ArticleForm(props){
    
             <br/>
             <Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
-    <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
-                    onChange={(e)=>{
+    <ReactQuill 
+    style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} 
+    theme="snow" 
+    value={props.article}
+    onChange={(e)=>{
                         props.setArticle(e)
                     }} />
                     
