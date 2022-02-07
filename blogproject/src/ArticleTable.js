@@ -3,9 +3,13 @@ import Table from 'react-bootstrap/Table'
 import DateSortOptions from './DateSortOptions'
 import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
-
+import Loading from './Loading'
 function ArticleTable(props) {
 useEffect(()=>{
+if(props.mappedArray < 1){
+    console.log('no array')
+}
+console.log('array')
 
 }, [props.mappedArray])
     return (
@@ -46,27 +50,31 @@ useEffect(()=>{
     
 
         {
-            props.mappedArray.map((m)=>{
-                return(
-                    <tr as='button'
-                    onClick={()=>{
-                        props.setDisplayId(m.id)
-                        props.handleDisplayedCard(m.id)
+           (props.mappedArray.length > 0)
+           ?
+           props.mappedArray.map((m)=>{
+            return(
+                <tr as='button'
+                onClick={()=>{
+                    props.setDisplayId(m.id)
+                    props.handleDisplayedCard(m.id)
 
-                    }}
-                    key={m.id}>
-                    <th >{(props.mappedArray.indexOf(m) + 1)}</th>
-                    
-                    <th >{m.datePublished}</th>
-                    <th >{m.timePublished}</th>
-                    <th > 
-                    { m.title}    
-                       
-                    </th>
-                    </tr>
+                }}
+                key={m.id}>
+                <th >{(props.mappedArray.indexOf(m) + 1)}</th>
+                
+                <th >{m.datePublished}</th>
+                <th >{m.timePublished}</th>
+                <th > 
+                { m.title}    
                    
-                )
-            })
+                </th>
+                </tr>
+               
+            )
+        })
+           :
+           <Loading/>
         }
         </tbody>
         </Table>

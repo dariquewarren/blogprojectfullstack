@@ -79,9 +79,9 @@ useEffect(()=>{
        }
 
        
-    }, [props.trueArray, mappedArray])
+    }, [props.trueArray, props.publishedArray])
 
-    return (
+    return  (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
 {(displayArray.length > 0) 
     ?
@@ -301,6 +301,8 @@ useEffect(()=>{
                 }}
                 /></h6>
                 
+                
+
                <ArticleTable 
                closeAllOptions={closeAllOptions} 
                handleDisplayedCard={handleDisplayedCard}

@@ -101,9 +101,9 @@ const updatedArticle={
         console.log('updatedArticle', updatedArticle)
         }}
         >
-        <ReactQuill 
+        <Form.Control type='text' value={updatedArticle.article}
                         onChange={(e)=>{
-                            setNewArticle(e)
+                            setNewArticle(e.target.value)
                         }} />
                         <Button type="submit">Submit</Button>
                         <Button onclick={()=>{
