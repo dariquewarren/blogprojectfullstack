@@ -18,6 +18,14 @@ function AdminEditView(props) {
     const [showArticleInput, toggleArticleInput] = useState(false)
     const [newArticle, setNewArticle] = useState('')
 
+    const submitUpdate =()=>{
+        console.log('update this Article', updatedArticle)
+    }
+
+    const deleteArticle =()=>{
+        console.log('delete this Article', updatedArticle)
+    }
+
 const baseArticle ={
     title:props.title,
     subtitle: props.subtitle,
@@ -34,6 +42,22 @@ const updatedArticle={
 }
 
     return <Container style={{textAlign:'center'}}>
+    <Button variant='primary'
+    onClick={()=>{
+        submitUpdate()
+    }}
+    >Submit All Changes</Button>
+    <Button variant='success'
+    onClick={()=>{
+        props.toggleEditMode(false)
+    }}
+    >Go Back</Button>
+    <Button variant='danger' 
+    onClick={()=>{
+        deleteArticle()
+    }}
+    >Delete Article</Button>
+
 <h1>EDIT VIEW</h1>
 
     <img src={props.image} style={{height:'10rem', width:'10rem'}} />
@@ -55,7 +79,7 @@ const updatedArticle={
         }}
         >
         
-        <Form.Control type='text' placeholder='TITLE' value={updatedArticle.title} onChange={(e)=>{
+        <Form.Control type='text' value={updatedArticle.title} value={updatedArticle.title} onChange={(e)=>{
             e.preventDefault()
             setNewTitle(e.target.value)
 
@@ -83,7 +107,7 @@ const updatedArticle={
     {props.subtitle}</h3>
     {(showSubtitleInput)
         ?
-        <Form.Control type='text' placeholder='SUBTITLE' onChange={(e)=>{
+        <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
             e.preventDefault()
 
             console.log('subtitle changed', e.target.value)
@@ -120,7 +144,7 @@ const updatedArticle={
     onClick={()=>{
         toggleArticleInput(!showArticleInput)
     }} />
-    {ReactHtmlParser(props.article)}
+    {ReactHtmlParser(updatedArticle.article)}
     </h6>
    
 
@@ -128,8 +152,7 @@ const updatedArticle={
 
   
     </Container>
-    <Button variant='primary'>edit</Button>
-    <Button variant='danger'>Delete</Button>
+    
   
     </Container>;
 }

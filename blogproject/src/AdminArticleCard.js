@@ -33,7 +33,9 @@ var RealArticle =(props.article.length > 100)?props.article.substring(0, 101): p
       props.toggleEditMode(!props.editMode)
   }}
   >edit</Button>
-  <Button variant='danger'>Delete</Button>
+  <Button variant='danger'
+  style={{display: (props.editMode === false) ? '': 'none'}}
+  >Delete</Button>
 
   </Container>;
 }
