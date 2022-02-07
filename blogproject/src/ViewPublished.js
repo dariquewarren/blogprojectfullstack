@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {Link} from 'react-router-dom'
+import AdminArticleCard from './AdminArticleCard'
 import dayjs from 'dayjs'
 import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 // import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
 import AlertText from './AlertText'
 import SearchOptions from './SearchOptions'
 import ArticleTable from './ArticleTable'
+import AdminEditView from './AdminEditView'
 import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
 import {BsArrowRepeat} from 'react-icons/bs'
@@ -39,6 +41,7 @@ const [filterMessage, setFilterMessage] = useState()
 const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
 const [alertMessage, setAlertMessage] = useState(true);
+const [editMode, toggleEditMode] = useState(false);
 
 
 dayjs.extend(AdvancedFormat) // use plugin
@@ -75,18 +78,23 @@ useEffect(()=>{
            return
        }
 
-       return ()=>{
-           console.log('callback function called')
-       }
-    }, [props.trueArray,mappedArray])
+       
+    }, [props.trueArray, mappedArray])
 
     return (
         <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
-{(displayArray.length === 1) 
+{(displayArray.length > 0) 
     ?
     displayArray.map((m)=>{
     return (
-        <ArticleCard articleFrom='admin view' {...m} />
+        <div>
+        <h1>admin view of selected article. option to edit or delete</h1>
+
+       <AdminArticleCard 
+       key={m.id}
+       editMode={editMode} toggleEditMode={toggleEditMode}
+       {...m}/>
+        </div>
     )
 })
 :
@@ -226,10 +234,26 @@ useEffect(()=>{
     <p></p>
     }
         
+              
+         
+                {(editMode) 
+                    ?
+                    displayArray.map((m)=>{
+                    return (
+                        <div>
+                
+                        <AdminEditView
+                        key={m.id}
+                        editMode={editMode} toggleEditMode={toggleEditMode}
+
+                        {...m}/> 
+                        </div>
+                    )
+                })
+                :
+                <Container  style={{width:'100%'}}>
                 <Container>
                
-               
-                
                 <Button
                 onClick={()=>{
                     closeAllOptions()
@@ -255,9 +279,14 @@ useEffect(()=>{
                 
                 <h4>{sortMessage}</h4>
                 <h4>{filterMessage}</h4>
+                
+                
 
-                <Container  style={{width:'100%'}}>
+              
                
+                  
+                
+                </Container>
                 <div style={{border: '2px dashed red', width:'100%'}}>
                 <h6 style={{border: '2px dashed red', textAlign: 'right'}}>
                 <BsArrowRepeat
@@ -285,13 +314,7 @@ useEffect(()=>{
 
             
                 </Container> 
-               
-                
-                  
-                
-                
-                </Container>
-         
+                }
         
 
         </Container>

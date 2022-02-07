@@ -1,0 +1,137 @@
+import React, {useState} from 'react';
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import {GiPokecog} from 'react-icons/gi'
+import ReactQuill from 'react-quill'; // ES6
+
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+
+function AdminEditView(props) {
+
+    const [showTitleInput, toggleTitleInput] = useState(false)
+    const [newTitle, setNewTitle] = useState('')
+    const [showSubtitleInput, toggleSubtitleInput] = useState(false)
+    const [newSubtitle, setNewsubtitle] = useState('')
+    const [showImageInput, toggleImageInput] = useState(false)
+    const [newImage, setNewImage] = useState('')
+    const [showArticleInput, toggleArticleInput] = useState(false)
+    const [newArticle, setNewArticle] = useState('')
+
+const baseArticle ={
+    title:props.title,
+    subtitle: props.subtitle,
+    image: props.image,
+    article: props.article
+}
+const updatedArticle={
+    title:(newTitle)?newTitle: props.title,
+    subtitle:(newSubtitle)?newSubtitle: props.subtitle,
+    image:(newImage)?newImage: props.image,
+    article:(newArticle)?newArticle: props.article,
+    updatedOn:'1/22/33',
+    updatedAt: '12:39'
+}
+
+    return <Container style={{textAlign:'center'}}>
+<h1>EDIT VIEW</h1>
+
+    <img src={props.image} style={{height:'10rem', width:'10rem'}} />
+  
+    <h1
+    > <GiPokecog
+    style={{cursor:'pointer'}}
+    onClick={()=>{
+        toggleTitleInput(!showTitleInput)
+    }} />
+    {(newTitle)? newTitle:props.title}  </h1>
+    {(showTitleInput)
+        ?
+        <Form
+        onSubmit={(e)=>{
+            e.preventDefault()
+            toggleTitleInput(false)
+            console.log('new title', newTitle, 'updatedArticle', updatedArticle)
+        }}
+        >
+        
+        <Form.Control type='text' placeholder='TITLE' value={updatedArticle.title} onChange={(e)=>{
+            e.preventDefault()
+            setNewTitle(e.target.value)
+
+        }}/>
+        <Button type='submit' variant='success'>Submit</Button>
+        <Button  variant='warning'
+        onClick={(e)=>{
+            e.preventDefault()
+            setNewTitle(baseArticle.title)
+        }}
+        >Reset</Button>
+
+        </Form>
+        :
+        <p></p>
+    }
+    <h3
+    
+    >
+    <GiPokecog
+    style={{cursor:'pointer'}}
+    onClick={()=>{
+        toggleSubtitleInput(!showSubtitleInput)
+    }} />
+    {props.subtitle}</h3>
+    {(showSubtitleInput)
+        ?
+        <Form.Control type='text' placeholder='SUBTITLE' onChange={(e)=>{
+            e.preventDefault()
+
+            console.log('subtitle changed', e.target.value)
+        }}/>
+        :
+        <p></p>
+    }
+    <Container>
+    {(showArticleInput)
+        ?
+        <Form
+        onSubmit={(e)=>{
+        e.preventDefault()
+        toggleArticleInput(false)
+        console.log('updatedArticle', updatedArticle)
+        }}
+        >
+        <ReactQuill 
+                        onChange={(e)=>{
+                            setNewArticle(e)
+                        }} />
+                        <Button type="submit">Submit</Button>
+                        <Button onclick={()=>{
+                            setNewArticle(baseArticle.article)
+                        }} >Reset</Button>
+
+        </Form>
+        :
+       <p></p>
+    }
+    <h6>
+    <GiPokecog
+    style={{cursor:'pointer'}}
+    onClick={()=>{
+        toggleArticleInput(!showArticleInput)
+    }} />
+    {ReactHtmlParser(props.article)}
+    </h6>
+   
+
+    
+
+  
+    </Container>
+    <Button variant='primary'>edit</Button>
+    <Button variant='danger'>Delete</Button>
+  
+    </Container>;
+}
+
+export default AdminEditView;

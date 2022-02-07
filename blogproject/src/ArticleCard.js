@@ -3,21 +3,14 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
 function ArticleCard(props) {
-const handleCardRedirect=() =>{
-  switch(props.articleFrom){
-case 'homepage':
-  if(props.type === 'drafts'){
-    window.open(`/read/draft/${props.id}`)
-}else if(props.type === 'published'){
-    window.open(`/read/published/${props.id}`)
+
+
+const handleCardRedirect=(articleType, articleID) =>{
+  if(articleType === 'drafts'){
+    window.open(`/read/draft/${articleID}`)
+}else if(articleType === 'published'){
+    window.open(`/read/published/${articleID}`)
 }
-  break;
-  case 'admin view':
-    alert('admin view. switch into an editing view')
-    break;
-    default:
-      alert('default view published switch case')
-  }
   
   
 } 
@@ -25,7 +18,7 @@ case 'homepage':
       <Card 
       style={{marginBottom:'1.5rem', paddingTop:'.5rem', paddingBottom:'.5rem', backgroundColor:'grey'}}
       onClick={()=>{
-       handleCardRedirect()
+       handleCardRedirect(props.type, props.id)
       
    }}
       >
