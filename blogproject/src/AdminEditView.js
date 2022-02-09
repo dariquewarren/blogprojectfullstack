@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 import {GiPokecog} from 'react-icons/gi'
 import ReactQuill from 'react-quill'; // ES6
 import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
@@ -9,17 +10,18 @@ import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 function AdminEditView(props) {
-    
+   const ImageRef = useRef()
     const [userCheck, toggleUserCheck] = useState(false)
     const [userDecisionType, toggleUserDecisionType] = useState(false)
 
     
     const [showTitleInput, toggleTitleInput] = useState(false)
     const [newTitle, setNewTitle] = useState('')
+
     const [showSubtitleInput, toggleSubtitleInput] = useState(false)
     const [newSubtitle, setNewsubtitle] = useState('')
     const [showImageInput, toggleImageInput] = useState(false)
-    const [newImage, setNewImage] = useState('')
+    const [newImage, setImage] = useState('')
     const [showArticleInput, toggleArticleInput] = useState(false)
     const [newArticle, setNewArticle] = useState('')
     const [pageMessage,setPageMessage] = useState('')
@@ -106,10 +108,110 @@ useEffect(()=>{
 
         </div> : <p></p>}
 
-<h1>{pageMessage}</h1>
+<h1 style={{cursor:'pointer'}}>{pageMessage}</h1>
 
-    <img src={props.image} style={{height:'10rem', width:'10rem'}} />
+    <div
+    
+    >
+    <img src={updatedArticle.image} 
+    style={{height:'10rem', width:'10rem'}} 
+    onClick={()=>{
+        toggleImageInput(!showImageInput)
+    }}
+    />
+    </div>
   
+{(showImageInput)
+    ?
+
+    
+   
+<Row
+style={{outline:'2px solid red'}}
+>
+<div style={{width:'50%'}}>
+
+    <Form
+    style={{width:'100%', marginBottom: '.5rem', outline:'2px solid green'}}
+
+    onSubmit={(e)=>{
+        e.preventDefault()
+        toggleImageInput(false)
+    }}
+    >  
+    <Form.Group >
+    <Form.Label>upload</Form.Label>
+    <Form.Control 
+    type='file' 
+     ref={ImageRef} 
+    onChange={(e)=>{
+      e.preventDefault()
+    
+      if(ImageRef.current){
+          let file = ImageRef.current.files[0]
+          console.log('current exists', file)
+          let fileReader = new FileReader(); 
+    fileReader.readAsDataURL(file); 
+    fileReader.onload = function() {
+    console.log('filereader result',fileReader.result);
+setImage(fileReader.result)
+    }; 
+    fileReader.onerror = function() {
+    console.log('fileReader error',fileReader.error);
+    }; 
+          console.log('current exists', )
+      }else{
+          console.log('no current')
+          console.log('no current', ImageRef.current)
+    
+      }
+    }} />
+    </Form.Group>
+</Form>
+</div>
+<div style={{width:'50%'}}>
+<Form
+style={{width:'100%', marginBottom: '.5rem', outline:'2px solid green'}}
+
+onSubmit={(e)=>{
+    e.preventDefault()
+    toggleImageInput(false)
+}}
+>
+<Form.Group >
+<Form.Label>Paste URL</Form.Label>
+    <Form.Control 
+    type='text'
+    placeholder='PASTE URL'
+    onChange={(e)=>{
+        setImage(e.target.value)
+    }}
+    />
+</Form.Group>
+
+
+    
+
+<Button type='submit' variant='primary'>Save</Button>
+<Button
+variant='danger'
+onClick={(e)=>{
+    e.preventDefault()
+setImage(baseArticle.image)
+}}
+>Reset</Button>
+    </Form>
+    </div>
+    </Row>
+    :
+    <p></p>
+}
+    
+
+
+
+
+
     <h1
     style={{cursor:'pointer'}}
     onClick={()=>{
