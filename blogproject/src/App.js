@@ -106,7 +106,6 @@ const categoryMap = async(array)=>{
           articleAuthor={articleAuthor}    trueArray={trueArray}
     setTrueArray={setTrueArray}    draftsArray={draftsArray}
     setDraftsArray={setDraftsArray}/>}/>
-    <Route exact path='/read/draft/:id' element={<ReadDraft articleAuthor={articleAuthor}/>}/>
     
     <Route exact path='/homepage' element={<Homepage 
       searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
@@ -117,7 +116,8 @@ const categoryMap = async(array)=>{
     setTrueArray={setTrueArray}    publishedArray={publishedArray}
     setPublishedArray={setPublishedArray}    />}/>
 
-    <Route exact path='/read/published/:id' element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
+    <Route exact path='/read/published/:id' 
+    element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
   
     </Switch>
     <Footer/>

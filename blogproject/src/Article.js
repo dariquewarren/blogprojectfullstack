@@ -18,7 +18,7 @@ const tagsWidth = (props.tags) ? (100 / props.tags.length) - 8 : 50
        
       
         <div style={{borderBottom:'3px solid black', marginBottom:'1rem', width:'98%', marginLeft:'auto', marginRight:'auto'}}>
-        <h1 className='text-center mt-2rem mb-2rem'>{props.title.toUpperCase()}</h1>
+        <h1 className='text-center mt-2rem mb-2rem'>{props.title}</h1>
 <h5 style={{textAlign:'center',marginBottom:'1rem',marginTop:'1rem', fontStyle:'italic'}}>{props.subtitle}</h5>
 <p style={{marginBottom:'1rem',marginTop:'1rem'}}>By {props.author}</p>
 

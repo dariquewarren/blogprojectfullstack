@@ -61,6 +61,7 @@ const handleSingleArticle= async (identification, array)=>{
 
     return (
         <div style={{height: 'auto'}}>
+
        {(article) 
         ?
         <div>
