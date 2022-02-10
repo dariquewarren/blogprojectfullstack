@@ -67,7 +67,7 @@ const updatedArticle={
 }
 
 useEffect(()=>{
-    setPageMessage('Edit View')
+    setPageMessage('Click Any Section To Open Edit View')
 }, [])
 
 
@@ -114,7 +114,7 @@ useEffect(()=>{
     
     >
     <img src={updatedArticle.image} 
-    style={{height:'10rem', width:'10rem'}} 
+    style={{cursor:'pointer',height:'10rem', width:'10rem'}} 
     onClick={()=>{
         toggleImageInput(!showImageInput)
     }}
@@ -127,12 +127,12 @@ useEffect(()=>{
     
    
 <Row
-style={{outline:'2px solid red'}}
+style={{outline:'2px solid black', paddingTop:'1rem', paddingBottom:'1rem', marginTop:'1rem', marginBottom:'1rem'}}
 >
-<div style={{width:'50%'}}>
 
+<div style={{width:'50%'}}>
     <Form
-    style={{width:'100%', marginBottom: '.5rem', outline:'2px solid green'}}
+    style={{width:'100%', marginBottom: '.5rem'}}
 
     onSubmit={(e)=>{
         e.preventDefault()
@@ -140,7 +140,7 @@ style={{outline:'2px solid red'}}
     }}
     >  
     <Form.Group >
-    <Form.Label>upload</Form.Label>
+    <Form.Label>Upload Image</Form.Label>
     <Form.Control 
     type='file' 
      ref={ImageRef} 
@@ -167,11 +167,24 @@ setImage(fileReader.result)
       }
     }} />
     </Form.Group>
+    
+<Button type='submit' variant='primary'>Save</Button>
+<Button
+variant='warning'
+onClick={(e)=>{
+    e.preventDefault()
+setImage(baseArticle.image)
+}}
+>Reset</Button>
+<Button
+variant='danger'
+onClick={()=>toggleImageInput(false)}
+>Close</Button>
 </Form>
 </div>
 <div style={{width:'50%'}}>
 <Form
-style={{width:'100%', marginBottom: '.5rem', outline:'2px solid green'}}
+style={{width:'100%', marginBottom: '.5rem'}}
 
 onSubmit={(e)=>{
     e.preventDefault()
@@ -179,7 +192,7 @@ onSubmit={(e)=>{
 }}
 >
 <Form.Group >
-<Form.Label>Paste URL</Form.Label>
+<Form.Label>Paste Image URL</Form.Label>
     <Form.Control 
     type='text'
     placeholder='PASTE URL'
@@ -190,16 +203,20 @@ onSubmit={(e)=>{
 </Form.Group>
 
 
-    
-
 <Button type='submit' variant='primary'>Save</Button>
 <Button
-variant='danger'
+variant='warning'
 onClick={(e)=>{
     e.preventDefault()
 setImage(baseArticle.image)
 }}
 >Reset</Button>
+<Button
+variant='danger'
+onClick={()=>toggleImageInput(false)}
+>Close</Button>
+    
+
     </Form>
     </div>
     </Row>
@@ -220,29 +237,38 @@ setImage(baseArticle.image)
     {updatedArticle.title}  </h1>
     {(showTitleInput)
         ?
-        <Form
-        onSubmit={(e)=>{
-            e.preventDefault()
-            toggleTitleInput(false)
-            console.log('new title', newTitle, 'updatedArticle', updatedArticle)
-        }}
-        >
-        
-        <Form.Control type='text' 
-        value={updatedArticle.title} onChange={(e)=>{
-            e.preventDefault()
-            setNewTitle(e.target.value)
+      <Form.Group
+      style={{outline:'2px solid black', paddingTop:'1rem', paddingBottom:'1rem', marginTop:'1rem', marginBottom:'1rem'}}
 
-        }}/>
-        <Button type='submit' variant='primary'>Save</Button>
-        <Button  variant='danger'
-        onClick={(e)=>{
-            e.preventDefault()
-            setNewTitle(baseArticle.title)
-        }}
-        >Reset</Button>
+      >
+      <Form.Label><h5>Edit Title</h5></Form.Label>
+      <Form
+      onSubmit={(e)=>{
+          e.preventDefault()
+          toggleTitleInput(false)
+          console.log('new title', newTitle, 'updatedArticle', updatedArticle)
+      }}
+      >
+      
+      <Form.Control type='text' 
+      value={updatedArticle.title} onChange={(e)=>{
+          e.preventDefault()
+          setNewTitle(e.target.value)
 
-        </Form>
+      }}/>
+      <Button type='submit' variant='success'>Save</Button>
+      <Button  variant='warning'
+      onClick={(e)=>{
+          e.preventDefault()
+          setNewTitle(baseArticle.title)
+      }}
+      >Reset</Button>
+      <Button
+      variant='danger'
+      onClick={()=>toggleTitleInput(false)}
+      >Close</Button>
+      </Form>
+      </Form.Group>
         :
         <p></p>
     }
@@ -257,59 +283,80 @@ setImage(baseArticle.image)
     {updatedArticle.subtitle}</h3>
     {(showSubtitleInput)
         ?
-       <Form
-       onSubmit={(e)=>{
-        e.preventDefault()
-        toggleSubtitleInput(false)
-        console.log('new subtitle', newSubtitle, 'updatedArticle', updatedArticle)
-    }}
-       >
-       <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
-        e.preventDefault()
-        setNewsubtitle(e.target.value)
-    }}/>
-    <Button type='submit' variant='primary'>Save</Button>
-    <Button  variant='danger'
-    onClick={(e)=>{
-        e.preventDefault()
-        setNewsubtitle(baseArticle.subtitle)
-    }}
-    >Reset</Button>       </Form>
+   <Form.Group
+   
+   style={{outline:'2px solid black', paddingTop:'1rem', paddingBottom:'1rem', marginTop:'1rem', marginBottom:'1rem'}}
+>
+   <Form.Label><h5>Edit Subtitle</h5></Form.Label>
+   <Form
+   onSubmit={(e)=>{
+    e.preventDefault()
+    toggleSubtitleInput(false)
+    console.log('new subtitle', newSubtitle, 'updatedArticle', updatedArticle)
+}}
+   >
+   <Form.Control type='text' value={updatedArticle.subtitle} onChange={(e)=>{
+    e.preventDefault()
+    setNewsubtitle(e.target.value)
+}}/>
+<Button type='submit' variant='success'>Save</Button>
+<Button  variant='warning'
+onClick={(e)=>{
+    e.preventDefault()
+    setNewsubtitle(baseArticle.subtitle)
+}}
+>Reset</Button>  
+<Button
+variant='danger'
+onClick={()=>toggleSubtitleInput(false)}
+>Close</Button>
+</Form>
+   </Form.Group>
         :
         <p></p>
     }
     <Container>
     {(showArticleInput)
         ?
-        <Form
-        onSubmit={(e)=>{
-        e.preventDefault()
-        toggleArticleInput(false)
-        console.log('updatedArticle', updatedArticle)
-        }}
-        >
-        <Form.Control type='text' value={updatedArticle.article}
-                        onChange={(e)=>{
-                            setNewArticle(e.target.value)
-                        }} />
-                        <Button type="submit" variant='primary'>Save</Button>
-                        <Button
-                        variant='danger'
-                        onclick={()=>{
-                            setNewArticle(baseArticle.article)
-                        }} >Reset</Button>
+       <Form.Group
+       style={{outline:'2px solid black', paddingTop:'1rem', paddingBottom:'1rem', marginTop:'1rem', marginBottom:'1rem'}}
+>
+       <Form.Label><h5>Edit Article</h5></Form.Label>
+       
+       <Form
+       onSubmit={(e)=>{
+       e.preventDefault()
+       toggleArticleInput(false)
+       console.log('updatedArticle', updatedArticle)
+       }}
+       >
+       <Form.Control type='text' value={updatedArticle.article}
+                       onChange={(e)=>{
+                           setNewArticle(e.target.value)
+                       }} />
+                       <Button type="submit" variant='success'>Save</Button>
+                       <Button
+                       variant='warning'
+                       onclick={()=>{
+                           setNewArticle(baseArticle.article)
+                       }} >Reset</Button>
+                       <Button
+                       variant='danger'
+       onClick={()=>toggleArticleInput(false)}
+       >Close</Button>
 
-        </Form>
+       </Form>
+       </Form.Group>
         :
        <p></p>
     }
-    <h6 style={{cursor:'pointer'}}
+    <h5 style={{cursor:'pointer'}}
     onClick={()=>{
         toggleArticleInput(!showArticleInput)
     }}>
    
     {ReactHtmlParser(updatedArticle.article)}
-    </h6>
+    </h5>
    
 
     
