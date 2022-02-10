@@ -11,8 +11,8 @@ const SuggestedArticles = (props) =>{
         
         }, [props.title, props.article1, props.article2])
     return (
-       <Container style={{outline:'2px solid red' ,width:'100%', marginTop:'5rem', backgroundColor: 'grey', marginBottom: '2rem'}}>
-       <h4 style={{textAlign: 'center'}}>Check these out too</h4>
+       <Container style={{backgroundColor:'#606060' ,width:'100%', marginTop:'2rem', marginBottom: '2rem'}}>
+       <h4 style={{textAlign: 'center', color: 'whitesmoke'}}>Check these out too</h4>
      {(props.article1 && props.article2)
         ?
         <Nav>

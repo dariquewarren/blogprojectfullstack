@@ -10,12 +10,14 @@ useEffect(()=>{
 },[])
     return (
         <Card style={{width: '40%', marginLeft:'auto', marginRight:'auto', marginBottom:'2rem', backgroundImage: 'repeatingLinearGradient(45deg, #ccc, #ccc 30px, #dbdbdb 30px, #dbdbdb 60px)' }}>
-        <Card.Header style={{textAlign:'center'}}>
+        <Card.Title style={{textAlign:'center'}}>
         {title}
-        </Card.Header>
+
+        </Card.Title>
         <Card.Img src={image} style={{height:'5rem', width:'5rem', marginLeft:'auto', marginRight:'auto'}} />
+
         <Card.Header style={{textAlign:'center'}}>
-        {subTitle}
+{subTitle}
         </Card.Header>
         </Card>
     )
