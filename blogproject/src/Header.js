@@ -11,7 +11,8 @@ import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import {BsMenuButton, BsSearch} from 'react-icons/bs'
+import {BsMenuButton, BsSearch,BsLightbulb} from 'react-icons/bs'
+
 import {GiRabbit} from 'react-icons/gi'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 
@@ -27,9 +28,40 @@ const [alertMessage, setAlertMessage] = useState('false')
     return (
 
 <div >
+
 <div style={{paddingTop:'.5rem', borderBottom:'10px solid black',display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}} >
 <div style={{width:'75%', textAlign:'left',display:'flex', flexDirection:'column', justifyContent:"center", alignItems: 'center'}}>
- <h4 style={{width:'100%'}}><GiRabbit/> THIS EVIL BUNNY <GiRabbit/></h4>
+<div style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
+<GiRabbit
+ style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ /><GiRabbit
+ style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ /><GiRabbit
+ style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ />
+<h1 style={{cursor:'pointer',width:'50%', textAlign:'center', fontStyle:'italic', fontFamily:'fantasy'}}
+onClick={()=>window.location.assign('/')}
+>
+ This Evil Bunny
+ 
+ 
+ </h1>
+ <GiRabbit style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ />
+ 
+ <GiRabbit style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ />
+ <GiRabbit
+ style={{cursor:'pointer', width:'5%', height:'5%', marginLeft:'auto', marginRight:'auto'}} 
+ onClick={()=>props.toggleLightMode(!props.lightMode)}
+ />
+</div>
+
 </div>
 
 
@@ -57,7 +89,7 @@ props.setCategorySelected('HOME')
 
 
 </DropdownButton> 
-<BsSearch style={{height:'2rem', width:'2rem'}}
+<BsSearch style={{cursor:'pointer',height:'2rem', width:'2rem'}}
 onClick={()=>{
     props.toggleSearch(!props.showSearch)
     props.setSearchLocation(undefined)
@@ -66,7 +98,10 @@ onClick={()=>{
    
    }}
 />
-
+<BsLightbulb
+style={{cursor:'pointer',height:'2rem', width:'2rem'}}
+onClick={()=>props.toggleLightMode(!props.lightMode)}
+ />
 </div>
 
 

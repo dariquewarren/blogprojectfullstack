@@ -5,7 +5,6 @@ import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 import AuthPage from './AuthPage';
 import Loading from './Loading';
-
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
 const Homepage = lazy(()=>import('./Homepage'))
@@ -18,6 +17,8 @@ const ReadPublished = lazy(()=>import('./ReadPublished'))
 
 
 function App() {
+  const [lightMode, toggleLightMode] = useState(false)
+
   const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [categorySelected, setCategorySelected] = useState(false)
@@ -55,6 +56,9 @@ const categoryMap = async(array)=>{
   setCategoryArray(setArray)
   }
 
+  const lightModeStyle = {backgroundColor:"#212121", color: 'whitesmoke'}
+  const darkModeStyle = {backgroundColor:"whitesmoke", color: '#212121'}
+
   useEffect(()=>{
    if(trueArray.length < 1){
     fetch('/published/all').then((response)=>{
@@ -75,14 +79,17 @@ const categoryMap = async(array)=>{
   }, [ draftsArray, publishedArray])
   
   return (
-    <div style={{backgroundColor:"whitesmoke", color: '#212121'}}>
+    <div style={(lightMode)? lightModeStyle : darkModeStyle }>
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
 
     <Header showSearch={showSearch} toggleSearch={toggleSearch}
+    toggleLightMode={toggleLightMode} lightMode={lightMode}
+    lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
     searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
     setCategorySelected={setCategorySelected} trueArray={trueArray} setPublishedArray={setPublishedArray} categoryArray={categoryArray} />
+   
    
     <Switch  >
 
