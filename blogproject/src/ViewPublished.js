@@ -82,7 +82,7 @@ useEffect(()=>{
     }, [props.trueArray, props.publishedArray])
 
     return  (
-        <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
+        <Container fluid style={{ marginBottom: '2rem'}}>
 {(displayArray.length > 0) 
     ?
     displayArray.map((m)=>{
@@ -285,8 +285,8 @@ useEffect(()=>{
                   
                 
                 </Container>
-                <div style={{border: '2px dashed red', width:'100%'}}>
-                <h6 style={{border: '2px dashed red', textAlign: 'right'}}>
+                <div style={{border: '2px dashed black', width:'100%'}}>
+                <h6 style={{textAlign: 'right'}}>
                 <BsArrowRepeat
                 style={{ height: '2rem', width: '2rem'}}
                 onClick={()=>{

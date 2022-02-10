@@ -44,7 +44,7 @@ const TimeSortOptions = (props)=>{
         props.closeAllOptions()
         }
     return(
-        <Container style={{border: '2px solid red', width: 'auto'}}>
+        <Container style={{ width: 'auto'}}>
         
       
         <BsFillCaretUpFill style={{border: '2px solid black'}} onClick={()=>{

@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {Link} from 'react-router-dom'
+import AdminArticleCard from './AdminArticleCard'
 import dayjs from 'dayjs'
 import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 // import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
 import AlertText from './AlertText'
 import SearchOptions from './SearchOptions'
 import ArticleTable from './ArticleTable'
+import AdminEditView from './AdminEditView'
 import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
 import {BsArrowRepeat} from 'react-icons/bs'
@@ -19,9 +21,12 @@ import Button from 'react-bootstrap/Button'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
 
+
+
 const ViewDrafts =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
 const [displayArray, setDisplayArray] = useState([])
+const [editMode, toggleEditMode] = useState(false);
 
 const[originalArray,setOriginalArray] = useState(null)
 const [displayId, setDisplayId] = useState(null)
@@ -41,7 +46,6 @@ const [showAlert, setShowAlert] = useState(false);
 const [alertMessage, setAlertMessage] = useState(true);
 
 
-dayjs.extend(AdvancedFormat) // use plugin
 
 const closeAllOptions=()=>{
 toggleDateFilter(false)
@@ -78,15 +82,20 @@ useEffect(()=>{
        return ()=>{
            console.log('callback function called')
        }
-    }, [props.draftsArray,mappedArray])
+    }, [props.draftsArray,props.trueArray])
 
-    return (
-        <Container fluid style={{border: '2px dashed red', marginBottom: '2rem'}}>
-{(displayArray.length === 1) 
+    return  (
+        <Container fluid style={{ marginBottom: '2rem'}}>
+{(displayArray.length > 0) 
     ?
     displayArray.map((m)=>{
     return (
-        <ArticleCard articleFrom='admin view' {...m} />
+        <div>
+       <AdminArticleCard 
+       key={m.id}
+       editMode={editMode} toggleEditMode={toggleEditMode}
+       {...m}/>
+        </div>
     )
 })
 :
@@ -226,10 +235,26 @@ useEffect(()=>{
     <p></p>
     }
         
+              
+         
+                {(editMode) 
+                    ?
+                    displayArray.map((m)=>{
+                    return (
+                        <div>
+                
+                        <AdminEditView
+                        key={m.id}
+                        editMode={editMode} toggleEditMode={toggleEditMode}
+
+                        {...m}/> 
+                        </div>
+                    )
+                })
+                :
+                <Container  style={{width:'100%'}}>
                 <Container>
                
-               
-                
                 <Button
                 onClick={()=>{
                     closeAllOptions()
@@ -255,11 +280,16 @@ useEffect(()=>{
                 
                 <h4>{sortMessage}</h4>
                 <h4>{filterMessage}</h4>
+                
+                
 
-                <Container  style={{width:'100%'}}>
+              
                
-                <div style={{border: '2px dashed red', width:'100%'}}>
-                <h6 style={{border: '2px dashed red', textAlign: 'right'}}>
+                  
+                
+                </Container>
+                <div style={{border: '2px solid black', width:'100%'}}>
+                <h6 style={{ textAlign: 'right'}}>
                 <BsArrowRepeat
                 style={{ height: '2rem', width: '2rem'}}
                 onClick={()=>{
@@ -267,16 +297,18 @@ useEffect(()=>{
                     setSortMessage('')
                     setShowAlert(false)
                     closeAllOptions()
-                    setMappedArray(props.draftsArray)
+                    setMappedArray(originalArray)
                     setDisplayArray([])
                 }}
                 /></h6>
                 
+                
+
                <ArticleTable 
                closeAllOptions={closeAllOptions} 
                handleDisplayedCard={handleDisplayedCard}
 
-               mappedArray={props.draftsArray} setMappedArray={setMappedArray} 
+               mappedArray={mappedArray} setMappedArray={setMappedArray} 
                setSortMessage={setSortMessage} setDisplayId={setDisplayId}
                 setAlertMessage={setAlertMessage} setShowAlert={setShowAlert}
                
@@ -285,13 +317,7 @@ useEffect(()=>{
 
             
                 </Container> 
-               
-                
-                  
-                
-                
-                </Container>
-         
+                }
         
 
         </Container>
