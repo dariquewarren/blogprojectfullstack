@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';// css
 import { useParams } from "react-router-dom";
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
 import Article from './Article'
 import Loading from './Loading';
 import SuggestedArticles from './SuggestedArticles';
@@ -56,7 +53,7 @@ const handleSingleArticle= async (identification, array)=>{
  useEffect(()=>{
     handleSingleArticle(id,props.publishedArray)
     handleRandomNumbers(props.publishedArray)
-}, [props.publishedArray])
+}, [props.publishedArray, id])
 
 
     return (

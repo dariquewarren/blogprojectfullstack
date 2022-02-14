@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table'
 import DateSortOptions from './DateSortOptions'
 import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
-import Loading from './Loading'
+
 function ArticleTable(props) {
 
 useEffect(()=>{

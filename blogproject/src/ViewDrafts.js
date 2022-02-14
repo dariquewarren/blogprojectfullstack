@@ -1,10 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react'
-import {Link} from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
 import AdminArticleCard from './AdminArticleCard'
-import dayjs from 'dayjs'
-import AdvancedFormat from 'dayjs/plugin/advancedFormat'
-// import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
 import AlertText from './AlertText'
+
 import SearchOptions from './SearchOptions'
 import ArticleTable from './ArticleTable'
 import AdminEditView from './AdminEditView'
@@ -12,14 +9,11 @@ import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
 import {BsArrowRepeat} from 'react-icons/bs'
 import Container from 'react-bootstrap/Container'
-import Table from 'react-bootstrap/Table'
-import Row from 'react-bootstrap/Row'
 
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import ArticleCard from './ArticleCard'
-import Loading from './Loading'
+
 
 
 
@@ -82,24 +76,27 @@ useEffect(()=>{
        return ()=>{
            console.log('callback function called')
        }
-    }, [props.draftsArray,props.trueArray])
+    }, [props.draftsArray, mappedArray.length, props.trueArray])
 
     return  (
         <Container fluid style={{ marginBottom: '2rem'}}>
-{(displayArray.length > 0) 
-    ?
+{
     displayArray.map((m)=>{
+
+        if(m.id === displayId){
     return (
-        <div>
-       <AdminArticleCard 
-       key={m.id}
-       editMode={editMode} toggleEditMode={toggleEditMode}
-       {...m}/>
-        </div>
+        <AdminArticleCard 
+        key={m.id}
+        editMode={editMode} toggleEditMode={toggleEditMode}
+        {...m}/>
     )
+}else{
+    return(
+        <div key={displayId}></div>
+    )
+}
 })
-:
-<p></p>
+
 }
 
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage}/>
@@ -288,8 +285,8 @@ useEffect(()=>{
                   
                 
                 </Container>
-                <div style={{border: '2px solid black', width:'100%'}}>
-                <h6 style={{ textAlign: 'right'}}>
+                <div style={{border: '2px dashed black', width:'100%'}}>
+                <h6 style={{textAlign: 'right'}}>
                 <BsArrowRepeat
                 style={{ height: '2rem', width: '2rem'}}
                 onClick={()=>{

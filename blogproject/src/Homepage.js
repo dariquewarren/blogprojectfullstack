@@ -1,19 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react'
-import portfolioPic from './portfolioPic.jpg'
+import React, {useState, useEffect} from 'react'
 import {BiRefresh} from 'react-icons/bi'
-import {getAllPublished} from './APICalls'
 import Nav from 'react-bootstrap/Nav'
-import Form from 'react-bootstrap/Form'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
-import SearchOptions from './SearchOptions'
-import AlertText from './AlertText'
+
 const Homepage =  (props)=> {
 const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
-
-const [showAlert, setShowAlert] = useState(false)
-const [alertMessage, setAlertMessage] = useState('')
 
 const [tagsArray, setTagsArray] = useState([])
 
@@ -117,7 +110,6 @@ const tagsMap =async (array)=>{
     console.log(`changedArray`, changedArray)
 setTagsArray(setArray)
 }
-const getPublished = getAllPublished()
 useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
     setMappedArray(props.publishedArray)
@@ -131,7 +123,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return
 }
-}, [props.trueArray, props.publishedArray, mappedArray])
+}, [props.trueArray,props.categoryArray, props.publishedArray, mappedArray])
 
     return (
         <div>
@@ -172,9 +164,25 @@ if(mappedArray.length < 1 || !mappedArray){
 
        <Nav className='flex-column' style={{ width:'25%', marginLeft: 'auto', marginRight:'auto'}}>
        <h2 className='text-center' style={{textDecoration: 'underline'}}>Tags</h2>
-     
-    <h2 className='text-center' style={{textDecoration: 'underline'}}>Categories</h2>
-   
+     {tagsArray.map((m)=>{
+         return(
+             <p key={m} style={{cursor:'pointer',textAlign:'right', textDecoration: 'underline'}}
+             onClick={()=>{
+                handleTagsFilter(m)
+             }}
+             >{m} ({displayAmount('tags', baseArray, m)})</p>
+         )
+     })}
+    <h2 className='text-center' style={{textDecoration: 'underline'}} >Categories</h2>
+    {props.categoryArray.map((m)=>{
+        return(
+            <p key={m} style={{cursor:'pointer',textAlign:'right', textDecoration: 'underline'}} 
+            onClick={()=>{
+                handleCategoryFilter(m)
+             }}
+            >{m} ({displayAmount('category', baseArray, m)})</p>
+        )
+    })}
         </Nav>
     
        </div>

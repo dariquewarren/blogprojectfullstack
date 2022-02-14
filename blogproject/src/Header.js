@@ -2,19 +2,11 @@ import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import SearchOptions from './SearchOptions'
 import AlertText from './AlertText'
-
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/esm/Navbar'
-
-import NavbarBrand from 'react-bootstrap/esm/NavbarBrand'
-import Container from 'react-bootstrap/Container'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {BsMenuButton, BsSearch,BsLightbulb} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
-import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 
 function Header(props) {
 const [showAlert, setShowAlert] =useState(false)

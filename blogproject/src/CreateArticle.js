@@ -7,10 +7,9 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Article from './Article';
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Dayjs from 'dayjs'
-import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 import { saveDraft, publishArticle } from './APICalls';
+
 function ArticleForm(props){
     
     const ImageRef = useRef()
@@ -87,6 +86,7 @@ function ArticleForm(props){
            
             <img 
             src={props.image} 
+            alt={props.title}
             style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}
             />
 
@@ -261,10 +261,7 @@ function CreateArticle(props) {
     const [image, setImage] = useState(undefined)
     const [imageURLInput, setImageURLInput] = useState(false)
         const [category, setCategory] = useState(undefined)
-        const [tags, setTags] = useState([])
-
-    const [articleType, setArticleType] = useState('published')
-   
+        const [tags, setTags] = useState([])   
     const publishedTime = Dayjs().format('hh:mm:ss A')
 
     const referencePublishedTime = Dayjs().format('hhmmss')
@@ -362,7 +359,6 @@ return(
     articlePreview={articlePreview} toggleArticlePreview={toggleArticlePreview}
     tags={tags} setTags={setTags}
     category={category} setCategory={setCategory}
-    newArticle={newArticle}
     />
 )
 

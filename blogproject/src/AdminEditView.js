@@ -5,11 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Dayjs from 'dayjs'
 
-import {GiPokecog} from 'react-icons/gi'
-import ReactQuill from 'react-quill'; // ES6
 import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
 function AdminEditView(props) {
    const ImageRef = useRef()
@@ -169,6 +167,7 @@ useEffect(()=>{
     
     >
     <img src={updatedArticle.image} 
+    alt={props.updatedArticle.title}
     style={{cursor:'pointer',height:'10rem', width:'10rem'}} 
     onClick={()=>{
         toggleImageInput(!showImageInput)

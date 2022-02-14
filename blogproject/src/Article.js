@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useEffect} from 'react'
 import 'react-sharingbuttons/dist/main.css'
-import Row from 'react-bootstrap/Row'
-import Loading from './Loading'
+
 import Container from 'react-bootstrap/Container';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 import {Facebook, Twitter, Reddit} from 'react-sharingbuttons'
 
 function Article(props) {
@@ -40,7 +39,7 @@ const tagsWidth = (props.tags) ? (100 / props.tags.length) - 8 : 50
 
 
 <div style={{marginBottom:'2rem',marginTop:'2rem'}}>
-<img src={props.image} style={{height: '25rem', width:'80%', marginLeft:'10%', marginRight:'10%'}}/>
+<img src={props.image} alt={props.title} style={{height: '25rem', width:'80%', marginLeft:'10%', marginRight:'10%'}}/>
 
 </div>
 <hr/>

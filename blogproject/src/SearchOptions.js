@@ -18,7 +18,7 @@ const SearchOptions = (props)=>{
                 if(currentSearchTerm && f.title.includes(currentSearchTerm)){
                         return  f
             
-                }
+                }else{return}
             })
                     break;
                     case 'subtitle':
@@ -26,8 +26,7 @@ const SearchOptions = (props)=>{
                         specialArray = props.array.filter((f)=>{
                          if(currentSearchTerm && f.subtitle.includes(currentSearchTerm)){
                                  return  f
-                     
-                         }
+                         }else{return}
                      })
                              break;
             case 'article':

@@ -1,16 +1,12 @@
 import React, {useState, useEffect, lazy, Suspense} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
-import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
-import AuthPage from './AuthPage';
 import Loading from './Loading';
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
 const Homepage = lazy(()=>import('./Homepage'))
 const Footer = lazy(()=>import('./Footer'))
 const ViewDrafts = lazy(()=>import('./ViewDrafts'))
-const ReadArticle = lazy(()=>import('./ReadArticle'))
 const ViewPublished = lazy(()=>import('./ViewPublished'))
 const ReadPublished = lazy(()=>import('./ReadPublished'))
 
@@ -18,7 +14,6 @@ const ReadPublished = lazy(()=>import('./ReadPublished'))
 function App() {
   const [lightMode, toggleLightMode] = useState(false)
 
-  const [userInfo, setUserInfo] = useState(undefined)
   const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [categorySelected, setCategorySelected] = useState(false)
   const [showSearch, toggleSearch] = useState(false)
@@ -75,7 +70,7 @@ const categoryMap = async(array)=>{
 
     return 
    }
-  }, [ draftsArray, publishedArray])
+  }, [ trueArray.length, draftsArray, publishedArray])
   
   return (
     <div style={(lightMode)? lightModeStyle : darkModeStyle }>

@@ -1,10 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react'
-import {Link} from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
 import AdminArticleCard from './AdminArticleCard'
-import dayjs from 'dayjs'
-import AdvancedFormat from 'dayjs/plugin/advancedFormat'
-// import AdvancedFormat from 'dayjs/plugin/advancedFormat' // ES 2015
 import AlertText from './AlertText'
+
 import SearchOptions from './SearchOptions'
 import ArticleTable from './ArticleTable'
 import AdminEditView from './AdminEditView'
@@ -12,14 +9,11 @@ import DateFilterOptions from './DateFilterOptions'
 import TimeFilterOptions from './TimeFilterOptions'
 import {BsArrowRepeat} from 'react-icons/bs'
 import Container from 'react-bootstrap/Container'
-import Table from 'react-bootstrap/Table'
-import Row from 'react-bootstrap/Row'
 
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import ArticleCard from './ArticleCard'
-import Loading from './Loading'
+
 
 const ViewPublished =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
@@ -44,7 +38,6 @@ const [alertMessage, setAlertMessage] = useState(true);
 const [editMode, toggleEditMode] = useState(false);
 
 
-dayjs.extend(AdvancedFormat) // use plugin
 
 const closeAllOptions=()=>{
 toggleDateFilter(false)
@@ -79,7 +72,7 @@ useEffect(()=>{
        }
 
        
-    }, [props.trueArray, props.publishedArray])
+    }, [props.trueArray,mappedArray.length, props.publishedArray])
 
     return  (
         <Container fluid style={{ marginBottom: '2rem'}}>

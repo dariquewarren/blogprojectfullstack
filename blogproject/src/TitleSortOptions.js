@@ -1,17 +1,13 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import {BsFillCaretUpFill} from 'react-icons/bs'
 import {BsFillCaretDownFill} from 'react-icons/bs'
 
 
 const TitleSortOptions = (props)=>{
-    let newArray
-
     const sortTitleAscending =(array,sortDirection)=>{
 
-        let newArray =array.sort((a, b)=>{
+        var newArray =array.sort((a, b)=>{
             if(a.title < b.title){
                return -1
             }else if(a > b){
@@ -24,6 +20,7 @@ const TitleSortOptions = (props)=>{
        props.setSortMessage('Alphabetical TITLE ASCENDING')
        props.setNewArray(newArray)
        console.log('ascending clicked', sortDirection, newArray);
+       return newArray
    }
    
    const sortTitleDescending =(array, sortDirection)=>{
