@@ -5,6 +5,7 @@ const { getDatabase } = require('firebase/database')
 const express = require('express'); //Line 1
 const app = express(); //Line 2
 const bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 const port = process.env.PORT || 5000; //Line 3
 var admin = require("firebase-admin");
 // create application/json parser
@@ -28,9 +29,9 @@ const author = 'Darique Tester'
 
 var DraftsRef = FirebaseDB.ref(author +"/drafts")
 var PublishedRef = FirebaseDB.ref(author +"/published")
+app.use(cookieParser('identificationhoe'))
 
-
-
+// logged in user
 
 // Get a reference to the database service
 // const FirebaseDB = getDatabase(FirebaseApp);
@@ -96,17 +97,10 @@ app.get('/drafts/all', async (req, res) => { //Line 9
       const newDataArray= []
 for (const info in data){
     newDataArray.push({
-        id:info,
-        author: data[info].author,
-        title: data[info].title,
-        subtitle: data[info].subtitle,
-        image: data[info].image,
-        article: data[info].article,
-        datePublished: data[info].datePublished,
-        timePublished: data[info].timePublished,
-        type: data[info].type
+      id:info,
+      ...data[info]
 
-    })
+  })
 }
       realData = newDataArray
     });
@@ -124,7 +118,7 @@ res.status(200).send({ message: 'drafts/all connected', realData })
   // get single draft
   app.get('/drafts/single/:id',jsonParser, async (req, res) => { //Line 9
     try{
-     DraftsRef.child(req.params.id).on("value", function(snapshot) {
+     DraftsRef.child(req.params.id).once("value", function(snapshot) {
        const data = snapshot.val()
        res.status(200).send({ message: 'drafts single connected', data})
       }, (errorObject)=>{
@@ -147,16 +141,8 @@ app.get('/published/all', async (req, res)=>{
         const newDataArray= []
   for (const info in data){
       newDataArray.push({
-          id:info,
-          author: data[info].author,
-          title: data[info].title,
-          subtitle: data[info].subtitle,
-          image: data[info].image,
-          article: data[info].article,
-          datePublished: data[info].datePublished,
-          timePublished: data[info].timePublished,
-          type: data[info].type
-  
+        id:info,
+        ...data[info]
       })
   }
         realData = newDataArray
@@ -175,7 +161,7 @@ app.get('/published/all', async (req, res)=>{
         try{
           PublishedRef.child(req.params.id).on("value", function(snapshot) {
             const data = snapshot.val()
-            res.status(200).send({ message: 'drafts single connected', data})
+            res.status(200).send({ message: 'drafts single connected', data:data})
            }, (errorObject)=>{
              console.log('The read failed: ' + errorObject.name)
            });
@@ -192,7 +178,7 @@ app.patch('/update/published/:id', jsonParser, async (req, res)=>{
 //    await PublishedRef.set({})
   await PublishedRef.child(req.params.id).update(req.body)
 
-res.status(200).send({ message: 'published updated', body: req.body })
+res.status(200).send({ message: 'published updated' })
    
   }catch(e){
     res.status(200).send({ message: 'published not updated', error: e })
@@ -245,5 +231,40 @@ res.status(200).send({ message: 'Draft updated'})
                   res.status(200).send({ message: 'all published not deleted' })
 
                   console.log('error', e)
+                }
+              })
+
+
+
+              // AUTH ROUTES
+              app.post('/signin', jsonParser, async (req, res)=>{
+              try{
+                const userToken = await req.body.email.toString()
+                if (!userToken){
+                  res.status(404).send({message: 'no user token in reqbodyidToken'})
+                }
+                res.cookie('firebase', userToken)
+res.status(200).send({userToken})
+console.log(userToken)            
+
+}catch(e){
+                res.status(400).send({message: 'error', error: e})
+              }
+
+              })
+
+
+              app.post('/signup', jsonParser, async (req, res)=>{
+             
+
+                try{
+                  const User = await req.body
+                const newUser =  await admin.auth().createUser(User)
+                  if(!User){
+                    res.status(404).send({message: 'no new user/ issue with request body'})
+                  }
+                  res.status(200).send({newUser})
+                }catch(e){
+                  res.status(400).send({error:e})
                 }
               })

@@ -11,9 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "body": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.1",
     "firebase": "^4.8.1",
     "firebase-admin": "^10.0.0",
-    "parser": "^0.1.4"
+    "nodemon": "^2.0.15",
+    "parser": "^0.1.4",
+    "react-sharingbuttons": "^1.0.0"
   }
 }

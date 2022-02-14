@@ -15,15 +15,12 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 
-
-
-const ViewDrafts =  (props)=> {
+const ViewPublished =  (props)=> {
 const [mappedArray, setMappedArray] = useState([])
 const [displayArray, setDisplayArray] = useState([])
-const [editMode, toggleEditMode] = useState(false);
 
 const[originalArray,setOriginalArray] = useState(null)
-const [displayId, setDisplayId] = useState(null)
+const [displayId, setDisplayId] = useState(0)
 
 const [showDateFilter, toggleDateFilter] = useState(false)
 const [showSearchFilter, toggleSearchFilter] = useState(false)
@@ -38,6 +35,7 @@ const [filterMessage, setFilterMessage] = useState()
 const [sortMessage, setSortMessage] = useState()
 const [showAlert, setShowAlert] = useState(false);
 const [alertMessage, setAlertMessage] = useState(true);
+const [editMode, toggleEditMode] = useState(false);
 
 
 
@@ -67,16 +65,14 @@ useEffect(()=>{
 
 
     if(mappedArray.length < 1){
-        setOriginalArray(props.draftsArray)
-        setMappedArray(props.draftsArray)
+        setOriginalArray(props.trueArray)
+        setMappedArray(props.publishedArray)
        }else{
            return
        }
 
-       return ()=>{
-           console.log('callback function called')
-       }
-    }, [props.draftsArray, mappedArray.length, props.trueArray])
+       
+    }, [props.trueArray,mappedArray.length, props.publishedArray])
 
     return  (
         <Container fluid style={{ marginBottom: '2rem'}}>
@@ -321,4 +317,4 @@ useEffect(()=>{
     )
 }
 
-export default ViewDrafts
+export default ViewPublished
