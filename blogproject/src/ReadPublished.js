@@ -1,100 +1,73 @@
 import React, {useState, useEffect} from 'react'
-import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';// css
 import { useParams } from "react-router-dom";
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
 import Article from './Article'
-import { getSinglePublished ,updatePublished} from './APICalls';
 import Loading from './Loading';
+import SuggestedArticles from './SuggestedArticles';
+
+
 function ReadPublished(props) {
 
  const {id} = useParams()
 
-const [draft, setDraft] = useState()
-const [showEditMode, toggleEditMode] = useState(false)
-const [newTitle, setNewTitle] = useState()
-const [newSubtitle, setNewSubtitle] = useState()
-const [newTags, setNewTags] = useState()
-const [newCategory, setNewCategory] = useState()
-const [newImage, setNewImage] = useState()
-const [newArticle, setNewArticle] = useState()
+const [article, setArticle] = useState()
+const [index1, setIndex1] =useState(false)
+const [index2, setIndex2] =useState(false)
 
-
-
-const updateObject = {
-    title: (newTitle !== 'undefined')? newTitle: draft.title ,
-    subtitle:(newSubtitle !== 'undefined')? newSubtitle: draft.subtitle, 
-    article: (newArticle !== 'undefined')?newArticle: draft.article,
-    category: (newCategory !== 'undefined')?newCategory: draft.category, 
-    tags: (newTags !== 'undefined')?newTags: draft.tags,
-    image:(newImage !== 'undefined')?newImage: draft.image
+const handleRandomNumbers = (arr)=>{
+const baseNumber = arr.length
+var randomNumber1 = Math.floor(Math.random() * (baseNumber))
+var randomNumber2 = Math.floor(Math.random() * (baseNumber ))
+if(randomNumber1 === randomNumber2){
+setIndex1(0)
+setIndex2(baseNumber - 1)
+}else{
+setIndex1(randomNumber1)
+setIndex2(randomNumber2)
+}
+console.log('randomNumber1', randomNumber1)
+console.log('randomNumber2', randomNumber2)
 }
 
 
 
+const handleSingleArticle= async (identification, array)=>{
+    var theArticle =[]
+    var realArray = await array
+    realArray.map((m)=>{
+  if(m.id === identification){
+    theArticle.push(m)
+    console.log(m)
+        return 
+  }else{
+    return
+  }
+  
+  })
+  
+  console.log('theArticle', theArticle) 
+  setArticle(theArticle)
+   return theArticle
+   }
+
  useEffect(()=>{
- if(!draft){
-    getSinglePublished(id).then((data)=>{
-        return data.json()
-    }).then((data)=>{
-        if(!data.data || data.data.article === undefined ){
-            return  alert(data.message)  
-            }else{
-             return setDraft(data.data)
- 
-            }
-    })
- }else {
-     return
- }
- }, [draft])
+    handleSingleArticle(id,props.publishedArray)
+    handleRandomNumbers(props.publishedArray)
+}, [props.publishedArray, id])
 
 
     return (
-        <Container>
-        <Button
-        style={{backgroundColor: (showEditMode)?'red':'blue' ,position:'sticky', top: 0, left: 0}}
-        onClick={()=>{
-            
-            if(showEditMode){
-                console.log('draft', draft)
-                toggleEditMode(!showEditMode)
-            }else if(!showEditMode){
-                toggleEditMode(!showEditMode)
+        <div style={{height: 'auto'}}>
 
-            }
-        }}
-        >Edit Mode</Button>
+       {(article) 
+        ?
+        <div>
+        <Article {...article[0]} />
+        <SuggestedArticles article1={props.publishedArray[index1]} article2={props.publishedArray[index2]}/>
 
-
-        
-<Button style={{display:(showEditMode)?'inline': 'none' ,position:'sticky', top: 0, left: 0}} onClick={()=>{
-    updatePublished(updateObject, id)
-    setTimeout(()=>{
-window.location.reload(true)
-    },[3000])
-}}>Update</Button>
-        {(draft)?
-            <Container>
-           
-    <Article 
-    showEditMode= {showEditMode} toggleEditMode={toggleEditMode}
-    newTitle={newTitle} setNewTitle={setNewTitle}
-    newSubtitle={newSubtitle} setNewSubtitle={setNewSubtitle}
-    newTags={newTags} setNewTags={setNewTags}
-    newCategory={newCategory} setNewCategory={setNewCategory}
-    newImage={newImage} setNewImage={setNewImage}
-    newArticle={newArticle} setNewArticle={setNewArticle}
-    {...draft} />
-    </Container>    
-    :
-    <Loading/>
-        }
-
-       
-        </Container>
+        </div> 
+        : <Loading/>}
+        </div>
     )
 }
 

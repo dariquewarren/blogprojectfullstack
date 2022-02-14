@@ -1,205 +1,102 @@
-import React, {useState, useEffect, useRef} from 'react'
-import ReactQuill from 'react-quill'; // ES6
-import 'react-quill/dist/quill.snow.css';// css
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
+import React, {useEffect} from 'react'
+import 'react-sharingbuttons/dist/main.css'
 
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import Container from 'react-bootstrap/Container';
+import ReactHtmlParser from 'react-html-parser';
+import {Facebook, Twitter, Reddit} from 'react-sharingbuttons'
 
 function Article(props) {
-const [valuesSet, changeSetValues] = useState(false)
-const [showUpload, toggleUpload] = useState(false)
-
-const ImageRef = useRef()
-
- var {title, subtitle, tags, category, image, article} = props
- var {newTitle, newSubtitle, newTags, newCategory, newImage, newArticle} = props
- 
- const quillModules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
-      ['clean']
-    ],
-  }
- 
-  const quillFormats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-  ]
-
-
-const setInitalValues = ()=>{
-    props.setNewTitle(props.title)
-    props.setNewSubtitle(props.subtitle)
-    props.setNewTags(props.tags)
-    props.setNewCategory(props.category)
-    props.setNewImage(props.image)
-    props.setNewArticle(props.article)
-    console.log(title)
-    }
+const tagsWidth = (props.tags) ? (100 / props.tags.length) - 8 : 50
+   
 
     useEffect(()=>{
-
-    if(!valuesSet){
-        setInitalValues()
-        changeSetValues(true)
         
-    } 
-    console.log(valuesSet)
-    return ()=>{
-        changeSetValues(false)
-        console.log(valuesSet)
-
-    }
-    },[])
+       },[props])
     return (
-        <Container style={{marginBottom: '2rem'}}>
+       <Container >
        
-        
-
-        {(props.showEditMode)
-            ?
-                               
-            <Form.Group>
-            <Form.Label>Title</Form.Label>
-            <Form.Control type='text' placeholder={props.title} value={(newTitle  )? newTitle : title} onChange={(e)=>{
-                props.setNewTitle(e.target.value)
-            }}/>
-
-            </Form.Group>
-            
-            :
-            <h1 style={{textAlign:'center'}}>{(newTitle)? newTitle : title}</h1>
-
-        }
-
-        {(props.showEditMode)
-            ?
-            <Form.Group>
-            <Form.Label>Sub-Title</Form.Label>
-            
-
-            <Form.Control type='text' placeholder={props.subtitle} value={(newSubtitle)?newSubtitle: subtitle} onChange={(e)=>{
-                props.setNewSubtitle(e.target.value)
-            }} />
-            </Form.Group>      
-            :
-            <h4 style={{textAlign:'left'}}>{(newSubtitle)?newSubtitle: subtitle}</h4>
-        }
-        
-       
-        <Row>
-        <p className='w-50' style={{textAlign:'left'}}>By {props.author}</p>
-        <p className='w-50 ' style={{textAlign:'right'}}> {props.datePublished}</p>
-       </Row>
-       <br/>
-       
-
-{(props.showEditMode)
-    ?
-    <div>
-    
-    <Form.Group>
-    <Form.Label>IMAGE</Form.Label> <br/>
-    <Form.Label>{(showUpload)?'Upload Image':'Paste URL'} <Button
-    onClick={()=>{
-        toggleUpload(!showUpload)
-        console.log('switch to url')
-    }}
-    >{(showUpload)?'Switch to URL': 'Switch to UPLOAD'}</Button> 
-    </Form.Label>
-    {(showUpload)
-    ?
-    <Form.Control type='file'  
-    ref={ImageRef}
-    onChange={(e)=>{
-        if(ImageRef.current){
-            let file = ImageRef.current.files[0]
-            console.log('current exists', file)
-            let fileReader = new FileReader(); 
-      fileReader.readAsDataURL(file); 
-      fileReader.onload = function() {
-      console.log('filereader result',fileReader.result);
-      props.setNewImage(fileReader.result)
-      }; 
-      fileReader.onerror = function() {
-      console.log('fileReader error',fileReader.error);
-      }; 
-            console.log('current exists', )
-        }else{
-            console.log('no current')
-            console.log('no current', ImageRef.current)
       
-        }
-    }} />
-    :
-    <Form.Control type='text'
-    placeholder='PASTE URL HERE'
-     onChange={(e)=>{
-        props.setNewImage(e.target.value)
-    }}  />
-    }
-    </Form.Group>
-    <Container style={{maxWidth:'60%', textAlign: 'right'}}>
-    <img src={(newImage)? newImage : image } style={{height: '20rem', width:'100%', display:'block', marginBottom:'2rem', marginLeft:'auto',marginRight:'0rem'}}/>
-    </Container>
-    </div>
-    :
-    <Container style={{maxWidth:'60%', textAlign: 'right'}}>
-    <img src={(newImage)? newImage : image } style={{height: '20rem', width:'100%', display:'block', marginBottom:'2rem', marginLeft:'auto',marginRight:'0rem'}}/>
-    </Container>
-}
+        <div style={{borderBottom:'3px solid black', marginBottom:'1rem', width:'98%', marginLeft:'auto', marginRight:'auto'}}>
+        <h1 className='text-center mt-2rem mb-2rem'>{props.title}</h1>
+<h5 style={{textAlign:'center',marginBottom:'1rem',marginTop:'1rem', fontStyle:'italic'}}>{props.subtitle}</h5>
+<p style={{marginBottom:'1rem',marginTop:'1rem'}}>By {props.author}</p>
+
+<div style={{borderBottom:'3px solid black' ,display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'center',marginBottom:'2rem',marginTop:'2rem'}}>
+<p  style={{width:'50%', textAlign:'left'}}>{props.datePublished}</p>
+<p style={{width:'50%', textAlign:'right'}}>{props.timePublished}</p>
+
+</div>
+
+<Container style={{ display:'flex', flexDirection:'row'}}>
+<Facebook  text='Facebook' url='http://www.google.com'/>
+
+<Twitter text='Twitter' url='http://www.google.com'/>
+<Reddit text='Reddit' url='http://www.google.com'/>
 
 
-{(props.showEditMode)? 
-    <div>
-    <ReactQuill 
-    theme='snow' 
-    modules={quillModules}
-    formats={quillFormats}
-    placeholder={props.article} 
-    value={(newArticle) ? newArticle: article} 
-    onChange={(e)=>{
-        props.setNewArticle(e)
-        console.log(e)
-    }} /> 
-    </div>
 
+</Container>
+
+
+<div style={{marginBottom:'2rem',marginTop:'2rem'}}>
+<img src={props.image} alt={props.title} style={{height: '25rem', width:'80%', marginLeft:'10%', marginRight:'10%'}}/>
+
+</div>
+<hr/>
+<Container style={{paddingTop:'5rem'}}>
+{ReactHtmlParser(props.article)} 
+
+</Container>
+
+</div>
+         
+
+<div 
+style={{display:'flex', flexDirection:'row',borderBottom:'1px dashed black'}}>
+<div style={{borderRight:'1px dashed black',width:'40%', marginLeft:'auto', marginRight:'auto'}}>
+<h4 style={{textAlign:'left', marginLeft:'auto', marginRight:'auto'}}>Tags: </h4>
+<div style={{display:'flex', flexDirection:'row'}}> 
+
+{(props.tags)? props.tags.map((m)=>{
+   return(
+      <p key={m}
+      style={{width:`${tagsWidth}%`, marginLeft:'auto', marginRight:'auto', textAlign:'center'}}
+      >-{m}-</p>
+   )
+})
 :
- <p>{(newArticle)?ReactHtmlParser(newArticle) : ReactHtmlParser(article) } </p> }
-
-
- {(props.showEditMode)
-    ?
-   <Form.Group>
-   <Form.Label>Tags</Form.Label>
-   <Form.Control type='text' placeholder={props.tags} value={(newTags)?newTags: tags} 
-   onChange={(e)=>{
-       props.setNewTags(e.target.value)
-       console.log(props.newTags)
-   }}/>
-   <Form.Label>Category</Form.Label>
-   <Form.Control type='text' 
-   placeholder={props.category} value={(newCategory)?newCategory: category} 
-   onChange={(e)=>{
-       props.setNewCategory(e.target.value)
-       console.log(props.newCategory)
-   }}/>
-   </Form.Group>
-    :
 <p></p>
 }
+</div>
+</div>
+
+<div style={{width:'40%', marginLeft:'auto', marginRight:'auto'}}>
+<h4 style={{textAlign:'left', marginLeft:'auto', marginRight:'auto'}}>Categories: </h4>
+
+<div style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+{(props.category)? props.category.map((m)=>{
+   return(
+      <p key={m}
+      style={{width:`${tagsWidth}%`, marginLeft:'auto', marginRight:'auto', textAlign:'center'}}
+      >-{m}-</p>
+   )
+})
+:
+<p></p>
+}
+</div>
+</div>
 
 
-        </Container>
+
+
+
+</div>
+
+       </Container>
     )
 }
+
+
 
 export default Article

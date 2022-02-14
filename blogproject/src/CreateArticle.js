@@ -7,40 +7,88 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Article from './Article';
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Dayjs from 'dayjs'
-import { db, writeUserData, addNewArticle, getArticlesByType} from './Firebase'
 import { saveDraft, publishArticle } from './APICalls';
+
 function ArticleForm(props){
     
     const ImageRef = useRef()
         
     const handleTags = async (nextTag)=>{
     const newTags = await nextTag.replace(' ', '').toUpperCase().split(',')
-    props.setTags(newTags)
+    var finalTags = newTags.map((m)=>{
+        return m.split(' ').join('')
+    })
+    props.setTags(finalTags)
+    console.log('finalTags', finalTags)
 
 
     }
     const handleCategory = async (newCategory)=>{
         const newCategories = await newCategory.replace(' ', '').toUpperCase().split(',')
-    props.setCategory(newCategories)
-        console.log('category', newCategories)
+        var finalCategories = newCategories.map((m)=>{
+            return m.split(' ').join('')
+        })
+    props.setCategory(finalCategories)
+        console.log('category', finalCategories)
     
     
         }
      
         return (
             <div>
-            <Button
-            onClick={()=>{
-            //    console.log('article created', newArticle)
-                console.log('imageRef', ImageRef.current.files)
-            }}
-            >test button</Button>
+            <Container
+            style={{marginBottom:'1rem', position:'sticky', top:'1px'}}
+            >
+            <Button 
+            className='bg-primary' 
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={(e)=>{
+              e.preventDefault() 
+              console.log('new article', props.newArticle)
+  
+              props.toggleArticlePreview(!props.articlePreview)
+          }} >Preview</Button>
+  
+            <Button 
+            className='bg-success w-33'
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={async ()=>{
+                try{
+                 await saveDraft(props.newArticle)
+                  alert('draft saved')
+                }catch(e){
+                    console.log('error', e)
+                }
+          }}
+   >
+            Save Draft
+            </Button>
+  
+            <Button 
+            className='bg-warning'
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={async ()=>{
+              try{
+               await publishArticle(props.newArticle)
+                alert('draft saved')
+              }catch(e){
+                  console.log('error', e)
+              }
+        }}
+             >
+            Publish Article
+            </Button>
+            </Container>
+  
           
             <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
            
-            <img src={props.image} style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}/>
+            <img 
+            src={props.image} 
+            alt={props.title}
+            style={{height: '15rem', width: '15rem',display:'block', marginLeft: 'auto', marginRight: 'auto'}}
+            />
 
          
 
@@ -158,8 +206,11 @@ function ArticleForm(props){
    
             <br/>
             <Form.Label className='w-100 text-center'> Quill Editor</Form.Label>
-    <ReactQuill style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} theme="snow" value={props.article}
-                    onChange={(e)=>{
+    <ReactQuill 
+    style={{minHeight: '20rem', border: '2px solid black', marginTop:'2rem', marginBottom: '2rem'}} 
+    theme="snow" 
+    value={props.article}
+    onChange={(e)=>{
                         props.setArticle(e)
                     }} />
                     
@@ -195,49 +246,6 @@ function ArticleForm(props){
                     </Form.Group>
  
           </Form>
-          <div
-          style={{marginBottom:'1rem'}}
-          >
-          <Button 
-          className='bg-primary' 
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={(e)=>{
-            e.preventDefault() 
-            console.log('new article', props.newArticle)
-
-            props.toggleArticlePreview(!props.articlePreview)
-        }} >Preview</Button>
-
-          <Button 
-          className='bg-success w-33'
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={async ()=>{
-              try{
-               await saveDraft(props.newArticle)
-                alert('draft saved')
-              }catch(e){
-                  console.log('error', e)
-              }
-        }}
- >
-          Drafts
-          </Button>
-
-          <Button 
-          className='bg-warning'
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={async ()=>{
-            try{
-             await publishArticle(props.newArticle)
-              alert('draft saved')
-            }catch(e){
-                console.log('error', e)
-            }
-      }}
-           >
-          Publish
-          </Button>
-          </div>
 
 
           </Container>
@@ -253,10 +261,7 @@ function CreateArticle(props) {
     const [image, setImage] = useState(undefined)
     const [imageURLInput, setImageURLInput] = useState(false)
         const [category, setCategory] = useState(undefined)
-        const [tags, setTags] = useState([])
-
-    const [articleType, setArticleType] = useState('published')
-   
+        const [tags, setTags] = useState([])   
     const publishedTime = Dayjs().format('hh:mm:ss A')
 
     const referencePublishedTime = Dayjs().format('hhmmss')
@@ -298,16 +303,7 @@ return militaryMorning
     if(articlePreview){
 return(
     <Container>
-    <Button
-onClick={()=>{
-    
-   
 
-    console.log('transformTime',transformTime() )
-    console.log('newArticle', newArticle)
-
-}}
->test</Button>
     <Button
     style={{position: 'sticky', top: '10px'}}
     onClick={()=>{
@@ -345,7 +341,7 @@ Save Draft
       console.log('published')
 }}
      >
-    Publish
+    Publish Article
     </Button>
  
     <Article {...newArticle} />
@@ -363,7 +359,6 @@ return(
     articlePreview={articlePreview} toggleArticlePreview={toggleArticlePreview}
     tags={tags} setTags={setTags}
     category={category} setCategory={setCategory}
-    newArticle={newArticle}
     />
 )
 

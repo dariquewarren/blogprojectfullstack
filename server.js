@@ -98,18 +98,7 @@ app.get('/drafts/all', async (req, res) => { //Line 9
 for (const info in data){
     newDataArray.push({
       id:info,
-      author: data[info].author,
-      title: data[info].title,
-      subtitle: data[info].subtitle,
-      image: data[info].image,
-      article: data[info].article,
-      datePublished: data[info].datePublished,
-      timePublished: data[info].timePublished,
-      type: data[info].type,
-      sortableDate: data[info].sortableDate,
-      sortableTime: data[info].sortableTime,
-      tags: data[info].tags,
-      category: data[info].category
+      ...data[info]
 
   })
 }
@@ -153,20 +142,8 @@ app.get('/published/all', async (req, res)=>{
   for (const info in data){
       newDataArray.push({
         id:info,
-        author: data[info].author,
-        title: data[info].title,
-        subtitle: data[info].subtitle,
-        image: data[info].image,
-        article: data[info].article,
-        datePublished: data[info].datePublished,
-        timePublished: data[info].timePublished,
-        type: data[info].type,
-        sortableDate: data[info].sortableDate,
-        sortableTime: data[info].sortableTime,
-        tags: data[info].tags,
-        category: data[info].category
-
-    })
+        ...data[info]
+      })
   }
         realData = newDataArray
       });

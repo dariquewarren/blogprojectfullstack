@@ -6,9 +6,7 @@ import { getSinglePublished } from './APICalls';
 import Loading from './Loading';
 
 function ReadArticle(props) {
-
-    const objectArray = [{author: 'MR. Mister'}]
- const {id} = useParams()
+     const {id} = useParams()
 
  const [article, setArticle] = useState()
     
@@ -29,7 +27,7 @@ function ReadArticle(props) {
  }else {
      return
  }
- }, [article])
+ }, [article, id])
 
 
     return (

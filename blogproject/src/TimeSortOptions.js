@@ -1,7 +1,5 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import {BsFillCaretUpFill} from 'react-icons/bs'
 import {BsFillCaretDownFill} from 'react-icons/bs'
 
@@ -44,7 +42,7 @@ const TimeSortOptions = (props)=>{
         props.closeAllOptions()
         }
     return(
-        <Container style={{border: '2px solid red', width: 'auto'}}>
+        <Container style={{ width: 'auto'}}>
         
       
         <BsFillCaretUpFill style={{border: '2px solid black'}} onClick={()=>{
