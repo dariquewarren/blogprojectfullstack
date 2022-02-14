@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import portfolioPic from './portfolioPic.jpg'
 import {BiRefresh} from 'react-icons/bi'
-
+import {getAllPublished} from './APICalls'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 import ArticleCard from './ArticleCard'
@@ -117,16 +117,17 @@ const tagsMap =async (array)=>{
     console.log(`changedArray`, changedArray)
 setTagsArray(setArray)
 }
-
+const getPublished = getAllPublished()
 useEffect(()=>{
-    console.log('trueArray',props.trueArray)
 if(mappedArray.length < 1 || !mappedArray){
     setMappedArray(props.publishedArray)
     setBaseArray(props.trueArray)
     tagsMap(props.trueArray)
-    
-    
+    console.log('categories',props.categoryArray)
+
 }else {
+    console.log('categories',props.categoryArray)
+    console.log('mapped Array',props.categoryArray)
 
     return
 }
@@ -171,41 +172,9 @@ if(mappedArray.length < 1 || !mappedArray){
 
        <Nav className='flex-column' style={{ width:'25%', marginLeft: 'auto', marginRight:'auto'}}>
        <h2 className='text-center' style={{textDecoration: 'underline'}}>Tags</h2>
-       
-     {(tagsArray.length > 0)
-        ?
-        tagsArray.map((m)=>{
-            return(    
-                        <p 
-                        key={m.id}
-                        
-                        style={{cursor: 'pointer',width:'100%',textAlign:'right', 
-                        textDecoration:'underline', color: 'black'}} 
-                         onClick={()=>{
-                            handleTagsFilter(m)
-                            
-                            console.log(m)
-                        }}>{m.toUpperCase()} ({displayAmount('tags', baseArray, m)}) </p>
-            )
-            
-        })
-    :
-    <p></p>}
+     
     <h2 className='text-center' style={{textDecoration: 'underline'}}>Categories</h2>
-    {props.categoryArray.map((m)=>{
-        return(
-           <p 
-           key={m.id}
-           
-           style={{cursor: 'pointer',width:'100%',textAlign:'right', 
-           textDecoration:'underline', color: 'black'}} 
-            onClick={()=>{
-               handleCategoryFilter(m)
-               
-               console.log(m)
-           }}>{m.toUpperCase()} ({displayAmount('category', baseArray, m)}) </p>
-        )
-    }) }
+   
         </Nav>
     
        </div>

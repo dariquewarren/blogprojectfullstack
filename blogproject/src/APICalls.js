@@ -34,6 +34,8 @@ return data
   export const getAllPublished = async ()=>{
    await fetch('/published/all').then((response)=>{
       return response.json() 
+    }).then((data)=>{
+      return data.realData
     }).catch((e)=>{
       alert(`${e}`)
     })

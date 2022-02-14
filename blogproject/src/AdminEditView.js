@@ -3,6 +3,8 @@ import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import Dayjs from 'dayjs'
+
 import {GiPokecog} from 'react-icons/gi'
 import ReactQuill from 'react-quill'; // ES6
 import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
@@ -50,20 +52,60 @@ switch(decisionType){
                 alert('no decision type')
 }
     }
+    const publishedTime = Dayjs().format('hh:mm:ss A')
+
+    const referencePublishedTime = Dayjs().format('hhmmss')
+    const changeTime = ()=>{
+       
+
+        if(publishedTime.includes('A') && publishedTime[0] ==='1' && publishedTime[1] === '2'){
+          const militaryMidnight = referencePublishedTime.replace('12', '00')
+return Number(militaryMidnight) 
+        }else if(publishedTime.includes('P') && publishedTime[0] !=='1'  ){
+          const militaryAfternoon = Number(referencePublishedTime) + 120000
+          return militaryAfternoon
+           
+        }else if(publishedTime.includes('A') && publishedTime[0] ==='0'){
+            const militaryMorning = Number(referencePublishedTime) 
+return militaryMorning
+        }else{
+            return Number(referencePublishedTime)
+        }
+    }
 
 const baseArticle ={
+    id:props.id,
     title:props.title,
     subtitle: props.subtitle,
     image: props.image,
-    article: props.article
+    article: props.article,
+    timePublished: props.timePublished,
+    datePublished: props.datePublished,
+    author: props.author,
+    sortableDate: props.sortableDate,
+    sortableTime: props.sortableTime,
+    catgories: props.categories,
+    tags: props.tags,
+
 }
 const updatedArticle={
+    id:props.id,
     title:(newTitle)?newTitle: props.title,
     subtitle:(newSubtitle)?newSubtitle: props.subtitle,
     image:(newImage)?newImage: props.image,
-    article:(newArticle)?newArticle: props.article,
-    updatedOn:'1/22/33',
-    updatedAt: '12:39'
+    article:(newArticle)?newArticle: props.article,   
+    timePublished: props.timePublished,
+    datePublished: props.datePublished,
+    author: props.author,
+    sortableDate: props.sortableDate,
+    sortableTime: props.sortableTime,
+        dateUpdated: Dayjs().format('M/DD/YYYY'),
+        timeUpdated: Dayjs().format('hh:mm A'),
+        sortableUpdateTime: changeTime(),
+        sortableUpdateDate: Dayjs().valueOf(),
+        catgories: props.categories,
+    tags: props.tags,
+
 }
 
 useEffect(()=>{
@@ -72,6 +114,11 @@ useEffect(()=>{
 
 
     return <Container style={{textAlign:'center'}}>
+    <h1>{pageMessage}</h1>
+
+    <Container
+    style={{marginBottom:'1.5rem', borderBottom: '4px solid black'}}
+    >
     <Button variant='primary'
     onClick={()=>{
         toggleUserCheck(true)
@@ -80,11 +127,7 @@ useEffect(()=>{
        
     }}
     >Submit All Changes</Button>
-    <Button variant='success'
-    onClick={()=>{
-        props.toggleEditMode(false)
-    }}
-    >Go Back</Button>
+
     <Button variant='danger' 
     onClick={()=>{
         toggleUserCheck(true)
@@ -94,21 +137,33 @@ useEffect(()=>{
     }}
     >Delete Article</Button>
 
-    {(userCheck && userDecisionType )?<div>
-        <h6>Are you Sure you want to {userDecisionType}?</h6>
-        <Button variant='danger'>no</Button>
+    <Button variant='success'
+    onClick={()=>{
+        props.toggleEditMode(false)
+    }}
+    >Go Back</Button>
+    {(userCheck && userDecisionType )?<div
+        style={{outline:'2px solid black', marginTop:'1.5rem', paddingBottom:'1rem'}}
+        >
+        <h1>Are you Sure you want to {userDecisionType}?</h1>
+        <Button variant='danger'
+        onClick={()=>{
+            toggleUserCheck(false)
+        }}
+        >Close Options</Button>
         <Button variant='success' onClick={()=>{
             handleUserDecision(userDecisionType,updatedArticle, props.id)
             setPageMessage('SUBMITTING....YOUR...CHANGES')
-            alert(`${userDecisionType}`)
+            alert(`${userDecisionType}${props.id}`)
             setTimeout(()=>{
                 window.location.reload(true)
             },[2000])
-        }}>yes</Button>
+        }}>{(userDecisionType !== 'delete')? 'Submit Article Update' : 'Delete Article'}</Button>
 
         </div> : <p></p>}
 
-<h1 style={{cursor:'pointer'}}>{pageMessage}</h1>
+    </Container>
+
 
     <div
     
@@ -168,7 +223,6 @@ setImage(fileReader.result)
     }} />
     </Form.Group>
     
-<Button type='submit' variant='primary'>Save</Button>
 <Button
 variant='warning'
 onClick={(e)=>{
@@ -203,7 +257,6 @@ onSubmit={(e)=>{
 </Form.Group>
 
 
-<Button type='submit' variant='primary'>Save</Button>
 <Button
 variant='warning'
 onClick={(e)=>{
@@ -224,10 +277,6 @@ onClick={()=>toggleImageInput(false)}
     <p></p>
 }
     
-
-
-
-
 
     <h1
     style={{cursor:'pointer'}}
@@ -256,7 +305,6 @@ onClick={()=>toggleImageInput(false)}
           setNewTitle(e.target.value)
 
       }}/>
-      <Button type='submit' variant='success'>Save</Button>
       <Button  variant='warning'
       onClick={(e)=>{
           e.preventDefault()
@@ -274,7 +322,7 @@ onClick={()=>toggleImageInput(false)}
     }
    
     <h3
-    style={{cursor:'pointer'}}
+    style={{cursor:'pointer', textAlign:'left'}}
     onClick={()=>{
         toggleSubtitleInput(!showSubtitleInput)
     }}
@@ -299,7 +347,6 @@ onClick={()=>toggleImageInput(false)}
     e.preventDefault()
     setNewsubtitle(e.target.value)
 }}/>
-<Button type='submit' variant='success'>Save</Button>
 <Button  variant='warning'
 onClick={(e)=>{
     e.preventDefault()
@@ -315,6 +362,12 @@ onClick={()=>toggleSubtitleInput(false)}
         :
         <p></p>
     }
+
+    <div style={{borderBottom:'3px dashed black' ,display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'center',marginBottom:'2rem',marginTop:'2rem'}}>
+<p  style={{width:'50%', textAlign:'left'}}>{props.datePublished}</p>
+<p style={{width:'50%', textAlign:'right'}}>{props.timePublished}</p>
+
+</div>
     <Container>
     {(showArticleInput)
         ?
@@ -334,10 +387,9 @@ onClick={()=>toggleSubtitleInput(false)}
                        onChange={(e)=>{
                            setNewArticle(e.target.value)
                        }} />
-                       <Button type="submit" variant='success'>Save</Button>
                        <Button
                        variant='warning'
-                       onclick={()=>{
+                       onClick={()=>{
                            setNewArticle(baseArticle.article)
                        }} >Reset</Button>
                        <Button

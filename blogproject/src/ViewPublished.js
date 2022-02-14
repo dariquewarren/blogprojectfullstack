@@ -26,7 +26,7 @@ const [mappedArray, setMappedArray] = useState([])
 const [displayArray, setDisplayArray] = useState([])
 
 const[originalArray,setOriginalArray] = useState(null)
-const [displayId, setDisplayId] = useState(null)
+const [displayId, setDisplayId] = useState(0)
 
 const [showDateFilter, toggleDateFilter] = useState(false)
 const [showSearchFilter, toggleSearchFilter] = useState(false)
@@ -83,20 +83,23 @@ useEffect(()=>{
 
     return  (
         <Container fluid style={{ marginBottom: '2rem'}}>
-{(displayArray.length > 0) 
-    ?
+{
     displayArray.map((m)=>{
+
+        if(m.id === displayId){
     return (
-        <div>
-       <AdminArticleCard 
-       key={m.id}
-       editMode={editMode} toggleEditMode={toggleEditMode}
-       {...m}/>
-        </div>
+        <AdminArticleCard 
+        key={m.id}
+        editMode={editMode} toggleEditMode={toggleEditMode}
+        {...m}/>
     )
+}else{
+    return(
+        <div key={displayId}></div>
+    )
+}
 })
-:
-<p></p>
+
 }
 
         <AlertText  showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage}/>

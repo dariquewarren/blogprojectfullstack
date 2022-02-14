@@ -5,11 +5,9 @@ import TimeSortOptions from './TimeSortOptions'
 import TitleSortOptions from './TitleSortOptions'
 import Loading from './Loading'
 function ArticleTable(props) {
+
 useEffect(()=>{
-if(props.mappedArray < 1){
-    console.log('no array')
-}
-console.log('array')
+console.log('array', props.mappedArray)
 
 }, [props.mappedArray])
     return (
@@ -49,18 +47,16 @@ console.log('array')
         <tbody>
     
 
-        {
-           (props.mappedArray.length > 0)
-           ?
-           props.mappedArray.map((m)=>{
+    { props.mappedArray.map((m)=>{
             return(
                 <tr as='button'
+                key={m.id}
                 onClick={()=>{
                     props.setDisplayId(m.id)
                     props.handleDisplayedCard(m.id)
 
                 }}
-                key={m.id}>
+                >
                 <th >{(props.mappedArray.indexOf(m) + 1)}</th>
                 
                 <th >{m.datePublished}</th>
@@ -69,13 +65,13 @@ console.log('array')
                 { m.title}    
                    
                 </th>
+                <th>{m.id}</th>
                 </tr>
                
             )
         })
-           :
-           <Loading/>
-        }
+        
+    }
         </tbody>
         </Table>
         </div>
