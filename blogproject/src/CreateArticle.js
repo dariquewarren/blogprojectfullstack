@@ -38,12 +38,50 @@ function ArticleForm(props){
      
         return (
             <div>
-            <Button
-            onClick={()=>{
-            //    console.log('article created', newArticle)
-                console.log('imageRef', ImageRef.current.files)
-            }}
-            >test button</Button>
+            <Container
+            style={{marginBottom:'1rem', position:'sticky', top:'1px'}}
+            >
+            <Button 
+            className='bg-primary' 
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={(e)=>{
+              e.preventDefault() 
+              console.log('new article', props.newArticle)
+  
+              props.toggleArticlePreview(!props.articlePreview)
+          }} >Preview</Button>
+  
+            <Button 
+            className='bg-success w-33'
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={async ()=>{
+                try{
+                 await saveDraft(props.newArticle)
+                  alert('draft saved')
+                }catch(e){
+                    console.log('error', e)
+                }
+          }}
+   >
+            Save Draft
+            </Button>
+  
+            <Button 
+            className='bg-warning'
+            style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
+            onClick={async ()=>{
+              try{
+               await publishArticle(props.newArticle)
+                alert('draft saved')
+              }catch(e){
+                  console.log('error', e)
+              }
+        }}
+             >
+            Publish Article
+            </Button>
+            </Container>
+  
           
             <Form.Label className='w-100 text-center' style={{fontWeight:'bold'}} >Create Article</Form.Label>
            
@@ -208,49 +246,6 @@ function ArticleForm(props){
                     </Form.Group>
  
           </Form>
-          <div
-          style={{marginBottom:'1rem'}}
-          >
-          <Button 
-          className='bg-primary' 
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={(e)=>{
-            e.preventDefault() 
-            console.log('new article', props.newArticle)
-
-            props.toggleArticlePreview(!props.articlePreview)
-        }} >Preview</Button>
-
-          <Button 
-          className='bg-success w-33'
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={async ()=>{
-              try{
-               await saveDraft(props.newArticle)
-                alert('draft saved')
-              }catch(e){
-                  console.log('error', e)
-              }
-        }}
- >
-          Drafts
-          </Button>
-
-          <Button 
-          className='bg-warning'
-          style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-          onClick={async ()=>{
-            try{
-             await publishArticle(props.newArticle)
-              alert('draft saved')
-            }catch(e){
-                console.log('error', e)
-            }
-      }}
-           >
-          Publish
-          </Button>
-          </div>
 
 
           </Container>
@@ -311,16 +306,7 @@ return militaryMorning
     if(articlePreview){
 return(
     <Container>
-    <Button
-onClick={()=>{
-    
-   
 
-    console.log('transformTime',transformTime() )
-    console.log('newArticle', newArticle)
-
-}}
->test</Button>
     <Button
     style={{position: 'sticky', top: '10px'}}
     onClick={()=>{
@@ -358,7 +344,7 @@ Save Draft
       console.log('published')
 }}
      >
-    Publish
+    Publish Article
     </Button>
  
     <Article {...newArticle} />
