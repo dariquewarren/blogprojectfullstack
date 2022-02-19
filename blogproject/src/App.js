@@ -2,6 +2,8 @@ import React, {useState, useEffect, lazy, Suspense} from 'react';
 import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import Loading from './Loading';
+import {addArticle, getArticlesByType} from './Firebase'
+
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
 const Homepage = lazy(()=>import('./Homepage'))
@@ -23,18 +25,9 @@ function App() {
   const [publishedArray, setPublishedArray] = useState([])
   const [draftsArray, setDraftsArray] = useState([])
   const [categoryArray, setCategoryArray] = useState([])
-
-const handleDraftsArray = ()=>{
-  fetch('/drafts/all').then((response)=>{
-    return response.json()
-  }).then((data)=>{
-    setDraftsArray(data.realData)
-    return data.realData
-  }).then((data)=>{
-    
-    console.log('draftsArray', draftsArray)
-  })
-}
+  
+  
+  
 
 const categoryMap = async(array)=>{
   
@@ -42,29 +35,35 @@ const categoryMap = async(array)=>{
       return m.category
   })
   const flatArray = await changedArray.flat()
-  const setArray = [...new Set(flatArray)]
+  const setArray = await [...new Set(flatArray)]
   console.log(`flatArray`, flatArray)
   console.log(`setArray`, setArray)
   console.log(`changedArray`, changedArray)
   
   setCategoryArray(setArray)
   }
+  const handlePublishedArray = async ()=>{
+    await Promise.resolve(getArticlesByType('Darique Tester', 'published')).then((data)=>{
+          setPublishedArray(data)
+          setTrueArray(data)
+      categoryMap(data)
 
+          })
+  }
+const handleDraftsArray = async ()=>{
+  await Promise.resolve(getArticlesByType('Darique Tester', 'drafts')).then((data)=>{
+    setDraftsArray(data)
+    
+    })
+}
   const lightModeStyle = {backgroundColor:"#212121", color: 'whitesmoke'}
   const darkModeStyle = {backgroundColor:"whitesmoke", color: '#212121'}
 
   useEffect(()=>{
    if(trueArray.length < 1){
-    fetch('/published/all').then((response)=>{
-      return response.json()
-    }).then((data)=>{
-      setTrueArray(data.realData)
-      setPublishedArray(data.realData)
- return data.realData
-    }).then((data)=>{
-      handleDraftsArray(data)
-      categoryMap(data)
-    })
+    handlePublishedArray()
+    handleDraftsArray()
+    
    }else{
     console.log('true array already exists')
 

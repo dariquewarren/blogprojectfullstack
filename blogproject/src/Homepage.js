@@ -13,33 +13,6 @@ const [tagsArray, setTagsArray] = useState([])
 
 
 
-const displayAmount = (type,arr, term)=>{
-var newArray
-switch(type){
-    case 'tags':
-        
-        newArray = arr.filter((f)=>{
-            return f.tags.includes(term)
-        });
-        break;
-    case 'category':
-       newArray = arr.filter((f)=>{
-            return f.category.includes(term)
-        });
-             break;
-
-    default:
-        console.log('type undefined')
-}
-
-
-
-
-
-return newArray.length
-}
-
-
 
 const handleTagsFilter = (filterWord)=>{
 // filter array by matches to filterWord
@@ -104,7 +77,7 @@ const tagsMap =async (array)=>{
         return m.tags
     })
     const flatArray = await changedArray.flat()
-    const setArray = await [...new Set(flatArray)]
+    const setArray =  [...new Set(flatArray)]
     console.log(`flatArray`, flatArray)
     console.log(`setArray`, setArray)
     console.log(`changedArray`, changedArray)
@@ -114,20 +87,25 @@ useEffect(()=>{
 if(mappedArray.length < 1 || !mappedArray){
     setMappedArray(props.publishedArray)
     setBaseArray(props.trueArray)
-    tagsMap(props.trueArray)
+    tagsMap(props.publishedArray)
+
     console.log('categories',props.categoryArray)
 
 }else {
-    console.log('categories',props.categoryArray)
-    console.log('mapped Array',props.categoryArray)
+   console.log('mapped array', mappedArray)
 
     return
 }
+
 }, [props.trueArray,props.categoryArray, props.publishedArray, mappedArray])
 
     return (
         <div>
-       
+       <button
+       onClick={()=>{
+console.log('test')
+       }}
+       >Test</button>
         <div style={{display: 'flex', flexDirection:'row', width: '100%', marginTop:'0px' }}>
       
         
@@ -147,7 +125,7 @@ if(mappedArray.length < 1 || !mappedArray){
       
         </h4>
 
-{(props.publishedArray.length > 0)
+{(mappedArray.length > 0)
     ?
     mappedArray.map((m)=>{
     return (
@@ -164,25 +142,35 @@ if(mappedArray.length < 1 || !mappedArray){
 
        <Nav className='flex-column' style={{ width:'25%', marginLeft: 'auto', marginRight:'auto'}}>
        <h2 className='text-center' style={{textDecoration: 'underline'}}>Tags</h2>
-     {tagsArray.map((m)=>{
+     {(tagsArray.length >0)
+        ? 
+        tagsArray.map((m)=>{
          return(
              <p key={m} style={{cursor:'pointer',textAlign:'right', textDecoration: 'underline'}}
              onClick={()=>{
                 handleTagsFilter(m)
              }}
-             >{m} ({displayAmount('tags', baseArray, m)})</p>
+             >{m} </p>
          )
-     })}
+     })
+    :
+    <Loading/>
+    }
     <h2 className='text-center' style={{textDecoration: 'underline'}} >Categories</h2>
-    {props.categoryArray.map((m)=>{
+    {(props.categoryArray.length > 0) ?props.categoryArray.map((m)=>{
         return(
             <p key={m} style={{cursor:'pointer',textAlign:'right', textDecoration: 'underline'}} 
             onClick={()=>{
                 handleCategoryFilter(m)
              }}
-            >{m} ({displayAmount('category', baseArray, m)})</p>
+            >{m}</p>
         )
-    })}
+    })
+    :
+    (
+        <Loading/>
+    )
+}
         </Nav>
     
        </div>
