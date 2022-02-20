@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 // Set the configuration for your app
 // TODO: Replace with your project's config object
@@ -107,25 +107,43 @@ export const deleteArticleByID = (type,author,id)=>{
 // AUTHENTICATION
 
 // SIGN UP
-export const signUpUser = (email, password)=>{
-  
-  createUserWithEmailAndPassword(auth, email, password)
+export const signUpUser = async (email, password)=>{
+  var trueUser 
+ await createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
     console.log('signed in user', user)
+    trueUser = userCredential.user;
     // ...
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // ..
+    console.log('errors',{errorMessage,errorCode })
   });
+return trueUser
 
 }
 // SIGN IN
-export const signInUser = ()=>{
-  
+export const signInUser = async (email, password)=>{
+  var realUser 
+  await signInWithEmailAndPassword(auth, email, password)
+   .then((userCredential) => {
+     // Signed in 
+     const user = userCredential.user;
+     console.log('signed in user', user)
+     realUser = userCredential.user;
+     // ...
+   })
+   .catch((error) => {
+     const errorCode = error.code;
+     const errorMessage = error.message;
+     // ..
+     console.log('errors',{errorMessage,errorCode })
+   });
+ return realUser
 }
 // SIGN OUT /LOGOUT
 export const signOutUser = ()=>{

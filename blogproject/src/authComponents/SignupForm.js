@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { signUpUser } from "../Firebase";
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
@@ -14,9 +14,8 @@ const UserData = {
 }
 
 const handleSignup = async ()=>{
-  await userSignUp(UserData).then(async (data)=>{
-    setSignupSuccess(!signupSuccess)
-   })
+  const theUser = await signUpUser(userEmail, userPassword)
+  props.setAppUser(theUser)
    
 }
 

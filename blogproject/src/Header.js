@@ -78,6 +78,8 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/write' eventKey="2" >Write</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/drafts' eventKey="3" >Edit Drafts</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
+<Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
+<Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
 
 
 </DropdownButton> 

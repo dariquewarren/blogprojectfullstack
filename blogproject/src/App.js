@@ -11,6 +11,8 @@ const Footer = lazy(()=>import('./Footer'))
 const ViewDrafts = lazy(()=>import('./ViewDrafts'))
 const ViewPublished = lazy(()=>import('./ViewPublished'))
 const ReadPublished = lazy(()=>import('./ReadPublished'))
+const SignupForm = lazy(()=>import('./authComponents/SignupForm'))
+const LoginForm = lazy(()=>import('./authComponents/LoginForm'))
 
 
 function App() {
@@ -25,7 +27,8 @@ function App() {
   const [publishedArray, setPublishedArray] = useState([])
   const [draftsArray, setDraftsArray] = useState([])
   const [categoryArray, setCategoryArray] = useState([])
-  
+  const [appUser, setAppUser] = useState(undefined)
+
   
   
 
@@ -35,7 +38,7 @@ const categoryMap = async(array)=>{
       return m.category
   })
   const flatArray = await changedArray.flat()
-  const setArray = await [...new Set(flatArray)]
+  const setArray =  [...new Set(flatArray)]
   console.log(`flatArray`, flatArray)
   console.log(`setArray`, setArray)
   console.log(`changedArray`, changedArray)
@@ -76,7 +79,7 @@ const handleDraftsArray = async ()=>{
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
-
+{(appUser)?appUser.email: 'nothing email'}
     <Header showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
@@ -111,7 +114,10 @@ const handleDraftsArray = async ()=>{
 
     <Route exact path='/read/published/:id' 
     element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
-  
+    <Route exact path='/signup' 
+    element={<SignupForm setAppUser={setAppUser} />}/>
+    <Route exact path='/login' 
+    element={<LoginForm setAppUser={setAppUser} />}/>
     </Switch>
     <Footer/>
     </BrowserRouter>
