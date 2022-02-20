@@ -81,7 +81,6 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
 <Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
 
-
 </DropdownButton> 
 <BsSearch style={{cursor:'pointer',height:'2rem', width:'2rem'}}
 onClick={()=>{
