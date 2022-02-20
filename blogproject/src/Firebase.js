@@ -88,7 +88,7 @@ export const updateArticleByID = (type, author, id, updateObject)=>{
   const deltab = getDatabase()
   
   // set(ref(deltab, `${author}/${type}`), article);
-  const postListRef = ref(deltab, `${author}/published/${id}`)
+  const postListRef = ref(deltab, `${author}/${type}/${id}`)
    update(postListRef,updateObject) 
 }
 // DELETE

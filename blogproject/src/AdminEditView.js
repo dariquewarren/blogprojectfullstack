@@ -26,16 +26,7 @@ function AdminEditView(props) {
     const [newArticle, setNewArticle] = useState('')
     const [pageMessage,setPageMessage] = useState('')
 
-    const submitUpdate =(articleObject, articleID)=>{
-        updatePublished(articleObject, articleID)
-        console.log('update this Article', updatedArticle)
-    }
-
-    const deleteArticle =(theID)=>{
-        deleteSinglePublishedArticle(theID)
-        console.log('delete this Article', updatedArticle)
-    }
-
+  
     const handleUserDecision = (decisionType, currentObject, currentID)=>{
 // submit article, delete article
 
@@ -86,7 +77,7 @@ const baseArticle ={
     author: props.author,
     sortableDate: props.sortableDate,
     sortableTime: props.sortableTime,
-    category: props.categories,
+    category: props.category,
     tags: props.tags,
     type: props.type
 
@@ -106,7 +97,7 @@ const updatedArticle={
         timeUpdated: Dayjs().format('hh:mm A'),
         sortableUpdateTime: changeTime(),
         sortableUpdateDate: Dayjs().valueOf(),
-        category: props.categories,
+        category: props.category,
     tags: props.tags,
     type: props.type
 
@@ -157,7 +148,7 @@ useEffect(()=>{
         }}
         >Close Options</Button>
         <Button variant='success' onClick={()=>{
-            handleUserDecision(userDecisionType,updatedArticle, props.id)
+            handleUserDecision(userDecisionType, updatedArticle, props.id)
             setPageMessage('SUBMITTING....YOUR...CHANGES')
             alert(`${userDecisionType}${props.id}`)
             setTimeout(()=>{
