@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app"
-import { getDatabase, ref, set, child, get} from "firebase/database";
+import { getDatabase, ref, set, child, get, push} from "firebase/database";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 // Set the configuration for your app
 // TODO: Replace with your project's config object
@@ -33,15 +33,15 @@ const database = getDatabase(app)
 //     CRUD
 
 // Create
-export const addArticle = (type, author)=>{
-  set(ref(database, 'users/' + author + `/${type}/`), {
-    author,
-    type
-  });
-
-  console.log('add article',{type, author})
+export const addArticle = (type, author, article)=>{
+  const deltab = getDatabase()
+  
+  // set(ref(deltab, `${author}/${type}`), article);
+  const postListRef = ref(deltab, `${author}/${type}`)
+  const newPostRef = push(postListRef);
+  set(newPostRef, article);
    
- 
+  console.log(article)
  
  }
 

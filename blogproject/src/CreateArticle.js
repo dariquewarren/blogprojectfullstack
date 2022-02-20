@@ -9,12 +9,15 @@ import Container from 'react-bootstrap/Container';
 import Article from './Article';
 import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
+import { addArticle } from './Firebase';
+
+const testAuthor = 'Darique Tester'
 
 function ArticleForm(props){
     
     const ImageRef = useRef()
         
-    const handleTags = async (nextTag)=>{
+    const handleTags = async  (nextTag)=>{
     const newTags = await nextTag.replace(' ', '').toUpperCase().split(',')
     var finalTags = newTags.map((m)=>{
         return m.split(' ').join('')
@@ -53,9 +56,9 @@ function ArticleForm(props){
             <Button 
             className='bg-success w-33'
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-            onClick={async ()=>{
+            onClick={ async ()=>{
                 try{
-                 await saveDraft(props.newArticle)
+                    addArticle('drafts', testAuthor, props.newArticle)
                   alert('draft saved')
                 }catch(e){
                     console.log('error', e)
@@ -68,10 +71,10 @@ function ArticleForm(props){
             <Button 
             className='bg-warning'
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-            onClick={async ()=>{
+            onClick={ async ()=>{
               try{
-               await publishArticle(props.newArticle)
-                alert('draft saved')
+                addArticle('published', testAuthor, props.newArticle)
+                alert('article published')
               }catch(e){
                   console.log('error', e)
               }
@@ -108,7 +111,7 @@ function ArticleForm(props){
          <Form.Control
          style={{marginLeft: '2rem', marginBottom: '.5rem'}}
          className='w-50 ' 
-          type='text' placeholder="Image URL"  onChange={(e)=>{
+          type='text' placeholder="Image URL" required onChange={(e)=>{
           props.setImage(e.target.value)
       }}/> <Button
       style={{marginLeft: '2rem', marginBottom: '.5rem'}}
@@ -129,7 +132,7 @@ function ArticleForm(props){
     <Form.Control 
     style={{marginLeft: '2rem', marginBottom: '.5rem'}}
     type='file' 
-    className='w-50' ref={ImageRef} onChange={(e)=>{
+    className='w-50' ref={ImageRef} required onChange={(e)=>{
       e.preventDefault()
     
       if(ImageRef.current){
@@ -186,7 +189,7 @@ function ArticleForm(props){
           <Form.Label className='w-100 text-center'>Title</Form.Label>
           <Form.Control
 
-          type='text' placeholder="Title" value={props.title}  onChange={(e)=>{
+          type='text' placeholder="Title" value={props.title} required onChange={(e)=>{
               props.setTitle(e.target.value)
           }}/>
           </Form.Group>
@@ -195,7 +198,7 @@ function ArticleForm(props){
           as={Col}>
           <Form.Label className='w-100 text-center'>Sub-Title</Form.Label>
           <Form.Control
-          type='text' placeholder="Sub Title" onChange={(e)=>{
+          type='text' placeholder="Sub Title" required onChange={(e)=>{
               props.setSubtitle(e.target.value)
           }}/>
           </Form.Group>
@@ -220,7 +223,7 @@ function ArticleForm(props){
                     className='mb-2'
     ><Form.Label> Category </Form.Label>
             
-     <Form.Control type='text' placeholder="Separate by comma" 
+     <Form.Control type='text' required placeholder="Separate by comma" 
       onChange={(e)=>{
         e.preventDefault()
         handleCategory(e.target.value)
@@ -236,7 +239,7 @@ function ArticleForm(props){
           >
           <Form.Label>Tags</Form.Label>
           
-          <Form.Control type='text' placeholder="Separate by comma"
+          <Form.Control type='text' required placeholder="Separate by comma"
           onChange={(e)=>{
               e.preventDefault()
               handleTags(e.target.value)
@@ -314,10 +317,10 @@ return(
     <Button 
     className='bg-success w-33'
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-    onClick={async ()=>{
+    onClick={ async ()=>{
         try{
-    
-         await saveDraft(props.newArticle)
+            addArticle('draft', testAuthor, props.newArticle)
+            alert('draft saved')
         }catch(e){
             console.log('error', e)
         }
@@ -331,10 +334,11 @@ Save Draft
     <Button 
     className='bg-warning'
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
-    onClick={async ()=>{
+    onClick={ async ()=>{
       try{
-       await publishArticle(props.newArticle)
-        
+        addArticle('published', testAuthor, props.newArticle)
+        alert('article published')
+
       }catch(e){
           console.log('error', e)
       }

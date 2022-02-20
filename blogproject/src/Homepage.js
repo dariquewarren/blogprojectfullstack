@@ -11,9 +11,6 @@ const [mappedArray, setMappedArray] = useState([])
 const [tagsArray, setTagsArray] = useState([])
 
 
-
-
-
 const handleTagsFilter = (filterWord)=>{
 // filter array by matches to filterWord
 const interimArray = baseArray
@@ -125,15 +122,13 @@ console.log('test')
       
         </h4>
 
-{(mappedArray.length > 0)
-    ?
+{
     mappedArray.map((m)=>{
     return (
         <ArticleCard articleFrom='homepage' key={m.id} {...m}/>
     )
 })
-:
-<Loading/>
+
 }
 
 

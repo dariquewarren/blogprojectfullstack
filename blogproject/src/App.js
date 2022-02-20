@@ -69,7 +69,7 @@ const handleDraftsArray = async ()=>{
 
     return 
    }
-  }, [ trueArray.length, draftsArray, publishedArray])
+  }, [ trueArray.length])
   
   return (
     <div style={(lightMode)? lightModeStyle : darkModeStyle }>
