@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app"
-import { getDatabase, ref, set, child, get, push} from "firebase/database";
+import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 // Set the configuration for your app
 // TODO: Replace with your project's config object
@@ -72,7 +72,23 @@ const articleList = await theArticles
 return articleList
 }
 
+// UPDATE
+export const updateArticleByID = (type, author, id, updateObject)=>{
+  const deltab = getDatabase()
+  
+  // set(ref(deltab, `${author}/${type}`), article);
+  const postListRef = ref(deltab, `${author}/${type}/${id}`)
+   update(postListRef,updateObject) 
+}
+// DELETE
 
+export const deleteArticleByID = (type,author,id)=>{
+  const deltab = getDatabase()
+  
+  // set(ref(deltab, `${author}/${type}`), article);
+  const postListRef = ref(deltab, `${author}/${type}/${id}`)
+  remove(postListRef)
+}
 
 
 
