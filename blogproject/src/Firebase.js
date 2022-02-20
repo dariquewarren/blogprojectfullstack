@@ -33,18 +33,29 @@ const database = getDatabase(app)
 //     CRUD
 
 // Create
+
+// create instance for creating first entry
+// create instance for adding to list of entries
 export const addArticle = (type, author, article)=>{
   const deltab = getDatabase()
   
-  // set(ref(deltab, `${author}/${type}`), article);
-  const postListRef = ref(deltab, `${author}/${type}`)
-  const newPostRef = push(postListRef);
-  set(newPostRef, article);
+  set(ref(`${author}/${type}`), {...article});
+  // const postListRef = ref(deltab, `${author}/${type}`)
+  // const newPostRef = push(postListRef);
+  // set(newPostRef, {type, ...article});
    
   console.log(article)
  
  }
 
+ export const addSingleArticle = (type, author, article)=>{
+   const deltab = getDatabase()
+   const articleRef = ref(deltab, `${author}/${type}`)
+   const pushRef = push(articleRef)
+   set(pushRef, article)
+   
+ 
+ }
 // READ
 
 export const getArticlesByType = async (author,type)=>{
@@ -77,7 +88,7 @@ export const updateArticleByID = (type, author, id, updateObject)=>{
   const deltab = getDatabase()
   
   // set(ref(deltab, `${author}/${type}`), article);
-  const postListRef = ref(deltab, `${author}/${type}/${id}`)
+  const postListRef = ref(deltab, `${author}/published/${id}`)
    update(postListRef,updateObject) 
 }
 // DELETE

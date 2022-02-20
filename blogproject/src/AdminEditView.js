@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Dayjs from 'dayjs'
-
+import {updateArticleByID, deleteArticleByID} from './Firebase'
 import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 
 import ReactHtmlParser from 'react-html-parser';
@@ -41,10 +41,14 @@ function AdminEditView(props) {
 
 switch(decisionType){
     case 'submit':
-        submitUpdate(currentObject, currentID);
+        // type, author, id, updateObject
+        alert(`${currentObject.type}`)
+        updateArticleByID(currentObject.type, currentObject.author, currentObject.id, currentObject);
         break;
         case 'delete':
-            deleteArticle(currentID);
+            //type,author,id
+            alert(`${currentObject.type}`)
+            deleteArticleByID(currentObject.type, currentObject.author, currentObject.id);
             break;
             default:
                 alert('no decision type')
@@ -82,16 +86,17 @@ const baseArticle ={
     author: props.author,
     sortableDate: props.sortableDate,
     sortableTime: props.sortableTime,
-    catgories: props.categories,
+    category: props.categories,
     tags: props.tags,
+    type: props.type
 
 }
 const updatedArticle={
     id:props.id,
-    title:(newTitle)?newTitle: props.title,
-    subtitle:(newSubtitle)?newSubtitle: props.subtitle,
-    image:(newImage)?newImage: props.image,
-    article:(newArticle)?newArticle: props.article,   
+    title:(newTitle)? newTitle: props.title,
+    subtitle:(newSubtitle)? newSubtitle: props.subtitle,
+    image:(newImage)? newImage: props.image,
+    article:(newArticle)?  newArticle: props.article,   
     timePublished: props.timePublished,
     datePublished: props.datePublished,
     author: props.author,
@@ -101,13 +106,15 @@ const updatedArticle={
         timeUpdated: Dayjs().format('hh:mm A'),
         sortableUpdateTime: changeTime(),
         sortableUpdateDate: Dayjs().valueOf(),
-        catgories: props.categories,
+        category: props.categories,
     tags: props.tags,
+    type: props.type
 
 }
 
 useEffect(()=>{
     setPageMessage('Click Any Section To Open Edit View')
+    console.log('baseArticle', baseArticle)
 }, [])
 
 
@@ -167,7 +174,7 @@ useEffect(()=>{
     
     >
     <img src={updatedArticle.image} 
-    alt={props.updatedArticle.title}
+    alt='beauty'
     style={{cursor:'pointer',height:'10rem', width:'10rem'}} 
     onClick={()=>{
         toggleImageInput(!showImageInput)

@@ -55,6 +55,7 @@ console.log('array', props.mappedArray)
                 onClick={()=>{
                     props.setDisplayId(m.id)
                     props.handleDisplayedCard(m.id)
+                    console.log(m)
 
                 }}
                 >

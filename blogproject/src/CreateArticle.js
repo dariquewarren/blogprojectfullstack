@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Article from './Article';
 import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
-import { addArticle } from './Firebase';
+import { addArticle, addSingleArticle } from './Firebase';
 
 const testAuthor = 'Darique Tester'
 
@@ -58,7 +58,7 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
                 try{
-                    addArticle('drafts', testAuthor, props.newArticle)
+                    addSingleArticle('drafts', testAuthor, {type:'drafts', ...props.newArticle})
                   alert('draft saved')
                 }catch(e){
                     console.log('error', e)
@@ -73,7 +73,7 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
               try{
-                addArticle('published', testAuthor, props.newArticle)
+                addSingleArticle('published', testAuthor, {type:'published', ...props.newArticle})
                 alert('article published')
               }catch(e){
                   console.log('error', e)
@@ -319,7 +319,7 @@ return(
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
         try{
-            addArticle('draft', testAuthor, props.newArticle)
+            addSingleArticle('drafts', testAuthor, {type:'drafts' , ...props.newArticle})
             alert('draft saved')
         }catch(e){
             console.log('error', e)
@@ -336,7 +336,7 @@ Save Draft
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
       try{
-        addArticle('published', testAuthor, props.newArticle)
+        addSingleArticle('published', testAuthor, {type:'published', ...props.newArticle})
         alert('article published')
 
       }catch(e){

@@ -80,6 +80,7 @@ useEffect(()=>{
     displayArray.map((m)=>{
 
         if(m.id === displayId){
+            
     return (
         <AdminArticleCard 
         key={m.id}
