@@ -1,5 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 // Set the configuration for your app
 // TODO: Replace with your project's config object
@@ -20,6 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const database = getDatabase(app)
+const auth = getAuth();
 // const firebaseApp = initializeApp({
 //  apiKey: "AIzaSyB6Swn5ui5X-Z6NKyVU-l-rSWlviiPXZ04",
 //     authDomain: "blog-project-3d102.firebaseapp.com",
@@ -101,6 +103,38 @@ export const deleteArticleByID = (type,author,id)=>{
   remove(postListRef)
 }
 
+
+// AUTHENTICATION
+
+// SIGN UP
+export const signUpUser = (email, password)=>{
+  
+  createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log('signed in user', user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+
+}
+// SIGN IN
+export const signInUser = ()=>{
+  
+}
+// SIGN OUT /LOGOUT
+export const signOutUser = ()=>{
+  
+}
+// CREATE PROFILE
+//UPDATE PROFILE
+// ACCESS PROFILE
+// DELETE PROFILE
 
 
 
