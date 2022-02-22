@@ -2,18 +2,20 @@ import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
+import Dotenv from 'dotenv'
+Dotenv.config()
+console.log('FIREBASE_API', process.env.REACT_APP_FIREBASE_API_KEY)
+
 // change to use dot env
 const firebaseConfig = {
-    apiKey: "AIzaSyB6Swn5ui5X-Z6NKyVU-l-rSWlviiPXZ04",
-    authDomain: "blog-project-3d102.firebaseapp.com",
-    // For databases not in the us-central1 location, databaseURL will be of the
-  // form https://[databaseName].[region].firebasedatabase.app.
-  // For example, https://your-database-123.europe-west1.firebasedatabase.app
-  databaseURL: "https://blog-project-3d102-default-rtdb.firebaseio.com/",
-  storageBucket: "blog-project-3d102.appspot.com",
-  messagingSenderId: "772840395218",
-  appId: "1:772840395218:web:e86b566a2aabe70a6ab80b",
-  projectId: "1:772840395218:web:e86b566a2aabe70a6ab80b"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
 
 };
 
