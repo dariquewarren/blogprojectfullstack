@@ -2,7 +2,7 @@ import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-
+// change to use dot env
 const firebaseConfig = {
     apiKey: "AIzaSyB6Swn5ui5X-Z6NKyVU-l-rSWlviiPXZ04",
     authDomain: "blog-project-3d102.firebaseapp.com",
