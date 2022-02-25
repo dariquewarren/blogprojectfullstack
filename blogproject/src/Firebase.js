@@ -64,7 +64,7 @@ export const addArticle = (type, author, article)=>{
 export const getArticlesByType = async (author,type)=>{
   const dbRef = ref(getDatabase());
   var theArticles =[]
-await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
+ await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
   if (snapshot.exists()) {
     var theData = snapshot.val()
     for (const info in theData){
@@ -82,7 +82,7 @@ await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
 
 console.log('theArticles',theArticles )
 
-const articleList = await theArticles
+const articleList = theArticles
 return articleList
 }
 

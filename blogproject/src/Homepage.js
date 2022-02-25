@@ -12,61 +12,60 @@ const [tagsArray, setTagsArray] = useState([])
 
 
 const handleTagsFilter = (filterWord)=>{
-// filter array by matches to filterWord
-const interimArray = baseArray
-var trueTagsArray = []
+    console.log('filterWord', filterWord)
 
-
-if(filterWord){
-    interimArray.map((m)=>{
-        if(m.tags.includes(filterWord.toUpperCase())){
-          return  trueTagsArray.push(m)
-        }else{
-            return m
-        }
+   // TAKE IN WORD
+   // FILTER OUT UNDEFINED VALUES FOR TAGS
+   const mappedTagsArray =[]
+    props.trueArray.map((m)=>{
+    if(m.tags !== undefined && m.tags.includes(filterWord.toUpperCase()) ){
+        mappedTagsArray.push(m)
+        return m
+    }
     })
-    setMappedArray(trueTagsArray)
-    props.setCategorySelected(`Viewing Tag: ${filterWord}`)
-    console.log('trueTagsArray', trueTagsArray)
+       // FILTER OR MAP ARRAY BY TAGS TO FIND ARTICLES WHERE TAGS=== MAP
+
+       mappedTagsArray.map((m)=>{
+        return m.tags.includes(filterWord.toUpperCase())
+    })
+// SET MAIN ARRAY TO MAPPEDTAGS ARRAY
+if(mappedTagsArray.length > 0){
+    setMappedArray(mappedTagsArray)
+    return
 }else{
-    props.setCategorySelected(`ALL`)
-
-   return setMappedArray(baseArray)
-
+    alert('error: no array: error')
 }
+    console.log('mappedTagsArray', mappedTagsArray)
     
 }
 
 
 
 const handleCategoryFilter = (filterWord)=>{
-    // grab base arrayy
+    console.log('filterWord', filterWord)
 
-    // props.trueArray
-    const interimArray = props.trueArray
-
-// filter array by matches to filterWord
-var trueCategoryArray = []
-
-interimArray.map((m)=>{
-    if(m.category.includes(filterWord.toUpperCase())){
-return trueCategoryArray.push(m)
- 
-    }else{
+   // TAKE IN WORD
+   // FILTER OUT UNDEFINED VALUES FOR CATEGORY
+   const mappedCategoryArray =[]
+    props.trueArray.map((m)=>{
+    if(m.category !== undefined && m.category.includes(filterWord)){
+        mappedCategoryArray.push(m)
         return m
     }
-})
+    })
+       // FILTER OR MAP ARRAY BY CATEGORY TO FIND ARTICLES WHERE CATEGORY=== MAP
 
-
-
-    // set main page array to new Category array
-    // props.setPublishedArray
-    setMappedArray(trueCategoryArray)
-    props.setCategorySelected(`Viewing Category: ${filterWord}`)
-
-    console.log('trueCategoryArray', trueCategoryArray)
-
-    // console.log('category filter')
+    mappedCategoryArray.map((m)=>{
+        return m.category.includes(filterWord.toUpperCase())
+    })
+// SET MAIN ARRAY TO MAPPEDCATEGORY ARRAY
+if(mappedCategoryArray.length > 0){
+    setMappedArray(mappedCategoryArray)
+    return
+}else{
+    alert('error: no array: error')
+}
+    console.log('mappedCategoryArray', mappedCategoryArray)
     }
 
 const tagsMap =async (array)=>{
@@ -98,11 +97,7 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <div>
-       <button
-       onClick={()=>{
-console.log('test')
-       }}
-       >Test</button>
+     
         <div style={{display: 'flex', flexDirection:'row', width: '100%', marginTop:'0px' }}>
       
         
