@@ -96,7 +96,7 @@ const handleDraftsArray = async ()=>{
     toggleSearch={toggleSearch} categoryArray={categoryArray} setCategoryArray={setCategoryArray}
     trueArray={trueArray} author={articleAuthor} />}/>
 
-    <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
+    <Route exact path='/write' element={<CreateArticle articleAuthor={(appUser)?appUser.email:articleAuthor} />}/>
     
     <Route exact path='/all/drafts' element={<ViewDrafts   
           articleAuthor={articleAuthor}    trueArray={trueArray}

@@ -11,7 +11,6 @@ import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
 import { addArticle, addSingleArticle } from './Firebase';
 
-const testAuthor = 'Darique Tester'
 
 function ArticleForm(props){
     
@@ -58,7 +57,7 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
                 try{
-                    addSingleArticle('drafts', testAuthor, {type:'drafts', ...props.newArticle})
+                    addSingleArticle('drafts', props.articleAuthor, {type:'drafts', ...props.newArticle})
                   alert('draft saved')
                 }catch(e){
                     console.log('error', e)
@@ -73,7 +72,7 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
               try{
-                addSingleArticle('published', testAuthor, {type:'published', ...props.newArticle})
+                addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
                 alert('article published')
               }catch(e){
                   console.log('error', e)
@@ -294,7 +293,7 @@ return militaryMorning
         subtitle,
         article,
         image,
-        author: "Darique Tester",
+        author: props.articleAuthor,
         datePublished: Dayjs().format('M/DD/YYYY'),
         timePublished: Dayjs().format('hh:mm A'),
         sortableTime: transformTime(),
@@ -319,7 +318,7 @@ return(
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
         try{
-            addSingleArticle('drafts', testAuthor, {type:'drafts' , ...props.newArticle})
+            addSingleArticle('drafts', props.articleAuthor, {type:'drafts' , ...props.newArticle})
             alert('draft saved')
         }catch(e){
             console.log('error', e)
@@ -336,7 +335,7 @@ Save Draft
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
       try{
-        addSingleArticle('published', testAuthor, {type:'published', ...props.newArticle})
+        addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
         alert('article published')
 
       }catch(e){
