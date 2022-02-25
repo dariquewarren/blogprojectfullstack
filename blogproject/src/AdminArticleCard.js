@@ -6,7 +6,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 import AdminEditView from './AdminEditView';
 function AdminArticleCard(props) {
-var RealArticle =(props.article.length > 100)?props.article.substring(0, 101): props.article
+var RealArticle =(props.article && props.article.length > 100)?props.article.substring(0, 101): props.article
 
   return <Container style={{textAlign:'center'}}>
   {(props.editMode)

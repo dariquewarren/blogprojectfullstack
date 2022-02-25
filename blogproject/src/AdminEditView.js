@@ -33,12 +33,10 @@ function AdminEditView(props) {
 switch(decisionType){
     case 'submit':
         // type, author, id, updateObject
-        alert(`${currentObject.type}`)
         updateArticleByID(currentObject.type, currentObject.author, currentObject.id, currentObject);
         break;
         case 'delete':
             //type,author,id
-            alert(`${currentObject.type}`)
             deleteArticleByID(currentObject.type, currentObject.author, currentObject.id);
             break;
             default:
@@ -150,7 +148,7 @@ useEffect(()=>{
         <Button variant='success' onClick={()=>{
             handleUserDecision(userDecisionType, updatedArticle, props.id)
             setPageMessage('SUBMITTING....YOUR...CHANGES')
-            alert(`${userDecisionType}${props.id}`)
+           
             setTimeout(()=>{
                 window.location.reload(true)
             },[2000])
