@@ -4,19 +4,27 @@ import SearchOptions from './SearchOptions'
 import AlertText from './AlertText'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import Button from 'react-bootstrap/Button'
+
 import {BsMenuButton, BsSearch,BsLightbulb} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
+import LogoutButton from './authComponents/LogoutButton'
+import LoginForm from './authComponents/LoginForm'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
 
 function Header(props) {
 const [showAlert, setShowAlert] =useState(false)
 const [alertMessage, setAlertMessage] = useState('false')
+const [showSignIn, toggleSignIn] = useState(false)
 
 
 
     useEffect(()=>{
 
-    },[props.trueArray, props.categoryArray])
+    },[props.trueArray, props.categoryArray, auth])
     return (
 
 <div >
@@ -97,7 +105,14 @@ onClick={()=>props.toggleLightMode(!props.lightMode)}
  />
 </div>
 
-
+<LogoutButton/>
+{(auth.currentUser)? <p></p>: <Button
+    onClick={()=>{
+        toggleSignIn(!showSignIn)
+    
+    }}
+    >
+    {(showSignIn) ? 'x' : 'Login'}</Button>}
 </div>
 <div>
 {(props.showSearch)
@@ -117,6 +132,11 @@ setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
  <p></p>   
     }
 </div>
+{(showSignIn)? 
+    <LoginForm/>
+:
+<p></p>
+}
 </div>
 
     )

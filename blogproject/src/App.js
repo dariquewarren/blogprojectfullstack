@@ -2,6 +2,7 @@ import React, {useState, useEffect, lazy, Suspense} from 'react';
 import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import Loading from './Loading';
+
 import {addArticle, getArticlesByType} from './Firebase'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -88,6 +89,8 @@ const handleDraftsArray = async ()=>{
     <BrowserRouter  >
 
 {theCurrentAuthor}
+
+
     <Header showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}

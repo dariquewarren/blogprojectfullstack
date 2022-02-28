@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import {signInUser} from '../Firebase'
 import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "firebase/auth";
 function LoginForm(props) {
@@ -15,41 +16,58 @@ function LoginForm(props) {
 
     const handleLogin =async (email, password)=>{
      const realUser = await signInUser(email, password)
-     props.setAppUser(realUser)
-     props.setAuthor(realUser.email)
+    //  props.setAppUser(realUser)
+    //  props.setAuthor(realUser.email)
      console.log('logged in user info', realUser)
     }
     return (
         <div>
-        <h1>Login</h1>
-        <Form onSubmit={(e)=>{
+        <Container 
+        style={{display:'flex', flexDirection: 'row', width:'50%', marginLeft:'auto', marginRight:'auto'}}
+         >
+        <Form
+        style={{display:'flex', flexDirection: 'row'}}
+        onSubmit={(e)=>{
             e.preventDefault()
-            handleLogin(userEmail, userPassword)
         }} >
-        <Form.Group>
-        <Form.Label>email</Form.Label>
+        <Form.Group style={{width:'auto', marginLeft:'.5%', marginRight:'1%'}}>
         <Form.Control required type='email' 
+        placeholder='Email'
         onChange={(e)=>{
             e.preventDefault()
             setUserEmail(e.target.value)
         }}
         />
         </Form.Group>
-        <Form.Group>
-        <Form.Label>password</Form.Label>
-        <Form.Control required type='password'
+        <Form.Group style={{width:'auto', marginLeft:'1%', marginRight:'1%'}}>
+        <Form.Control required 
+        
+        type='password'
+        placeholder='Password'
+
         onChange={(e)=>{
             e.preventDefault()
             setUserPassword(e.target.value)
         }}
         />
+        
         </Form.Group>
 
-        <Button
-        type='submit'
-        >Login</Button>
+        <Form.Group
+        style={{width:'auto', marginLeft:'.5%', marginRight:'1%'}}
         
+        >
+        <Button
+        onClick={(e)=>{
+            e.preventDefault()
+            handleLogin(userEmail, userPassword)
+        
+        }}    
+            >Login</Button>
+        </Form.Group>
+       
         </Form> 
+</Container>
 
         </div>
     )

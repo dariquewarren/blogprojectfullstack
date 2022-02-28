@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import Dotenv from 'dotenv'
 Dotenv.config()
@@ -171,13 +171,23 @@ export const signInUser = async (email, password)=>{
      const errorCode = error.code;
      const errorMessage = error.message;
      // ..
+     alert('error')
      console.log('errors',{errorMessage,errorCode })
    });
  return realUser
 }
 // SIGN OUT /LOGOUT
-export const signOutUser = ()=>{
-  
+export const logOut = ()=>{
+
+signOut(auth).then(() => {
+  // Sign-out successful.
+  alert('signed out')
+  window.location.reload()
+}).catch((error) => {
+  // An error happened.
+  alert(`error: ${error}`)
+});
+
 }
 // CREATE PROFILE
 //UPDATE PROFILE
