@@ -21,6 +21,7 @@ const LoginForm = lazy(()=>import('./authComponents/LoginForm'))
 function App() {
 
   var theCurrentUser = auth.currentUser
+  var theCurrentAuthor =(auth.currentUser) ? auth.currentUser.email : 'Darique Tester'
   const [lightMode, toggleLightMode] = useState(false)
 
   const [articleAuthor, setAuthor] = useState('Darique Tester')
@@ -85,8 +86,8 @@ const handleDraftsArray = async ()=>{
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
-{theCurrentUser.email}
 
+{theCurrentAuthor}
     <Header showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
