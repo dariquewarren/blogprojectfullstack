@@ -16,6 +16,8 @@ function LoginForm(props) {
     const handleLogin =async (email, password)=>{
      const realUser = await signInUser(email, password)
      props.setAppUser(realUser)
+     props.setAuthor(realUser.email)
+     console.log('logged in user info', realUser)
     }
     return (
         <div>

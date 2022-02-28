@@ -85,7 +85,36 @@ console.log('theArticles',theArticles )
 const articleList = theArticles
 return articleList
 }
+export const getEveryArticle = async ()=>{
+  const dbRef = ref(getDatabase());
+  var theArticles =[]
+ await get(child(dbRef, '/')).then((snapshot) => {
+  if (snapshot.exists()) {
+    var theData = snapshot.val()
+    console.log('all data', theData)
+    for (const info in theData){
+      theArticles.push({
+        ...theData
+      })
+      return theArticles
+}
+  } else {
+    console.log("No data available");
+  }
+}).then((data)=>{
+ 
+    
+  console.log('data from the articles',data)
+}).catch((error) => {
+  console.error(error);
+});
 
+console.log(`theArticles`,theArticles)
+
+const articleList = theArticles
+return articleList
+
+}
 // UPDATE
 export const updateArticleByID = (type, author, id, updateObject)=>{
   const deltab = getDatabase()

@@ -58,7 +58,7 @@ function ArticleForm(props){
             onClick={ async ()=>{
                 try{
                     addSingleArticle('drafts', props.articleAuthor, {type:'drafts', ...props.newArticle})
-                  alert('draft saved')
+                  alert(`draft saved for ${props.articleAuthor}`)
                 }catch(e){
                     console.log('error', e)
                 }
@@ -73,7 +73,7 @@ function ArticleForm(props){
             onClick={ async ()=>{
               try{
                 addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
-                alert('article published')
+                alert(`article published  for ${props.articleAuthor}`)
               }catch(e){
                   console.log('error', e)
               }
@@ -319,7 +319,7 @@ return(
     onClick={ async ()=>{
         try{
             addSingleArticle('drafts', props.articleAuthor, {type:'drafts' , ...props.newArticle})
-            alert('draft saved')
+            alert(`draft saved for ${props.articleAuthor}`)
         }catch(e){
             console.log('error', e)
         }
@@ -336,7 +336,7 @@ Save Draft
     onClick={ async ()=>{
       try{
         addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
-        alert('article published')
+        alert(`article published for ${props.articleAuthor}`)
 
       }catch(e){
           console.log('error', e)

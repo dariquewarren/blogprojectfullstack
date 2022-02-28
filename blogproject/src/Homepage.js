@@ -3,7 +3,7 @@ import {BiRefresh} from 'react-icons/bi'
 import Nav from 'react-bootstrap/Nav'
 import ArticleCard from './ArticleCard'
 import Loading from './Loading'
-
+import {getEveryArticle} from './Firebase'
 const Homepage =  (props)=> {
 const [baseArray, setBaseArray] = useState([])
 const [mappedArray, setMappedArray] = useState([])
@@ -97,7 +97,10 @@ if(mappedArray.length < 1 || !mappedArray){
 
     return (
         <div>
-     
+        <button
+        onClick={()=>{
+            getEveryArticle()}}
+        >test</button>
         <div style={{display: 'flex', flexDirection:'row', width: '100%', marginTop:'0px' }}>
       
         

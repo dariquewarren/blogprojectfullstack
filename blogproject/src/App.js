@@ -3,6 +3,9 @@ import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import Loading from './Loading';
 import {addArticle, getArticlesByType} from './Firebase'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
 
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
@@ -16,6 +19,8 @@ const LoginForm = lazy(()=>import('./authComponents/LoginForm'))
 
 
 function App() {
+
+  var theCurrentUser = auth.currentUser
   const [lightMode, toggleLightMode] = useState(false)
 
   const [articleAuthor, setAuthor] = useState('Darique Tester')
@@ -28,9 +33,9 @@ function App() {
   const [draftsArray, setDraftsArray] = useState([])
   const [categoryArray, setCategoryArray] = useState([])
   const [appUser, setAppUser] = useState(undefined)
+  const [appUserId, setAppUserId] = useState(undefined)
 
-  
-  
+ 
 
 const categoryMap = async(array)=>{
   
@@ -56,7 +61,7 @@ const categoryMap = async(array)=>{
 const handleDraftsArray = async ()=>{
   await Promise.resolve(getArticlesByType('Darique Tester', 'drafts')).then((data)=>{
     setDraftsArray(data)
-    
+    console.log('drafts array', data)
     })
 }
   const lightModeStyle = {backgroundColor:"#212121", color: 'whitesmoke'}
@@ -66,20 +71,22 @@ const handleDraftsArray = async ()=>{
    if(trueArray.length < 1){
     handlePublishedArray()
     handleDraftsArray()
-    
+    console.log('currentUser', auth.currentUser)
    }else{
     console.log('true array already exists')
+    console.log('currentUser', auth.currentUser)
 
     return 
    }
-  }, [ trueArray.length])
+  }, [ trueArray.length, auth.currentUser])
   
   return (
     <div style={(lightMode)? lightModeStyle : darkModeStyle }>
   <Suspense fallback={<Loading/>} >
 
     <BrowserRouter  >
-{(appUser)?appUser.email: 'nothing email'}
+{theCurrentUser.email}
+
     <Header showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
@@ -96,7 +103,7 @@ const handleDraftsArray = async ()=>{
     toggleSearch={toggleSearch} categoryArray={categoryArray} setCategoryArray={setCategoryArray}
     trueArray={trueArray} author={articleAuthor} />}/>
 
-    <Route exact path='/write' element={<CreateArticle articleAuthor={(appUser)?appUser.email:articleAuthor} />}/>
+    <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
     
     <Route exact path='/all/drafts' element={<ViewDrafts   
           articleAuthor={articleAuthor}    trueArray={trueArray}
@@ -117,7 +124,7 @@ const handleDraftsArray = async ()=>{
     <Route exact path='/signup' 
     element={<SignupForm setAppUser={setAppUser} />}/>
     <Route exact path='/login' 
-    element={<LoginForm setAppUser={setAppUser} />}/>
+    element={<LoginForm setAppUser={setAppUser} setAuthor={setAuthor} />}/>
     </Switch>
     <Footer/>
     </BrowserRouter>
