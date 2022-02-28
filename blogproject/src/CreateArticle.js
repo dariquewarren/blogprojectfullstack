@@ -10,6 +10,9 @@ import Article from './Article';
 import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
 import { addArticle, addSingleArticle } from './Firebase';
+import { getAuth} from "firebase/auth";
+
+const auth = getAuth();
 
 
 function ArticleForm(props){
@@ -57,8 +60,8 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
                 try{
-                    addSingleArticle('drafts', props.articleAuthor, {type:'drafts', ...props.newArticle})
-                  alert(`draft saved for ${props.articleAuthor}`)
+                    addSingleArticle('drafts', props.newArticle.author, {type:'drafts', ...props.newArticle})
+                  alert(`draft saved for ${props.newArticle.author}`)
                 }catch(e){
                     console.log('error', e)
                 }
@@ -72,8 +75,8 @@ function ArticleForm(props){
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
               try{
-                addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
-                alert(`article published  for ${props.articleAuthor}`)
+                addSingleArticle('published', props.newArticle.author, {type:'published', ...props.newArticle})
+                alert(`article published  for ${props.newArticle.author}`)
               }catch(e){
                   console.log('error', e)
               }
@@ -268,6 +271,7 @@ function CreateArticle(props) {
 
     const referencePublishedTime = Dayjs().format('hhmmss')
 
+    const regex = /\W/gi
 
     const transformTime = ()=>{
        
@@ -293,7 +297,7 @@ return militaryMorning
         subtitle,
         article,
         image,
-        author: props.articleAuthor,
+        author:(auth.currentUser) ?auth.currentUser.email.replace(regex,'') : 'Darique Tester',
         datePublished: Dayjs().format('M/DD/YYYY'),
         timePublished: Dayjs().format('hh:mm A'),
         sortableTime: transformTime(),
@@ -318,8 +322,8 @@ return(
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
         try{
-            addSingleArticle('drafts', props.articleAuthor, {type:'drafts' , ...props.newArticle})
-            alert(`draft saved for ${props.articleAuthor}`)
+            addSingleArticle('drafts', props.newArticle.author, {type:'drafts' , ...props.newArticle})
+            alert(`draft saved for ${props.newArticle.author}`)
         }catch(e){
             console.log('error', e)
         }
@@ -335,8 +339,8 @@ Save Draft
     style={{position:'sticky',top:'10px', width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
     onClick={ async ()=>{
       try{
-        addSingleArticle('published', props.articleAuthor, {type:'published', ...props.newArticle})
-        alert(`article published for ${props.articleAuthor}`)
+        addSingleArticle('published', props.newArticle.author, {type:'published', ...props.newArticle})
+        alert(`article published for ${props.newArticle.author}`)
 
       }catch(e){
           console.log('error', e)
