@@ -31,6 +31,7 @@ function LoginForm(props) {
         style={{display:'flex', flexDirection: 'row'}}
         onSubmit={(e)=>{
             e.preventDefault()
+            handleLogin(userEmail, userPassword)
         }} >
         <Form.Group style={{width:'auto', marginLeft:'.5%', marginRight:'1%'}}>
         <Form.Control required type='email' 
@@ -60,13 +61,7 @@ function LoginForm(props) {
         
         >
         <Button
-        onClick={(e)=>{
-            e.preventDefault()
-            handleLogin(userEmail, userPassword)
-            
-
-        
-        }}    
+       type='submit'  
             >Login</Button>
         </Form.Group>
        
