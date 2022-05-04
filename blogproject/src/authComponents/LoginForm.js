@@ -23,30 +23,37 @@ function LoginForm(props) {
     //  console.log('logged in user info', realUser)
     }
     return (
-        <div>
-        <Container 
-        style={{display:'flex', flexDirection: 'row', width:'50%', marginLeft:'auto', marginRight:'auto'}}
-         >
+        
+        <Container
+        className='w-50'
+        >
+        <h3 className='text-center' >Login</h3>
         <Form
-        style={{display:'flex', flexDirection: 'row'}}
         onSubmit={(e)=>{
             e.preventDefault()
             handleLogin(userEmail, userPassword)
         }} >
-        <Form.Group style={{width:'auto', marginLeft:'.5%', marginRight:'1%'}}>
+        <Form.Group 
+        className='m-2'
+        >
+        <Form.Label>Email</Form.Label>
         <Form.Control required type='email' 
-        placeholder='Email'
+        placeholder='Type your email address'
         onChange={(e)=>{
             e.preventDefault()
             setUserEmail(e.target.value)
         }}
         />
         </Form.Group>
-        <Form.Group style={{width:'auto', marginLeft:'1%', marginRight:'1%'}}>
+        <Form.Group 
+        className='m-2'
+        >
+        <Form.Label>Password</Form.Label>
+
         <Form.Control required 
         
         type='password'
-        placeholder='Password'
+        placeholder='Type your password'
 
         onChange={(e)=>{
             e.preventDefault()
@@ -56,19 +63,19 @@ function LoginForm(props) {
         
         </Form.Group>
 
-        <Form.Group
-        style={{width:'auto', marginLeft:'.5%', marginRight:'1%'}}
-        
-        >
+       
         <Button
+        className='m-2'
        type='submit'  
             >Login</Button>
-        </Form.Group>
+      
        
         </Form> 
-</Container>
+        </Container>
+      
 
-        </div>
+
+       
     )
 }
 
