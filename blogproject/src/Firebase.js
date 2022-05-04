@@ -177,13 +177,7 @@ export const signInUser =  (email, password)=>{
       console.log('errors',{errorMessage,errorCode })
     });;
   })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.errorMessage
-    alert(`${errorCode} --> ${errorMessage}`)
-  })
-
+  
 
   
   
