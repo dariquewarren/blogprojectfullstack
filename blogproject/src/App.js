@@ -4,9 +4,10 @@ import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import Loading from './Loading';
 
 import {addArticle, getArticlesByType} from './Firebase'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, browserLocalPersistence,setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth();
+
 
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
@@ -21,7 +22,6 @@ const LoginForm = lazy(()=>import('./authComponents/LoginForm'))
 
 function App() {
 
-  var theCurrentUser = auth.currentUser
   var theCurrentAuthor =(auth.currentUser) ? auth.currentUser.email : 'Darique Tester'
   const [lightMode, toggleLightMode] = useState(false)
 

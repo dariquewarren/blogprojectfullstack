@@ -1,10 +1,9 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
+import { getAuth,browserLocalPersistence, setPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import Dotenv from 'dotenv'
 Dotenv.config()
-console.log('FIREBASE_API', process.env.REACT_APP_FIREBASE_API_KEY)
 
 // change to use dot env
 const firebaseConfig = {
@@ -157,24 +156,37 @@ return trueUser
 
 }
 // SIGN IN
-export const signInUser = async (email, password)=>{
-  var realUser 
-  await signInWithEmailAndPassword(auth, email, password)
-   .then((userCredential) => {
-     // Signed in 
-     const user = userCredential.user;
-     console.log('signed in user', user)
-     realUser = userCredential.user;
-     // ...
-   })
-   .catch((error) => {
-     const errorCode = error.code;
-     const errorMessage = error.message;
-     // ..
-     alert('error')
-     console.log('errors',{errorMessage,errorCode })
-   });
- return realUser
+export const signInUser =  (email, password)=>{
+
+   setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    // Existing and future Auth states are now persisted in the browserLocal
+    // session 
+    // ...
+    
+    return signInWithEmailAndPassword(auth,email, password).then((userCredential) => {
+      // Signed in 
+     window.location.assign('/')
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      alert('error')
+      console.log('errors',{errorMessage,errorCode })
+    });;
+  })
+  .catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.errorMessage
+    alert(`${errorCode} --> ${errorMessage}`)
+  })
+
+
+  
+  
 }
 // SIGN OUT /LOGOUT
 export const logOut = ()=>{

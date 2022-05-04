@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import {signInUser} from '../Firebase'
 import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence } from "firebase/auth";
+
+
 function LoginForm(props) {
     const auth = getAuth();
 
@@ -14,11 +16,11 @@ function LoginForm(props) {
 
 
 
-    const handleLogin =async (email, password)=>{
-     const realUser = await signInUser(email, password)
+    const handleLogin = async (email, password)=>{
+     await signInUser(email, password)
     //  props.setAppUser(realUser)
     //  props.setAuthor(realUser.email)
-     console.log('logged in user info', realUser)
+    //  console.log('logged in user info', realUser)
     }
     return (
         <div>
@@ -61,6 +63,8 @@ function LoginForm(props) {
         onClick={(e)=>{
             e.preventDefault()
             handleLogin(userEmail, userPassword)
+            
+
         
         }}    
             >Login</Button>
