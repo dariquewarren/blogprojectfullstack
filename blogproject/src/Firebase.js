@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
-import { getAuth,browserLocalPersistence, setPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
+import { getAuth,browserLocalPersistence,updateProfile , setPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import Dotenv from 'dotenv'
 Dotenv.config()
@@ -38,17 +38,7 @@ const auth = getAuth();
 
 // create instance for creating first entry
 // create instance for adding to list of entries
-export const addArticle = (type, author, article)=>{
-  const deltab = getDatabase()
-  
-  set(ref(`${author}/${type}`), {...article});
-  // const postListRef = ref(deltab, `${author}/${type}`)
-  // const newPostRef = push(postListRef);
-  // set(newPostRef, {type, ...article});
-   
-  console.log(article)
- 
- }
+
 
  export const addSingleArticle = (type, author, article)=>{
    const deltab = getDatabase()
@@ -139,14 +129,7 @@ export const deleteArticleByID = (type,author,id)=>{
 export const signUpUser = async (email, password)=>{
   var trueUser 
  await createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log('signed in user', user)
-    trueUser = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
+ .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // ..
@@ -197,6 +180,14 @@ signOut(auth).then(() => {
 }
 // CREATE PROFILE
 //UPDATE PROFILE
+export const updateUserProfile =(user,userObject)=>{
+  if(!user){
+return alert('please sign in first to update')
+  }else{
+    updateProfile(user, userObject)
+
+  }
+}
 // ACCESS PROFILE
 // DELETE PROFILE
 

@@ -3,11 +3,12 @@ import './App.css';
 import {BrowserRouter , Routes as Switch, Route} from 'react-router-dom'
 import Loading from './Loading';
 
-import {addArticle, getArticlesByType} from './Firebase'
+import { getArticlesByType} from './Firebase'
 import { getAuth, browserLocalPersistence,setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth();
 
+const SearchOptions = lazy(()=>import('./SearchOptions'))
 
 const CreateArticle = lazy(()=>import('./CreateArticle'))
 const Header = lazy(()=>import('./Header'))
@@ -18,14 +19,13 @@ const ViewPublished = lazy(()=>import('./ViewPublished'))
 const ReadPublished = lazy(()=>import('./ReadPublished'))
 const SignupForm = lazy(()=>import('./authComponents/SignupForm'))
 const LoginForm = lazy(()=>import('./authComponents/LoginForm'))
-
+const UpdateProfile = lazy(()=>import('./authComponents/UpdateProfile'))
 
 function App() {
 
-  var theCurrentAuthor =(auth.currentUser) ? auth.currentUser.email : 'Darique Tester'
+  var theCurrentAuthor =  (auth.currentUser) ?auth.currentUser.displayName : 'ANONYMOUS'
   const [lightMode, toggleLightMode] = useState(false)
 
-  const [articleAuthor, setAuthor] = useState('Darique Tester')
   const [categorySelected, setCategorySelected] = useState(false)
   const [showSearch, toggleSearch] = useState(false)
   const [searchLocation, setSearchLocation] = useState(undefined)
@@ -34,8 +34,6 @@ function App() {
   const [publishedArray, setPublishedArray] = useState([])
   const [draftsArray, setDraftsArray] = useState([])
   const [categoryArray, setCategoryArray] = useState([])
-  const [appUser, setAppUser] = useState(undefined)
-  const [appUserId, setAppUserId] = useState(undefined)
 
  
 
@@ -91,7 +89,7 @@ const handleDraftsArray = async ()=>{
 {theCurrentAuthor}
 
 
-    <Header showSearch={showSearch} toggleSearch={toggleSearch}
+    <Header author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
     searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
@@ -105,30 +103,32 @@ const handleDraftsArray = async ()=>{
       categorySelected={categorySelected} setCategorySelected={setCategorySelected} 
     publishedArray={publishedArray} showSearch={showSearch} 
     toggleSearch={toggleSearch} categoryArray={categoryArray} setCategoryArray={setCategoryArray}
-    trueArray={trueArray} author={articleAuthor} />}/>
+    trueArray={trueArray} author={theCurrentAuthor} />}/>
 
-    <Route exact path='/write' element={<CreateArticle articleAuthor={articleAuthor} />}/>
-    
+    <Route exact path='/write' element={<CreateArticle articleAuthor={theCurrentAuthor} />}/>
+    <Route exact path='/search' element={<SearchOptions array={publishedArray} />}/>
+
+    <Route exact path='/UpdateProfile' element={<UpdateProfile/>}  />
     <Route exact path='/all/drafts' element={<ViewDrafts   
-          articleAuthor={articleAuthor}    trueArray={trueArray}
+          articleAuthor={theCurrentAuthor}    trueArray={trueArray}
     setTrueArray={setTrueArray}    draftsArray={draftsArray}
     setDraftsArray={setDraftsArray}/>}/>
     
     <Route exact path='/homepage' element={<Homepage 
       searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
-      trueArray={trueArray} author={articleAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
+      trueArray={trueArray} author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
     
     <Route exact path='/all/published' element= {<ViewPublished 
-      articleAuthor={articleAuthor}    trueArray={trueArray}
+      articleAuthor={theCurrentAuthor}    trueArray={trueArray}
     setTrueArray={setTrueArray}    publishedArray={publishedArray}
     setPublishedArray={setPublishedArray}    />}/>
 
     <Route exact path='/read/published/:id' 
-    element={<ReadPublished publishedArray={publishedArray} articleAuthor={articleAuthor}/>}/>
+    element={<ReadPublished publishedArray={publishedArray} articleAuthor={theCurrentAuthor}/>}/>
     <Route exact path='/signup' 
-    element={<SignupForm setAppUser={setAppUser} />}/>
+    element={<SignupForm  />}/>
     <Route exact path='/login' 
-    element={<LoginForm setAppUser={setAppUser} setAuthor={setAuthor} />}/>
+    element={<LoginForm   />}/>
     </Switch>
     <Footer/>
     </BrowserRouter>

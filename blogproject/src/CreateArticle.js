@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Article from './Article';
 import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
-import { addArticle, addSingleArticle } from './Firebase';
+import { addSingleArticle } from './Firebase';
 import { getAuth} from "firebase/auth";
 
 const auth = getAuth();
@@ -59,12 +59,21 @@ function ArticleForm(props){
             className='bg-success w-33'
             style={{width:'auto', marginLeft: 'auto', marginRight: 'auto'}}
             onClick={ async ()=>{
-                try{
-                    addSingleArticle('drafts', props.newArticle.author, {type:'drafts', ...props.newArticle})
-                  alert(`draft saved for ${props.newArticle.author}`)
-                }catch(e){
-                    console.log('error', e)
+                switch(props.newArticle.author){
+                    case 'ANONYMOUS':
+                        console.log('first case', props.newArticle.author);
+                        alert('Sample Version!: Click PREVIEW to view article sample. Please login to save draft or publish')
+                        break;
+                    default:
+                        try{
+                            addSingleArticle('drafts', props.newArticle.author, {type:'drafts', ...props.newArticle})
+                          alert(`draft saved for ${props.newArticle.author}`)
+                        }catch(e){
+                            console.log('error', e.m)
+                        };
                 }
+
+                
           }}
    >
             Save Draft
@@ -267,12 +276,13 @@ function CreateArticle(props) {
     const [imageURLInput, setImageURLInput] = useState(false)
         const [category, setCategory] = useState(undefined)
         const [tags, setTags] = useState([])   
+        const [articlePreview, toggleArticlePreview] = useState(false)
+
     const publishedTime = Dayjs().format('hh:mm:ss A')
 
     const referencePublishedTime = Dayjs().format('hhmmss')
 
     const regex = /\W/gi
-
     const transformTime = ()=>{
        
 
@@ -297,14 +307,18 @@ return militaryMorning
         subtitle,
         article,
         image,
-        author:(auth.currentUser) ?auth.currentUser.email.replace(regex,'') : 'Darique Tester',
+        author: props.articleAuthor,
         datePublished: Dayjs().format('M/DD/YYYY'),
         timePublished: Dayjs().format('hh:mm A'),
         sortableTime: transformTime(),
         sortableDate: Dayjs().valueOf() 
     }
 
-    const [articlePreview, toggleArticlePreview] = useState(false)
+
+    
+
+   
+
     
     if(articlePreview){
 return(

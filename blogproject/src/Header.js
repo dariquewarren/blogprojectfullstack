@@ -16,11 +16,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const auth = getAuth();
 
 function Header(props) {
-const [showAlert, setShowAlert] =useState(false)
-const [alertMessage, setAlertMessage] = useState('false')
-const [showSignIn, toggleSignIn] = useState(false)
-
-
 
     useEffect(()=>{
 
@@ -88,6 +83,7 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
 <Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
 <Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
+<Dropdown.Item as={Link} to='/search' eventKey="7" >Search</Dropdown.Item>
 
 </DropdownButton> 
 <BsSearch style={{cursor:'pointer',height:'2rem', width:'2rem'}}
@@ -99,44 +95,13 @@ onClick={()=>{
    
    }}
 />
-<BsLightbulb
-style={{cursor:'pointer',height:'2rem', width:'2rem'}}
-onClick={()=>props.toggleLightMode(!props.lightMode)}
- />
+<h6>Welcome, {props.author}</h6>
 </div>
 
-<LogoutButton/>
-{(auth.currentUser)? <p></p>: <Button
-    onClick={()=>{
-        toggleSignIn(!showSignIn)
-    
-    }}
-    >
-    {(showSignIn) ? 'x' : 'Login'}</Button>}
-</div>
-<div>
-{(props.showSearch)
-    ?
-<div style={{marginBottom: '4rem', borderBottom: '5px solid black'}} >
-<AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
 
-<SearchOptions array={props.trueArray}   
-filterMessage={props.filterMessage} setFilterMessage={props.setFilterMessage} setSearchLocation={props.setSearchLocation} searchLocation={props.searchLocation}
-toggleSearch={props.toggleSearch}
-setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
- />
-
- 
-  </div>
-    :
- <p></p>   
-    }
 </div>
-{(showSignIn)? 
-    <LoginForm/>
-:
-<p></p>
-}
+
+
 </div>
 
     )

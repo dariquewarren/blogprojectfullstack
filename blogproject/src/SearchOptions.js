@@ -2,13 +2,19 @@ import React, {useState, useRef, useEffect} from 'react'
 import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
 import { GiCrossMark } from 'react-icons/gi'
 import Row from 'react-bootstrap/Row'
 import ArticleCard from './ArticleCard'
+
 const SearchOptions = (props)=>{
     const [searchTerm, changeSearchTerm] = useState(undefined)
     const [resultsArray, setResultsArray] = useState(false)
-
+    const [searchLocation, setSearchLocation] = useState(undefined)
+    const [alertMessage, setAlertMessage] = useState(undefined)
+    const [showAlert, setShowAlert] = useState(false)
+    const [filterMessage, setFilterMessage] = useState(undefined)
+    
     const getSearchArray = (location, currentSearchTerm)=>{
         let specialArray
         switch(location){
@@ -70,27 +76,37 @@ return specialArray
     
 
     const deliverSearchArray= async ()=>{
-        const transformedArray = await getSearchArray(props.searchLocation, searchTerm)
-        if(!searchTerm || !searchTerm === 'undefined' ){
-            props.setAlertMessage('Please type something')
-            props.setShowAlert(true)
+        const transformedArray = await getSearchArray(searchLocation, searchTerm)
+        if(!searchLocation){
+            setAlertMessage('Select a search location')
+            setFilterMessage('')
+            setShowAlert(true)
+        }else if(!searchTerm || !searchTerm === 'undefined'){
+            setAlertMessage('Type a search term')
+            setFilterMessage('')
+            setShowAlert(true)
             return
-        }else if(transformedArray.length <  1 ){
-            props.setAlertMessage('NO RESULTS FOUND. PLEASE TRY ANOTHER TERM. ALSO CHECK FOR SPELLING AND EXTRA SPACES')
-            props.setShowAlert(true)
+        }else if(!transformedArray ){
+            setAlertMessage('NO RESULTS FOUND. PLEASE TRY ANOTHER TERM. ALSO CHECK FOR SPELLING AND EXTRA SPACES')
+            setFilterMessage('')
+            setResultsArray([])
+            setShowAlert(true)
             return
         }else if(!transformedArray){
-            props.setAlertMessage('array doesnt exist. try again or contact Admin')
-            props.setShowAlert(true)
+            setAlertMessage('array doesnt exist. try again or contact Admin')
+            setFilterMessage('')
+            setShowAlert(true)
             return
         }else if(transformedArray){
-            props.setShowAlert(false)
+            setShowAlert(false)
+            setAlertMessage('')
             setResultsArray(transformedArray)
-            props.setFilterMessage(`Showing every ${props.searchLocation.toUpperCase()} that includes the term(s) ${searchTerm}`)
+            setFilterMessage(`Results for ${searchTerm.toUpperCase()} in ${searchLocation.toUpperCase()}`)
             return
         }else{
-            props.setAlertMessage('SPECIAL CASE. unknown issue. SPECIAL CASE')
-            props.setShowAlert(true)
+            setAlertMessage('SPECIAL CASE. unknown issue. SPECIAL CASE')
+            setFilterMessage('')
+            setShowAlert(true)
             return
         }
     }
@@ -99,26 +115,27 @@ return specialArray
 
     
         return(
-            <div>
+            <Container
+            style={{marginBottom:'2rem', marginTop:'1rem'}}
+            >
+            <h2>{alertMessage}</h2>
+            <Form.Label style={{width: '50% ',textAlign: 'center', fontSize:'2rem', marginTop: '0px'}}>
+            {(searchLocation === undefined) ? `Select Search location` :``}  
+           
+            </Form.Label>
+            <SearchRadios setSearchLocation={setSearchLocation}/>
+
             <Form.Group style={{width:'100%'}}>
             
             <Nav>
-            <Form.Label style={{width: '50% ',textAlign: 'center', fontSize:'2rem', marginTop: '0px'}}>
-            {(props.searchLocation === undefined) ? `Select Search location` :`Search ${props.searchLocation.toUpperCase()}`}  
            
-            </Form.Label>
-            <h6 style={{width:'50%', textAlign: 'right', paddingRight:'1%', marginBottom:'0px'}}>
-            <GiCrossMark style={{cursor:'pointer', color:'red',  height: '2rem', width:'2rem'}} onClick={()=>{
-                props.toggleSearch(false)
-            }}/>
-            </h6>
+            
             </Nav>
             
-            <h6 style={{textAlign:'center'}}>{props.filterMessage}</h6>
 
             <Row>
             <Form.Control style={{width:'60%', marginLeft: '5%', marginRight: '0px'}}
-             type='text' placeholder={`Search VIA ${props.searchLocation} text`} onChange={(e)=>{
+             type='text' placeholder={`Search VIA ${searchLocation} text`} onChange={(e)=>{
                 changeSearchTerm(e.target.value)
             }} />
             <Button style={{width:'25%', marginLeft: '0px', marginRight: 'auto'}} 
@@ -129,10 +146,11 @@ return specialArray
             Search
             </Button> 
             </Row>
-            <SearchRadios setSearchLocation={props.setSearchLocation}/>
             </Form.Group>
-           <SearchResults resultsArray={resultsArray}/>
-</div>
+            <h6 style={{textAlign:'center'}}>{filterMessage}</h6>
+
+           <SearchResults resultsArray={resultsArray} />
+</Container>
            
            
         )
@@ -285,10 +303,10 @@ htmlFor='tags'>Tags</h5>
 console.log('search results props',props)
         },[props])
         return props.resultsArray && (
-            <div style={{width:'90%', marginLeft:'auto', marginRight:'auto'}}>
+            <div style={{width:'90%', marginLeft:'auto', marginRight:'auto', marginBottom:'2rem'}}>
                 {props.resultsArray.map((m)=>{
                     return(
-                        <ArticleCard articleFrom={'homepage'} type={'published'} {...m}/>
+                        <ArticleCard key={props.resultsArray.indexOf(m)} articleFrom={'homepage'} type={'published'} {...m}/>
                     )
                 })}
             </div>

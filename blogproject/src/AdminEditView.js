@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Dayjs from 'dayjs'
 import {updateArticleByID, deleteArticleByID} from './Firebase'
-import {updatePublished, deleteSinglePublishedArticle} from'./APICalls'
 
 import ReactHtmlParser from 'react-html-parser';
 
