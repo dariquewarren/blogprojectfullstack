@@ -12,18 +12,12 @@ const [photoURL, setPhotoURL]=useState(undefined)
 const [displayName, setDisplayName]=useState(undefined)
 
 const [signupSuccess, setSignupSuccess] = useState(false)
-const ImageReference = useRef();
 
 
-const UserData = {
-    email: userEmail,
-    password: userPassword
-}
 
-var signupObject={
-    photoURL,
-    displayName,
-}
+
+
+
 
 
 
@@ -37,7 +31,8 @@ var signupObject={
     onSubmit={(e)=>{
         e.preventDefault()
         signUpUser(userEmail, userPassword)
-       console.log(UserData)
+
+        window.location.assign('/')
     }}
     >
 
@@ -45,18 +40,7 @@ var signupObject={
    
 
 
-<Form.Group
-className='m-2'
->
-<Form.Label>Username</Form.Label>
-<Form.Control
-type='text'
-onChange={(e)=>{
-    setDisplayName(e.target.value)
-}}
 
-/>
-</Form.Group>
     <Form.Group
     className='m-2'
     >
