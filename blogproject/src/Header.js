@@ -4,19 +4,20 @@ import SearchOptions from './SearchOptions'
 import AlertText from './AlertText'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import {BsMenuButton, BsSearch,BsLightbulb} from 'react-icons/bs'
+import Button from 'react-bootstrap/Button'
+
+import {BsMenuButton} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 function Header(props) {
-const [showAlert, setShowAlert] =useState(false)
-const [alertMessage, setAlertMessage] = useState('false')
-
-
 
     useEffect(()=>{
 
-    },[props.trueArray, props.categoryArray])
+    },[props.trueArray, props.categoryArray, auth])
     return (
 
 <div >
@@ -80,43 +81,18 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
 <Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
 <Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
+<Dropdown.Item as={Link} to='/search' eventKey="7" >Search</Dropdown.Item>
+<Dropdown.Item as={Link} to='/updateProfile' eventKey="8" >profile</Dropdown.Item>
 
 </DropdownButton> 
-<BsSearch style={{cursor:'pointer',height:'2rem', width:'2rem'}}
-onClick={()=>{
-    props.toggleSearch(!props.showSearch)
-    props.setSearchLocation(undefined)
-    props.setFilterMessage('')
-    console.log('header props', props)
-   
-   }}
-/>
-<BsLightbulb
-style={{cursor:'pointer',height:'2rem', width:'2rem'}}
-onClick={()=>props.toggleLightMode(!props.lightMode)}
- />
+
+<h6>Welcome, {props.author}</h6>
 </div>
 
 
 </div>
-<div>
-{(props.showSearch)
-    ?
-<div style={{marginBottom: '4rem', borderBottom: '5px solid black'}} >
-<AlertText showAlert={showAlert} setShowAlert={setShowAlert} alertMessage={alertMessage} />
 
-<SearchOptions array={props.trueArray}   
-filterMessage={props.filterMessage} setFilterMessage={props.setFilterMessage} setSearchLocation={props.setSearchLocation} searchLocation={props.searchLocation}
-toggleSearch={props.toggleSearch}
-setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}
- />
 
- 
-  </div>
-    :
- <p></p>   
-    }
-</div>
 </div>
 
     )

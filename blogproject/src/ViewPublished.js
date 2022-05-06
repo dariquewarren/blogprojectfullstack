@@ -72,27 +72,26 @@ useEffect(()=>{
        }
 
        
-    }, [props.trueArray,mappedArray.length, props.publishedArray])
+    }, [props.trueArray,mappedArray.length, props.publishedArray, displayId])
 
     return  (
         <Container fluid style={{ marginBottom: '2rem'}}>
+       
 {
-    displayArray.map((m)=>{
-
-        if(m.id === displayId){
-            
-    return (
-        <AdminArticleCard 
-        key={m.id}
-        editMode={editMode} toggleEditMode={toggleEditMode}
-        {...m}/>
-    )
-}else{
-    return(
-        <div key={displayId}></div>
-    )
-}
-})
+   props.trueArray.map((m)=>{
+       if(m.id === displayId){
+           return(
+            <AdminArticleCard
+            key={m.id}
+            editMode={editMode}
+            toggleEditMode={toggleEditMode}
+            {...m}
+            />
+           )
+       }else{
+           return
+       }
+   }) 
 
 }
 

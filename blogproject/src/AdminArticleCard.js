@@ -4,15 +4,17 @@ import Button from 'react-bootstrap/Button'
 
 import ReactHtmlParser from 'react-html-parser';
 
-
+import AdminEditView from './AdminEditView';
 function AdminArticleCard(props) {
-var RealArticle =(props.article.length > 100)?props.article.substring(0, 101): props.article
+var RealArticle =(props.article && props.article.length > 100)?props.article.substring(0, 101): props.article
 
   return <Container style={{textAlign:'center'}}>
   {(props.editMode)
     
     ?
-    <p></p>
+    <AdminEditView
+    {...props}
+    />
     :
     <Container>
     <img src={props.image} alt={props.title} style={{height:'10rem', width:'10rem'}} />
@@ -29,9 +31,10 @@ var RealArticle =(props.article.length > 100)?props.article.substring(0, 101): p
     </Container>
 }
   <Button variant='primary'  
-  style={{display: (props.editMode === false) ? '': 'none'}}
+  style={{disabled: (props.editMode === false) ? '': 'none'}}
 
   onClick={()=>{
+    console.log(props.editMode)
       props.toggleEditMode(!props.editMode)
   }}
   >Edit View</Button>

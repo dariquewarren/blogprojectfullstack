@@ -1,19 +1,20 @@
 import {initializeApp} from "firebase/app"
 import { getDatabase, ref, set, child, get, push, remove, update} from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,browserLocalPersistence,updateProfile , setPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword , signOut} from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
+import Dotenv from 'dotenv'
+Dotenv.config()
 
+// change to use dot env
 const firebaseConfig = {
-    apiKey: "AIzaSyB6Swn5ui5X-Z6NKyVU-l-rSWlviiPXZ04",
-    authDomain: "blog-project-3d102.firebaseapp.com",
-    // For databases not in the us-central1 location, databaseURL will be of the
-  // form https://[databaseName].[region].firebasedatabase.app.
-  // For example, https://your-database-123.europe-west1.firebasedatabase.app
-  databaseURL: "https://blog-project-3d102-default-rtdb.firebaseio.com/",
-  storageBucket: "blog-project-3d102.appspot.com",
-  messagingSenderId: "772840395218",
-  appId: "1:772840395218:web:e86b566a2aabe70a6ab80b",
-  projectId: "1:772840395218:web:e86b566a2aabe70a6ab80b"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
 
 };
 
@@ -37,17 +38,7 @@ const auth = getAuth();
 
 // create instance for creating first entry
 // create instance for adding to list of entries
-export const addArticle = (type, author, article)=>{
-  const deltab = getDatabase()
-  
-  set(ref(`${author}/${type}`), {...article});
-  // const postListRef = ref(deltab, `${author}/${type}`)
-  // const newPostRef = push(postListRef);
-  // set(newPostRef, {type, ...article});
-   
-  console.log(article)
- 
- }
+
 
  export const addSingleArticle = (type, author, article)=>{
    const deltab = getDatabase()
@@ -62,7 +53,7 @@ export const addArticle = (type, author, article)=>{
 export const getArticlesByType = async (author,type)=>{
   const dbRef = ref(getDatabase());
   var theArticles =[]
-await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
+ await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
   if (snapshot.exists()) {
     var theData = snapshot.val()
     for (const info in theData){
@@ -80,10 +71,39 @@ await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
 
 console.log('theArticles',theArticles )
 
-const articleList = await theArticles
+const articleList = theArticles
 return articleList
 }
+export const getEveryArticle = async ()=>{
+  const dbRef = ref(getDatabase());
+  var theArticles =[]
+ await get(child(dbRef, '/')).then((snapshot) => {
+  if (snapshot.exists()) {
+    var theData = snapshot.val()
+    console.log('all data', theData)
+    for (const info in theData){
+      theArticles.push({
+        ...theData
+      })
+      return theArticles
+}
+  } else {
+    console.log("No data available");
+  }
+}).then((data)=>{
+ 
+    
+  console.log('data from the articles',data)
+}).catch((error) => {
+  console.error(error);
+});
 
+console.log(`theArticles`,theArticles)
+
+const articleList = theArticles
+return articleList
+
+}
 // UPDATE
 export const updateArticleByID = (type, author, id, updateObject)=>{
   const deltab = getDatabase()
@@ -109,14 +129,7 @@ export const deleteArticleByID = (type,author,id)=>{
 export const signUpUser = async (email, password)=>{
   var trueUser 
  await createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log('signed in user', user)
-    trueUser = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
+ .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // ..
@@ -126,30 +139,55 @@ return trueUser
 
 }
 // SIGN IN
-export const signInUser = async (email, password)=>{
-  var realUser 
-  await signInWithEmailAndPassword(auth, email, password)
-   .then((userCredential) => {
-     // Signed in 
-     const user = userCredential.user;
-     console.log('signed in user', user)
-     realUser = userCredential.user;
-     // ...
-   })
-   .catch((error) => {
-     const errorCode = error.code;
-     const errorMessage = error.message;
-     // ..
-     console.log('errors',{errorMessage,errorCode })
-   });
- return realUser
+export const signInUser =  (email, password)=>{
+
+   setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    // Existing and future Auth states are now persisted in the browserLocal
+    // session 
+    // ...
+    
+    return signInWithEmailAndPassword(auth,email, password).then((userCredential) => {
+      // Signed in 
+     window.location.assign('/')
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      alert('error')
+      console.log('errors',{errorMessage,errorCode })
+    });;
+  })
+  
+
+  
+  
 }
 // SIGN OUT /LOGOUT
-export const signOutUser = ()=>{
-  
+export const logOut = ()=>{
+
+signOut(auth).then(() => {
+  // Sign-out successful.
+  alert('signed out')
+  window.location.reload()
+}).catch((error) => {
+  // An error happened.
+  alert(`error: ${error}`)
+});
+
 }
 // CREATE PROFILE
 //UPDATE PROFILE
+export const updateUserProfile =(user,userObject)=>{
+  if(!user){
+return alert('please sign in first to update')
+  }else{
+    updateProfile(user, userObject)
+
+  }
+}
 // ACCESS PROFILE
 // DELETE PROFILE
 
