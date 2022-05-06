@@ -7,7 +7,7 @@ import { signUpUser } from "../Firebase";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-function UpdateProfile() {
+function UpdateProfile(props) {
     var userToUpdate = getAuth()
     const [email, setUserEmail] = useState(undefined)
     const [photoURL, setPhotoURL]=useState(undefined)
@@ -23,13 +23,13 @@ function UpdateProfile() {
         photoURL,
         displayName,
     }
-    
+    console.log('profile page', props)
     
     
         return (
             <Container>
             <h1 className='text-center' >{(signupSuccess)?'Update Succesful!':'Update Profile'}</h1>
-         
+         <h3>{props.user.email}</h3>
     
         <Form
         style={{width:'50%',marginLeft:'auto', marginRight:'auto'}}

@@ -51,7 +51,7 @@ const categoryMap = async(array)=>{
   setCategoryArray(setArray)
   }
   const handlePublishedArray = async ()=>{
-    await Promise.resolve(getArticlesByType('Darique Tester', 'published')).then((data)=>{
+    await Promise.resolve(getArticlesByType(`${theCurrentAuthor}`, 'published')).then((data)=>{
           setPublishedArray(data)
           setTrueArray(data)
       categoryMap(data)
@@ -59,7 +59,7 @@ const categoryMap = async(array)=>{
           })
   }
 const handleDraftsArray = async ()=>{
-  await Promise.resolve(getArticlesByType('Darique Tester', 'drafts')).then((data)=>{
+  await Promise.resolve(getArticlesByType(`${theCurrentAuthor}`, 'drafts')).then((data)=>{
     setDraftsArray(data)
     console.log('drafts array', data)
     })
@@ -104,9 +104,13 @@ const handleDraftsArray = async ()=>{
     publishedArray={publishedArray} showSearch={showSearch} 
     toggleSearch={toggleSearch} categoryArray={categoryArray} setCategoryArray={setCategoryArray}
     trueArray={trueArray} author={theCurrentAuthor} />}/>
+    
+    <Route exact path='/homepage' element={<Homepage 
+      searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
+      trueArray={trueArray} author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
+    
 
-    <Route exact path='/write' element={<CreateArticle articleAuthor={theCurrentAuthor} />}/>
-    <Route exact path='/search' element={<SearchOptions array={publishedArray} />}/>
+    <Route exact path='/updateProfile' element={<UpdateProfile user={auth.currentUser} />}/>
 
     <Route exact path='/UpdateProfile' element={<UpdateProfile/>}  />
     <Route exact path='/all/drafts' element={<ViewDrafts   
@@ -114,22 +118,27 @@ const handleDraftsArray = async ()=>{
     setTrueArray={setTrueArray}    draftsArray={draftsArray}
     setDraftsArray={setDraftsArray}/>}/>
     
-    <Route exact path='/homepage' element={<Homepage 
-      searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
-      trueArray={trueArray} author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch} />}/>
-    
-    <Route exact path='/all/published' element= {<ViewPublished 
-      articleAuthor={theCurrentAuthor}    trueArray={trueArray}
-    setTrueArray={setTrueArray}    publishedArray={publishedArray}
-    setPublishedArray={setPublishedArray}    />}/>
+  
 
     <Route exact path='/read/published/:id' 
     element={<ReadPublished publishedArray={publishedArray} articleAuthor={theCurrentAuthor}/>}/>
+  
+  
     <Route exact path='/signup' 
     element={<SignupForm  />}/>
     <Route exact path='/login' 
     element={<LoginForm   />}/>
+    <Route exact path='/search' element={<SearchOptions array={publishedArray} />}/>
+    <Route exact path='/write' element={<CreateArticle articleAuthor={theCurrentAuthor} />}/>
+
+
+    <Route exact path='/all/published' element= {<ViewPublished 
+      articleAuthor={theCurrentAuthor}    trueArray={trueArray}
+    setTrueArray={setTrueArray}    publishedArray={publishedArray}
+    setPublishedArray={setPublishedArray}    />}
+    />
     </Switch>
+
     <Footer/>
     </BrowserRouter>
     </Suspense>

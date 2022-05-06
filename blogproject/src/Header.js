@@ -6,12 +6,10 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
 
-import {BsMenuButton, BsSearch,BsLightbulb} from 'react-icons/bs'
+import {BsMenuButton} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
-import LogoutButton from './authComponents/LogoutButton'
-import LoginForm from './authComponents/LoginForm'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const auth = getAuth();
 
@@ -84,17 +82,10 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
 <Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
 <Dropdown.Item as={Link} to='/search' eventKey="7" >Search</Dropdown.Item>
+<Dropdown.Item as={Link} to='/updateProfile' eventKey="8" >profile</Dropdown.Item>
 
 </DropdownButton> 
-<BsSearch style={{cursor:'pointer',height:'2rem', width:'2rem'}}
-onClick={()=>{
-    props.toggleSearch(!props.showSearch)
-    props.setSearchLocation(undefined)
-    props.setFilterMessage('')
-    console.log('header props', props)
-   
-   }}
-/>
+
 <h6>Welcome, {props.author}</h6>
 </div>
 
