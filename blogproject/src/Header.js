@@ -5,7 +5,7 @@ import AlertText from './AlertText'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
-
+import LogoutButton from './authComponents/LogoutButton'
 import {BsMenuButton} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
@@ -59,6 +59,7 @@ onClick={()=>window.location.assign('/')}
 
 
 <div style={{width:'20%',  display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
+<h6>Welcome, {props.author}</h6>
 
 <DropdownButton
 variant="secondary"
@@ -79,14 +80,38 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/write' eventKey="2" >Write</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/drafts' eventKey="3" >Edit Drafts</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
-<Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
-<Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
-<Dropdown.Item as={Link} to='/search' eventKey="7" >Search</Dropdown.Item>
-<Dropdown.Item as={Link} to='/updateProfile' eventKey="8" >profile</Dropdown.Item>
+<Dropdown.Item as={Link} to='/updateProfile' eventKey="5" >Edit Profile</Dropdown.Item>
+<Dropdown.Item as={Link} to='/search' eventKey="6" >Search</Dropdown.Item>
+{
+    (props.author === 'ANONYMOUS')
+    ?
+    <Dropdown.Item as={Link} to='/login' eventKey="7" >Login</Dropdown.Item>
+
+    :
+    <p></p>
+
+ 
+}
+{
+    (props.author === 'ANONYMOUS')
+    ?
+    <Dropdown.Item as={Link} to='/signup' eventKey="8" >Sign Up</Dropdown.Item>
+    :
+    <p></p>
+}
+
 
 </DropdownButton> 
+<div>
+{
+    (props.author !== 'ANONYMOUS')
+    ?
+    <LogoutButton/>
 
-<h6>Welcome, {props.author}</h6>
+    :
+    <p></p>
+}
+</div>
 </div>
 
 

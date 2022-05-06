@@ -86,9 +86,6 @@ const handleDraftsArray = async ()=>{
 
     <BrowserRouter  >
 
-{theCurrentAuthor}
-
-
     <Header author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
@@ -112,7 +109,6 @@ const handleDraftsArray = async ()=>{
 
     <Route exact path='/updateProfile' element={<UpdateProfile user={auth.currentUser} />}/>
 
-    <Route exact path='/UpdateProfile' element={<UpdateProfile/>}  />
     <Route exact path='/all/drafts' element={<ViewDrafts   
           articleAuthor={theCurrentAuthor}    trueArray={trueArray}
     setTrueArray={setTrueArray}    draftsArray={draftsArray}
