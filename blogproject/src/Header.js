@@ -61,6 +61,36 @@ onClick={()=>window.location.assign('/')}
 <div style={{width:'20%',  display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
 <h6>Welcome, {props.author}</h6>
 
+{
+    (props.author === 'ANONYMOUS')
+?
+<DropdownButton
+variant="secondary"
+title={<BsMenuButton/>}
+style={{width:'auto', marginLeft:'auto',marginRight:'5px'}}
+>
+
+<Dropdown.Item  onClick={()=>{
+    if(window.location.pathname === '/'){
+props.setPublishedArray(props.trueArray)
+props.setCategorySelected('HOME')
+
+
+    }else{
+        window.open('/','_self')
+    }
+}} >Home</Dropdown.Item>
+<Dropdown.Item as={Link} to='/search' eventKey="2" >Search</Dropdown.Item>
+<Dropdown.Item as={Link} to='/login' eventKey="3" >Login</Dropdown.Item>
+<Dropdown.Item as={Link} to='/signup' eventKey="4" >Sign Up</Dropdown.Item>
+
+
+
+
+</DropdownButton> 
+:
+<div>
+
 <DropdownButton
 variant="secondary"
 title={<BsMenuButton/>}
@@ -82,36 +112,18 @@ props.setCategorySelected('HOME')
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
 <Dropdown.Item as={Link} to='/updateProfile' eventKey="5" >Edit Profile</Dropdown.Item>
 <Dropdown.Item as={Link} to='/search' eventKey="6" >Search</Dropdown.Item>
-{
-    (props.author === 'ANONYMOUS')
-    ?
-    <Dropdown.Item as={Link} to='/login' eventKey="7" >Login</Dropdown.Item>
 
-    :
-    <p></p>
+<Dropdown.Item as={Link} to='/signup' eventKey="8" >Sign Up</Dropdown.Item>
+<Dropdown.Item as={LogoutButton}  eventKey="8" >Log Out</Dropdown.Item>
 
- 
-}
-{
-    (props.author === 'ANONYMOUS')
-    ?
-    <Dropdown.Item as={Link} to='/signup' eventKey="8" >Sign Up</Dropdown.Item>
-    :
-    <p></p>
-}
+
 
 
 </DropdownButton> 
-<div>
-{
-    (props.author !== 'ANONYMOUS')
-    ?
-    <LogoutButton/>
 
-    :
-    <p></p>
-}
+
 </div>
+}
 </div>
 
 
