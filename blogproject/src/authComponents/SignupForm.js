@@ -37,11 +37,7 @@ const [signupSuccess, setSignupSuccess] = useState(false)
     >
 
     
-   
-
-
-
-    <Form.Group
+   <Form.Group
     className='m-2'
     >
     <Form.Label>Email</Form.Label>
