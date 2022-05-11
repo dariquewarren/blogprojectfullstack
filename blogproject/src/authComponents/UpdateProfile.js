@@ -15,32 +15,37 @@ function UpdateProfile(props) {
     const [photoURL, setPhotoURL]=useState(undefined)
     const [displayName, setDisplayName]=useState(undefined)
     
-    const [signupSuccess, setSignupSuccess] = useState(false)
+    const [updateMessage, changeUpdateMessage] = useState('')
+
     const ImageReference = useRef();
     
 
 var currentUserObject = {
-    email: (props.user)? props.user.email : 'none@nothing.com',
-        photoURL:(props.user)?  props.user.photoURL: '12343455f',
-        displayName:(props.user)? props.user.displayName : 'not logged in',
+    email: (props.user)? props.user.email : '.',
+        photoURL:(props.user)?  props.user.photoURL: '.',
+        displayName:(props.user)? props.user.displayName : '.',
 }
     var updateObject={
         email:(!email) ? currentUserObject.email: email ,
         photoURL:(!photoURL) ? currentUserObject.photoURL: photoURL ,
         displayName: (!displayName) ? currentUserObject.displayName: displayName 
     }
-    console.log('profile page', props)
+    console.log('profile page', props,'update object', updateObject)
     
     useEffect(()=>{
         if(!props.user){
             window.location.assign('./login')
+        }else if(!props.user.displayName){
+            changeUpdateMessage('Author Name REQUIRED to write articles')
+        }else{
+            return
         }
     },[props.user])
 
     
         return (
             <Container>
-            <h1 className='text-center' >{(signupSuccess)?'Update Succesful!':'Update Profile'}</h1>
+            <h1 className='text-center' >{updateMessage}</h1>
             <Card style={{width:'50%', marginLeft:'auto', marginRight:'auto', textAlign:'center'}}>
    
             <h2>Changed</h2>
@@ -97,7 +102,7 @@ Email: {email}
             e.preventDefault()
             updateUserProfile(props.user,updateObject)
             console.log('props.user',props.user, 'updateObject', updateObject)
-            setSignupSuccess(true)
+            changeUpdateMessage('SUCCESS! Profile Updated')
         }}
         >
     
@@ -111,6 +116,8 @@ Email: {email}
     >
     <Form.Label>Display Name</Form.Label>
     <Form.Control
+    required={(!props.user.displayName) ? true : false}
+    placeholder= {(!props.user.displayName) ? 'REQUIRED' : 'Nom de plume'}
     type='text'
     onChange={(e)=>{
         setDisplayName(e.target.value)

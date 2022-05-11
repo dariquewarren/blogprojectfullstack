@@ -32,7 +32,6 @@ const [signupSuccess, setSignupSuccess] = useState(false)
         e.preventDefault()
         signUpUser(userEmail, userPassword)
 
-        window.location.assign('/')
     }}
     >
 

@@ -127,7 +127,6 @@ export const deleteArticleByID = (type,author,id)=>{
 
 // SIGN UP
 export const signUpUser = async (email, password)=>{
-  var trueUser 
  await createUserWithEmailAndPassword(auth, email, password)
  .catch((error) => {
     const errorCode = error.code;
@@ -135,8 +134,7 @@ export const signUpUser = async (email, password)=>{
     // ..
     console.log('errors',{errorMessage,errorCode })
   });
-return trueUser
-
+window.location.reload('/updateProfile')
 }
 // SIGN IN
 export const signInUser =  (email, password)=>{
