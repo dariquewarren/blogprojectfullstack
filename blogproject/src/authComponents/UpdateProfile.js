@@ -8,16 +8,31 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card'
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-
+// Create a root reference
+const storage = getStorage();
 function UpdateProfile(props) {
     const [email, setUserEmail] = useState(undefined)
     const [photoURL, setPhotoURL]=useState(undefined)
     const [displayName, setDisplayName]=useState(undefined)
     
     const [updateMessage, changeUpdateMessage] = useState('')
+    const profileImagesRef =(props.user) ? ref(storage, `images/${props.user.email}/profileImage.jpg`) : ''
 
     const ImageReference = useRef();
+
+    const handleProfileChange =()=>{
+        uploadBytes(profileImagesRef, ImageReference.current.files[0]).then((snapshot) => {
+            getDownloadURL(ref(storage, `images/${props.user.email}/profileImage.jpg`)).then((data)=>{
+                setPhotoURL(data)  
+              })
+          }).catch((error)=>{
+              alert(`${error}`)
+          });
+
+        
+    }
     
 
 var currentUserObject = {
@@ -30,78 +45,70 @@ var currentUserObject = {
         photoURL:(!photoURL) ? currentUserObject.photoURL: photoURL ,
         displayName: (!displayName) ? currentUserObject.displayName: displayName 
     }
+
     console.log('profile page', props,'update object', updateObject)
     
     useEffect(()=>{
-        if(!props.user){
-            window.location.assign('./login')
-        }else if(!props.user.displayName){
-            changeUpdateMessage('Author Name REQUIRED to write articles')
-        }else{
-            return
-        }
-    },[props.user])
+        if(props.user){
+            changeUpdateMessage('Update Profile')
+           }else if(!props.user){
+            changeUpdateMessage('Please login to update profile')
+            }else if(!props.user.displayName){
+                changeUpdateMessage('Author Name REQUIRED to write articles. Create one below')
+            }else{
+                return
+            }
+       
+    },[props.user, photoURL])
 
     
         return (
             <Container>
             <h1 className='text-center' >{updateMessage}</h1>
-            <Card style={{width:'50%', marginLeft:'auto', marginRight:'auto', textAlign:'center'}}>
-   
-            <h2>Changed</h2>
-            <Card.Header
-    style={{width:'50%', marginLeft:'auto', marginRight:'auto'}}
-    >
-<h6>    
+            <Container style={{display:'flex',flexDirection:'row'}} >
+        <Card style={{width:'40%', marginLeft: 'auto', marginRight: 'auto', textAlign:'center'}}>
+        <h2>Current Profile</h2>
+
+        <h6>    
+        Display Name: {currentUserObject.displayName}
+        </h6>
+        
+        <h6>
+        Email: {currentUserObject.email}
+        </h6>
+        <br/>
+        {(!currentUserObject.photoURL)?<p></p>:
+        <Card.Img style={{width: '10rem', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={currentUserObject.photoURL} />
+
+    }
+        </Card>     
+        <Card
+        style={{width:'40%', marginLeft: 'auto', marginRight: 'auto', textAlign:'center'}}>
+        <h2>Changes</h2>
+        <h6>    
 Display Name: {updateObject.displayName}
 </h6>
 
 <h6>
 Email: {updateObject.email}
-</h6>
+</h6>        <br/>
 
-            
-    </Card.Header>
-    <Card.Body
-    style={{ marginLeft:'auto', marginRight:'auto'}}
-    >
-    <Card.Img style={{width: '10rem', height:'10rem'}} src={updateObject.photoURL} />
+{(!updateObject.photoURL)?<p></p>:
+<Card.Img style={{width: '10rem', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={updateObject.photoURL} />
 
-    </Card.Body>
-    
+}
+        </Card>
 
-    </Card>
-
-    <Card style={{width:'50%', marginLeft:'auto', marginRight:'auto', textAlign:'center'}}>
-    <h2>Original</h2>
-    <Card.Header
-    style={{width:'50%', marginLeft:'auto', marginRight:'auto'}}
-    >
-<h6>    
-Display Name: {displayName}
-</h6>
-
-<h6>
-Email: {email}
-</h6>
-
-            
-    </Card.Header>
-    <Card.Body
-    style={{ marginLeft:'auto', marginRight:'auto'}}
-    >
-    <Card.Img style={{width: '10rem', height:'10rem'}} src={currentUserObject.photoURL} />
-
-    </Card.Body>
-    
-
-    </Card>
+   
+            </Container>
+      
         <Form
         style={{width:'50%',marginLeft:'auto', marginRight:'auto'}}
         onSubmit={(e)=>{
             e.preventDefault()
             updateUserProfile(props.user,updateObject)
             console.log('props.user',props.user, 'updateObject', updateObject)
+            
             changeUpdateMessage('SUCCESS! Profile Updated')
         }}
         >
@@ -116,8 +123,8 @@ Email: {email}
     >
     <Form.Label>Display Name</Form.Label>
     <Form.Control
-    required={(!props.user.displayName) ? true : false}
-    placeholder= {(!props.user.displayName) ? 'REQUIRED' : 'Nom de plume'}
+    required={(props.user && !props.user.displayName) ? true : false}
+    placeholder= {(props.user && !props.user.displayName) ? 'REQUIRED' : 'NEW Nom de plume'}
     type='text'
     onChange={(e)=>{
         setDisplayName(e.target.value)
@@ -151,14 +158,14 @@ Email: {email}
     type='file'
     onChange={(e)=>{
     e.preventDefault()
-    
+    handleProfileChange()
     if(ImageReference.current){
         let file = ImageReference.current.files[0]
         let fileReader = new FileReader(); 
-    fileReader.readAsBinaryString(file); 
+    fileReader.readAsDataURL(file); 
     fileReader.onload = function() {
     console.log('filereader result',fileReader.result);
-    setPhotoURL(fileReader.result)
+    
     }; 
     fileReader.onerror = function() {
     console.log('fileReader error',fileReader.error);
