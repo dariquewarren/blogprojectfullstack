@@ -11,14 +11,26 @@ import Dayjs from 'dayjs'
 import { saveDraft, publishArticle } from './APICalls';
 import { addSingleArticle } from './Firebase';
 import { getAuth} from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const auth = getAuth();
-
+const storage = getStorage()
 
 function ArticleForm(props){
-    
+    const profileImagesRef =(props.user) ? ref(storage, `images/${props.title}/articleImage.jpg`) : ''
+
     const ImageRef = useRef()
+    const handleImageChange =()=>{
+        uploadBytes(profileImagesRef, ImageRef.current.files[0]).then((snapshot) => {
+            getDownloadURL(ref(storage, `images/${props.title}/articleImage.jpg`)).then((data)=>{
+                props.setImage(data)  
+              })
+          }).catch((error)=>{
+              alert(`${error}`)
+          });
+
         
+    }
     const handleTags = async  (nextTag)=>{
     const newTags = await nextTag.replace(' ', '').toUpperCase().split(',')
     var finalTags = newTags.map((m)=>{
@@ -124,7 +136,8 @@ function ArticleForm(props){
          className='w-50 ' 
           type='text' placeholder="Image URL" required onChange={(e)=>{
           props.setImage(e.target.value)
-      }}/> <Button
+      }}/> 
+      <Button
       style={{marginLeft: '2rem', marginBottom: '.5rem'}}
 
       className='w-25'
@@ -145,25 +158,8 @@ function ArticleForm(props){
     type='file' 
     className='w-50' ref={ImageRef} required onChange={(e)=>{
       e.preventDefault()
-    
-      if(ImageRef.current){
-          let file = ImageRef.current.files[0]
-          console.log('current exists', file)
-          let fileReader = new FileReader(); 
-    fileReader.readAsDataURL(file); 
-    fileReader.onload = function() {
-    console.log('filereader result',fileReader.result);
-    props.setImage(fileReader.result)
-    }; 
-    fileReader.onerror = function() {
-    console.log('fileReader error',fileReader.error);
-    }; 
-          console.log('current exists', )
-      }else{
-          console.log('no current')
-          console.log('no current', ImageRef.current)
-    
-      }
+      handleImageChange()
+     
     }} />
     <Button
     style={{marginLeft: '2rem', marginBottom: '.5rem'}}
