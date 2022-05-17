@@ -59,10 +59,15 @@ onClick={()=>window.location.assign('/')}
 
 
 <div style={{width:'20%',  display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
+{(props.author)
+?
 <h6>Welcome, {props.author}</h6>
+:
+''
+}
 
 {
-    (props.author === 'ANONYMOUS')
+    (!props.user)
 ?
 <DropdownButton
 variant="secondary"
@@ -107,14 +112,13 @@ props.setCategorySelected('HOME')
         window.open('/','_self')
     }
 }} >Home</Dropdown.Item>
+
 <Dropdown.Item as={Link} to='/write' eventKey="2" >Write</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/drafts' eventKey="3" >Edit Drafts</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
 <Dropdown.Item as={Link} to='/updateProfile' eventKey="5" >Edit Profile</Dropdown.Item>
-<Dropdown.Item as={Link} to='/search' eventKey="6" >Search</Dropdown.Item>
 
-<Dropdown.Item as={Link} to='/signup' eventKey="8" >Sign Up</Dropdown.Item>
-<Dropdown.Item as={LogoutButton}  eventKey="8" >Log Out</Dropdown.Item>
+<Dropdown.Item  eventKey="8" ><LogoutButton/></Dropdown.Item>
 
 
 

@@ -86,7 +86,7 @@ const handleDraftsArray = async ()=>{
 
     <BrowserRouter  >
 
-    <Header author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch}
+    <Header author={theCurrentAuthor} user={auth.currentUser} showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
     searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
