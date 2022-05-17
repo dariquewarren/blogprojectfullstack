@@ -41,8 +41,7 @@ const auth = getAuth();
 
 
  export const addSingleArticle = (type, author, article)=>{
-   const deltab = getDatabase()
-   const articleRef = ref(deltab, `${author}/${type}`)
+   const articleRef = ref(database, `${author}/${type}`)
    const pushRef = push(articleRef)
    set(pushRef, article)
    
@@ -51,7 +50,7 @@ const auth = getAuth();
 // READ
 
 export const getArticlesByType = async (author,type)=>{
-  const dbRef = ref(getDatabase());
+  const dbRef = ref(database);
   var theArticles =[]
  await get(child(dbRef, `${author}/${type}`)).then((snapshot) => {
   if (snapshot.exists()) {
@@ -75,7 +74,7 @@ const articleList = theArticles
 return articleList
 }
 export const getEveryArticle = async ()=>{
-  const dbRef = ref(getDatabase());
+  const dbRef = ref(database);
   var theArticles =[]
  await get(child(dbRef, '/')).then((snapshot) => {
   if (snapshot.exists()) {
@@ -106,19 +105,19 @@ return articleList
 }
 // UPDATE
 export const updateArticleByID = (type, author, id, updateObject)=>{
-  const deltab = getDatabase()
+  
   
   // set(ref(deltab, `${author}/${type}`), article);
-  const postListRef = ref(deltab, `${author}/${type}/${id}`)
+  const postListRef = ref(database, `${author}/${type}/${id}`)
    update(postListRef,updateObject) 
 }
 // DELETE
 
 export const deleteArticleByID = (type,author,id)=>{
-  const deltab = getDatabase()
+  
   
   // set(ref(deltab, `${author}/${type}`), article);
-  const postListRef = ref(deltab, `${author}/${type}/${id}`)
+  const postListRef = ref(database, `${author}/${type}/${id}`)
   remove(postListRef)
 }
 
