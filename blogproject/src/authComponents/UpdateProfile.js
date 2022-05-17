@@ -65,45 +65,47 @@ var currentUserObject = {
         return (
             <Container>
             <h1 className='text-center' >{updateMessage}</h1>
-            <Container style={{display:'flex',flexDirection:'row'}} >
-        <Card style={{width:'40%', marginLeft: 'auto', marginRight: 'auto', textAlign:'center'}}>
+            <div style={{display:'flex',flexDirection:'row'}} >
+        <Card style={{width:'20rem', marginLeft: 'auto', marginRight: 'auto', textAlign:'center', marginTop:'1rem', marginBottom:'1rem'}}>
         <h2>Current Profile</h2>
 
         <h6>    
         Display Name: {currentUserObject.displayName}
         </h6>
         
-        <h6>
-        Email: {currentUserObject.email}
-        </h6>
+       
         <br/>
         {(!currentUserObject.photoURL)?<p></p>:
-        <Card.Img style={{width: '10rem', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={currentUserObject.photoURL} />
+        <Card.Img style={{width: '85%', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={currentUserObject.photoURL} />
 
-    }
+    }        <br/>
+    <h6>
+    Email: {currentUserObject.email}
+    </h6>
         </Card>     
         <Card
-        style={{width:'40%', marginLeft: 'auto', marginRight: 'auto', textAlign:'center'}}>
-        <h2>Changes</h2>
+        style={{width:'20rem', marginLeft: 'auto', marginRight: 'auto', textAlign:'center', marginTop:'1rem', marginBottom:'1rem' }}>
+        <h2>Profile Changes</h2>
         <h6>    
 Display Name: {updateObject.displayName}
 </h6>
-
-<h6>
-Email: {updateObject.email}
-</h6>        <br/>
+      <br/>
 
 {(!updateObject.photoURL)?<p></p>:
-<Card.Img style={{width: '10rem', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={updateObject.photoURL} />
+<Card.Img style={{width: '85%', height:'10rem',borderRadius:'50%', marginLeft:'auto', marginRight:'auto'}} src={updateObject.photoURL} />
 
 }
+<br/>
+<h6>
+Email: {updateObject.email}
+</h6>  
         </Card>
 
    
-            </Container>
+            </div>
       
         <Form
-        style={{width:'50%',marginLeft:'auto', marginRight:'auto'}}
+        style={{border:'2px solid green', width:'80%',marginLeft:'auto', marginRight:'auto', marginTop:'1rem', marginBottom:'1rem'}}
         onSubmit={(e)=>{
             e.preventDefault()
             updateUserProfile(props.user,updateObject)
@@ -115,13 +117,45 @@ Email: {updateObject.email}
     
         
        
-   
+        <Form.Group
+        className='m-2'
+        >
+        <Form.Label>
+        Profile Picture (Optional)
+        </Form.Label>
+        <Form.Control
+        ref={ImageReference}
+         
+        type='file'
+        onChange={(e)=>{
+        e.preventDefault()
+        handleProfileChange()
+        if(ImageReference.current){
+            let file = ImageReference.current.files[0]
+            let fileReader = new FileReader(); 
+        fileReader.readAsDataURL(file); 
+        fileReader.onload = function() {
+        console.log('filereader result',fileReader.result);
+        
+        }; 
+        fileReader.onerror = function() {
+        console.log('fileReader error',fileReader.error);
+        }; 
+            
+        }else{
+           
+            console.log('no current', ImageReference.current)
+        
+        }
+        }}
+        />
+        </Form.Group>
     
     
     <Form.Group
     className='m-2'
     >
-    <Form.Label>Display Name</Form.Label>
+    <Form.Label>Name / Nom de Plume (Required)</Form.Label>
     <Form.Control
     required={(props.user && !props.user.displayName) ? true : false}
     placeholder= {(props.user && !props.user.displayName) ? 'REQUIRED' : 'NEW Nom de plume'}
@@ -133,10 +167,13 @@ Email: {updateObject.email}
     />
     </Form.Group>
 
+        
+    
+    
         <Form.Group
         className='m-2'
         >
-        <Form.Label>Email</Form.Label>
+        <Form.Label>Email (Optional)</Form.Label>
         <Form.Control  type='email' 
         onChange={(e)=>{
             e.preventDefault()
@@ -144,42 +181,7 @@ Email: {updateObject.email}
         }} />
         </Form.Group>
     
-      
-        <Form.Group
-    className='m-2'
-    >
-    <Form.Label>
-    Profile Picture
-    </Form.Label>
-    <Form.Control
-    className='w-50'
-    ref={ImageReference}
-     
-    type='file'
-    onChange={(e)=>{
-    e.preventDefault()
-    handleProfileChange()
-    if(ImageReference.current){
-        let file = ImageReference.current.files[0]
-        let fileReader = new FileReader(); 
-    fileReader.readAsDataURL(file); 
-    fileReader.onload = function() {
-    console.log('filereader result',fileReader.result);
-    
-    }; 
-    fileReader.onerror = function() {
-    console.log('fileReader error',fileReader.error);
-    }; 
-        
-    }else{
-       
-        console.log('no current', ImageReference.current)
-    
-    }
-    }}
-    />
-    </Form.Group>
-    
+  
     <Button
     className='m-2'
      type='submit'
