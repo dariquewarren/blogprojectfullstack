@@ -9,15 +9,13 @@ import LogoutButton from './authComponents/LogoutButton'
 import {BsMenuButton} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
-import { getAuth } from "firebase/auth";
 
-const auth = getAuth();
 
 function Header(props) {
 
     useEffect(()=>{
 
-    },[props.trueArray, props.categoryArray, auth])
+    },[props.trueArray, props.categoryArray, props.user])
     return (
 
 <div >
