@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
@@ -16,14 +16,21 @@ const [signupSuccess, setSignupSuccess] = useState(false)
 
 
 
-
+useEffect(()=>{
+if(props.user){
+setSignupSuccess(true)
+setTimeout(()=>{
+window.location.assign('/updateProfile')
+},[3000])
+}
+}, props.user)
 
 
 
 
     return (
         <Container>
-        <h1 className='text-center' >{(signupSuccess)?'Sign Up Succesful!':'Sign Up'}</h1>
+        <h1 className='text-center' >{(signupSuccess)?'Sign Up Succesful! Time to Create your Profile':'Sign Up'}</h1>
      
 
     <Form
@@ -32,16 +39,11 @@ const [signupSuccess, setSignupSuccess] = useState(false)
         e.preventDefault()
         signUpUser(userEmail, userPassword)
 
-        window.location.assign('/')
     }}
     >
 
     
-   
-
-
-
-    <Form.Group
+   <Form.Group
     className='m-2'
     >
     <Form.Label>Email</Form.Label>

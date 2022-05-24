@@ -23,7 +23,7 @@ const UpdateProfile = lazy(()=>import('./authComponents/UpdateProfile'))
 
 function App() {
 
-  var theCurrentAuthor =  (auth.currentUser) ?auth.currentUser.displayName : 'ANONYMOUS'
+  var theCurrentAuthor =  (auth.currentUser) ?auth.currentUser.displayName : 'darique tester'
   const [lightMode, toggleLightMode] = useState(false)
 
   const [categorySelected, setCategorySelected] = useState(false)
@@ -86,7 +86,7 @@ const handleDraftsArray = async ()=>{
 
     <BrowserRouter  >
 
-    <Header author={theCurrentAuthor} showSearch={showSearch} toggleSearch={toggleSearch}
+    <Header author={theCurrentAuthor} user={auth.currentUser} showSearch={showSearch} toggleSearch={toggleSearch}
     toggleLightMode={toggleLightMode} lightMode={lightMode}
     lightModeStyle={lightModeStyle} darkModeStyle={darkModeStyle}
     searchLocation={searchLocation} setSearchLocation={setSearchLocation} filterMessage={filterMessage} setFilterMessage={setFilterMessage}
@@ -121,7 +121,7 @@ const handleDraftsArray = async ()=>{
   
   
     <Route exact path='/signup' 
-    element={<SignupForm  />}/>
+    element={<SignupForm user={auth.currentUser} />}/>
     <Route exact path='/login' 
     element={<LoginForm   />}/>
     <Route exact path='/search' element={<SearchOptions array={publishedArray} />}/>
