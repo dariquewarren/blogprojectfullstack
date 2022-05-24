@@ -38,7 +38,7 @@ function Header(props) {
 <h1 style={{cursor:'pointer',width:'50%', textAlign:'center', fontStyle:'italic', fontFamily:'fantasy'}}
 onClick={()=>window.location.assign('/')}
 >
- This Evil Bunny
+ {(!props.user) ? 'Nony Moose': props.user.displayName.toUpperCase()}
  
  
  </h1>
