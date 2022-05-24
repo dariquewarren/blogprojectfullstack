@@ -49,12 +49,13 @@ var currentUserObject = {
     console.log('profile page', props,'update object', updateObject)
     
     useEffect(()=>{
-        if(props.user){
-            changeUpdateMessage('Update Profile')
-           }else if(!props.user){
+        if(!props.user){
             changeUpdateMessage('Please login to update profile')
-            }else if(!props.user.displayName){
-                changeUpdateMessage('Author Name REQUIRED to write articles. Create one below')
+
+           }else if(props.user && !props.user.displayName ){
+            changeUpdateMessage('Author Name REQUIRED to write articles. Create one below')
+        }else if(props.user && !props.user.displayName){
+                changeUpdateMessage('Update Profile')
             }else{
                 return
             }
