@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
@@ -12,24 +12,25 @@ const [photoURL, setPhotoURL]=useState(undefined)
 const [displayName, setDisplayName]=useState(undefined)
 
 const [signupSuccess, setSignupSuccess] = useState(false)
-const ImageReference = useRef();
 
 
-const UserData = {
-    email: userEmail,
-    password: userPassword
+
+
+useEffect(()=>{
+if(props.user){
+setSignupSuccess(true)
+setTimeout(()=>{
+window.location.assign('/updateProfile')
+},[3000])
 }
+}, props.user)
 
-var signupObject={
-    photoURL,
-    displayName,
-}
 
 
 
     return (
         <Container>
-        <h1 className='text-center' >{(signupSuccess)?'Sign Up Succesful!':'Sign Up'}</h1>
+        <h1 className='text-center' >{(signupSuccess)?'Sign Up Succesful! Time to Create your Profile':'Sign Up'}</h1>
      
 
     <Form
@@ -37,27 +38,12 @@ var signupObject={
     onSubmit={(e)=>{
         e.preventDefault()
         signUpUser(userEmail, userPassword)
-       console.log(UserData)
+
     }}
     >
 
     
-   
-
-
-<Form.Group
-className='m-2'
->
-<Form.Label>Username</Form.Label>
-<Form.Control
-type='text'
-onChange={(e)=>{
-    setDisplayName(e.target.value)
-}}
-
-/>
-</Form.Group>
-    <Form.Group
+   <Form.Group
     className='m-2'
     >
     <Form.Label>Email</Form.Label>

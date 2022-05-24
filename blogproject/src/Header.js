@@ -5,19 +5,17 @@ import AlertText from './AlertText'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
-
+import LogoutButton from './authComponents/LogoutButton'
 import {BsMenuButton} from 'react-icons/bs'
 
 import {GiRabbit} from 'react-icons/gi'
-import { getAuth } from "firebase/auth";
 
-const auth = getAuth();
 
 function Header(props) {
 
     useEffect(()=>{
 
-    },[props.trueArray, props.categoryArray, auth])
+    },[props.trueArray, props.categoryArray, props.user])
     return (
 
 <div >
@@ -38,7 +36,7 @@ function Header(props) {
 <h1 style={{cursor:'pointer',width:'50%', textAlign:'center', fontStyle:'italic', fontFamily:'fantasy'}}
 onClick={()=>window.location.assign('/')}
 >
- This Evil Bunny
+ {(!props.user || !props.user.displayName) ? 'Nony Moose': props.user.displayName.toUpperCase()}
  
  
  </h1>
@@ -59,6 +57,42 @@ onClick={()=>window.location.assign('/')}
 
 
 <div style={{width:'20%',  display:'flex', flexDirection:'row', justifyContent:"center", alignItems: 'center'}}>
+{(props.author)
+?
+<h6>Welcome, {props.author}</h6>
+:
+''
+}
+
+{
+    (!props.user)
+?
+<DropdownButton
+variant="secondary"
+title={<BsMenuButton/>}
+style={{width:'auto', marginLeft:'auto',marginRight:'5px'}}
+>
+
+<Dropdown.Item  onClick={()=>{
+    if(window.location.pathname === '/'){
+props.setPublishedArray(props.trueArray)
+props.setCategorySelected('HOME')
+
+
+    }else{
+        window.open('/','_self')
+    }
+}} >Home</Dropdown.Item>
+<Dropdown.Item as={Link} to='/search' eventKey="2" >Search</Dropdown.Item>
+<Dropdown.Item as={Link} to='/login' eventKey="3" >Login</Dropdown.Item>
+<Dropdown.Item as={Link} to='/signup' eventKey="4" >Sign Up</Dropdown.Item>
+
+
+
+
+</DropdownButton> 
+:
+<div>
 
 <DropdownButton
 variant="secondary"
@@ -76,17 +110,22 @@ props.setCategorySelected('HOME')
         window.open('/','_self')
     }
 }} >Home</Dropdown.Item>
+
 <Dropdown.Item as={Link} to='/write' eventKey="2" >Write</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/drafts' eventKey="3" >Edit Drafts</Dropdown.Item>
 <Dropdown.Item as={Link} to='/all/published' eventKey="4" >Edit Published</Dropdown.Item>
-<Dropdown.Item as={Link} to='/signup' eventKey="5" >Sign Up</Dropdown.Item>
-<Dropdown.Item as={Link} to='/login' eventKey="6" >Login</Dropdown.Item>
-<Dropdown.Item as={Link} to='/search' eventKey="7" >Search</Dropdown.Item>
-<Dropdown.Item as={Link} to='/updateProfile' eventKey="8" >profile</Dropdown.Item>
+<Dropdown.Item as={Link} to='/updateProfile' eventKey="5" >Edit Profile</Dropdown.Item>
+
+<Dropdown.Item  eventKey="8" ><LogoutButton/></Dropdown.Item>
+
+
+
 
 </DropdownButton> 
 
-<h6>Welcome, {props.author}</h6>
+
+</div>
+}
 </div>
 
 
